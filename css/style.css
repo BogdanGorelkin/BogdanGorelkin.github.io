@@ -380,11 +380,12 @@ body.offcanvas {
 .colorlib-about,
 .colorlib-services,
 .colorlib-contact {
-  padding-top: 4em;
-  padding-bottom: 9em;
-  clear: both;
-  width: 100%;
-  display: block; }
+    padding-top: 4em;
+    padding-bottom: 9em;
+    clear: both;
+    width: 100%;
+    display: block;
+}
   @media screen and (max-width: 768px) {
     .colorlib-experience,
     .colorlib-skills,
