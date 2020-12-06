@@ -922,7 +922,31 @@
 		</div>
 	</section>
 	-->
+			<style>
+				[data-tooltip] {
+					position: relative; /* Относительное позиционирование */
+				}
 
+					[data-tooltip]::after {
+						content: attr(data-tooltip); /* Выводим текст */
+						position: absolute; /* Абсолютное позиционирование */
+						width: 300px; /* Ширина подсказки */
+						left: 0;
+						top: 0; /* Положение подсказки */
+						background: #3989c9; /* Синий цвет фона */
+						color: #fff; /* Цвет текста */
+						padding: 0.5em; /* Поля вокруг текста */
+						box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+						pointer-events: none; /* Подсказка */
+						opacity: 0; /* Подсказка невидима */
+						transition: 1s; /* Время появления подсказки */
+					}
+
+					[data-tooltip]:hover::after {
+						opacity: 1; /* Показываем подсказку */
+						top: 2em; /* Положение подсказки */
+					}
+			</style>
 			<section class="colorlib-services" data-section="services">
 				<div class="colorlib-narrow-content">
 					<div class="row">
@@ -932,13 +956,13 @@
 						</div>
 					</div>
 					<div class="row row-pt-md">
-						<a href="index.html">
+						<a href="BogdanGorelkin.github.io/recommendations/Recommendation from Evgeny Rogozhnikov.pdf" target="_blank">
 							<div class="col-md-4 text-center animate-box">
 								<div class="services color-1">
 
 
-									<h3>Rogozhnikov Evgeny Vasilievich</h3>
-									<p>Associate Professor of Department of Telecommunications and Basic Principles of Radio Engineering </p>
+									<h3 data-tooltip="Associate Professor of Department of Telecommunications and Basic Principles of Radio Engineering">Rogozhnikov Evgeny Vasilievich</h3>
+									<p> </p>
 
 								</div>
 							</div>
