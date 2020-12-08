@@ -13,8 +13,3 @@
   to = "https://b.gorelkin.me/"
   status = 301
   force = true
-[[redirects]]
-  from = "https://bogdangorelkin.github.io"
-  to = "https://b.gorelkin.me/"
-  status = 301
-  force = true
