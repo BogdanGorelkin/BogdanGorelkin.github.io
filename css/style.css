@@ -118,7 +118,7 @@ section {
     }
 
         .backside .card a {
-            font-size: 200px;
+            font-size: 18px !important;
             color: #007b5e !important;
         }
 
