@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\css",
-    "\\sass",
-    "\\sass\\bootstrap"
+    "\\sass\\bootstrap\\mixins"
   ],
-  "SelectedNode": "\\sass\\bootstrap\\_scaffolding.scss",
+  "SelectedNode": "\\css\\style.css",
   "PreviewInSolutionExplorer": false
 }
