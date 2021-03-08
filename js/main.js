@@ -304,6 +304,8 @@
 		sliderMain();
 		stickyFunction();
 		owlCrouselFeatureSlide();
+
+		
 	});
 
 

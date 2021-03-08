@@ -64,6 +64,39 @@
 
 
 
+<style>
+	.dropbtn {}
+	
+	.dropdown {
+	  position: relative;
+	  right: 0;
+	  display: inline-block;
+	}
+	
+	.dropdown-content {
+	  display: none;
+	  
+	  background-color: #f1f1f1;
+	  min-width: 5em;
+	  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	  z-index: 1;
+	}
+	
+	.dropdown-content a {
+	  color: black;
+	  padding: 12px 16px;
+	  text-decoration: none;
+	  display: block;
+	}
+	
+	.dropdown-content a:hover {background-color: #ddd;}
+	
+	.dropdown:hover .dropdown-content {display: block;}
+	
+	.dropdown:hover .dropbtn {}
+</style>
+
+
 </head>
 
 <body>
@@ -85,15 +118,28 @@
 							<li><a href="#" onclick="window.location.href = 'index.html'">Main page</a></li>
 							<li><a href="#" data-nav-section="C/C++">C/C++</a></li>
 							<li><a href="#" data-nav-section="Python">Python</a></li>
-							<!--
+							
+							<!--<li><a href="#" data-nav-section="tools">Tools</a></li>
 							<li><a href="#" data-nav-section="dataiku">DataIKU DSS</a></li>
 							<li><a href="#" data-nav-section="Matlab">Matlab</a></li>
 							<li><a href="#" data-nav-section="QGIS">QGIS</a></li>
 							<li><a href="#" data-nav-section="ARX">ARX</a></li>
 							-->
-							<li><a href="#" data-nav-section="tools">Tools</a></li>
+							<div class="dropdown">
+								<div class="dropbtn">
+								<li><a href="#" data-nav-section="tools">Tools</a></li>
+								</div>
+								<div class="dropdown-content">
+									<ul>
+									<li id="dataikuMenu"><a href="#"  onclick="accordinData('dataiku')">DataIKU</a></li>
+									<li id="matlabMenu"><a href="#"  onclick="accordinData('matlab')">Matlab</a></li>
+									<li id="qgisMenu"><a href="#"  onclick="accordinData('qgis')">QGIS</a></li>
+									<li id="arxMenu"><a href="#"  onclick="accordinData('arx')">ARX</a></li>
+									<li id="wekaMenu"><a href="#"  onclick="accordinData('weka')">Weka</a></li>
+									</ul>
+								</div>
+							</div>
 							
-
 						</ul>
 					</div>
 				</nav>
@@ -279,11 +325,11 @@
 										</div>
 -->
 
-<!--DataIKU-->
-										<div class="panel panel-default">
+<!--DataIKU-->							
+										<div class="panel panel-default" data-section="dataiku">
 											<div class="panel-heading" role="tab" id="headingFive">
 												<h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+													<a class="collapsed dataiku" onclick="activeInactive('dataiku')" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
 														<strong>DataIKU</strong> - Data Science Studio
 													</a>
 												</h4>
@@ -312,11 +358,12 @@
 												</div>
 											</div>
 										</div>
+									
 <!--Matlab-->
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="headingFour">
 												<h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+													<a class="collapsed matlab" data-toggle="collapse" onclick="activeInactive('matlab')" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
 														<strong>Matlab</strong> - programming and numeric computing platform
 													</a>
 												</h4>
@@ -362,7 +409,7 @@
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="headingThree">
 												<h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+													<a class="collapsed qgis" data-toggle="collapse" onclick="activeInactive('qgis')" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 														<strong>QGIS</strong> - Free and Open Source Geographic Information System
 													</a>
 												</h4>
@@ -399,7 +446,7 @@
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="headingTwo">
 												<h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+													<a class="collapsed arx" data-toggle="collapse" onclick="activeInactive('arx')" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 														<strong>ARX</strong> - Data Anonymization Tool
 													</a>
 												</h4>
@@ -448,7 +495,7 @@
 										<div class="panel panel-default">
 											<div class="panel-heading" role="tab" id="headingOne">
 												<h4 class="panel-title">
-													<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+													<a class="collapsed weka" data-toggle="collapse" onclick="activeInactive('weka')" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
 														<strong>WEKA</strong> - Workbench for machine learning
 													</a>
 												</h4>
@@ -467,6 +514,7 @@
 						</div>
 					</div>
 				</section>
+
 
 
 			</div><!-- end:colorlib-main -->
@@ -498,6 +546,262 @@
 		if (window.location == "gorelkin.me" || window.location == "www.gorelkin.me") {
 			window.location.href = 'http://b.gorelkin.me';
 		}
+
+		function accordinData(v){
+			
+				if(v == 'dataiku'){
+					//prompt('Hello world');
+					//$('.dataiku').fadeOut(7000);
+					//Open 5
+					$('.dataiku').removeClass('collapsed');
+					$(".dataiku").attr("aria-expanded","true");
+					$('#collapseFive').addClass('in');
+					$("#collapseFive").attr("aria-expanded","true");
+					$("#collapseFive").removeAttr("style");
+
+					//for active inactive the menu
+					activeInactive(v);
+					
+
+
+
+					//close 4;3;2;1
+					$('.matlab').addClass('collapsed');
+					$(".matlab").attr("aria-expanded","false");
+					$('#collapseFour').removeClass('in');
+					$("#collapseFour").attr("aria-expanded","false");
+
+					$('.qgis').addClass('collapsed');
+					$(".qgis").attr("aria-expanded","false");
+					$('#collapseThree').removeClass('in');
+					$("#collapseThree").attr("aria-expanded","false");
+
+					$('.arx').addClass('collapsed');
+					$(".arx").attr("aria-expanded","false");
+					$('#collapseTwo').removeClass('in');
+					$("#collapseTwo").attr("aria-expanded","false");
+
+					$('.weka').addClass('collapsed');
+					$(".weka").attr("aria-expanded","false");
+					$('#collapseOne').removeClass('in');
+					$("#collapseOne").attr("aria-expanded","false");
+					
+				}if(v == 'matlab'){
+					//prompt('Hello world');
+					//$('.dataiku').fadeOut(7000);
+
+					//open 4
+					$('.matlab').removeClass('collapsed');
+					$(".matlab").attr("aria-expanded","true");
+					$('#collapseFour').addClass('in');
+					$("#collapseFour").attr("aria-expanded","true");
+					$("#collapseFour").removeAttr("style");
+					
+					//for active inactive the menu
+					activeInactive(v);
+
+
+
+					//close 5;_;3;2;1
+					$('.dataiku').addClass('collapsed');
+					$(".dataiku").attr("aria-expanded","false");
+					$('#collapseFive').removeClass('in');
+					$("#collapseFive").attr("aria-expanded","false");
+
+					$('.qgis').addClass('collapsed');
+					$(".qgis").attr("aria-expanded","false");
+					$('#collapseThree').removeClass('in');
+					$("#collapseThree").attr("aria-expanded","false");
+
+					$('.arx').addClass('collapsed');
+					$(".arx").attr("aria-expanded","false");
+					$('#collapseTwo').removeClass('in');
+					$("#collapseTwo").attr("aria-expanded","false");
+
+					$('.weka').addClass('collapsed');
+					$(".weka").attr("aria-expanded","false");
+					$('#collapseOne').removeClass('in');
+					$("#collapseOne").attr("aria-expanded","false");
+
+					
+				}if(v == 'qgis'){
+					//prompt('Hello world');
+					//$('.dataiku').fadeOut(7000);
+					//open 3
+					$('.qgis').removeClass('collapsed');
+					$(".qgis").attr("aria-expanded","true");
+					$('#collapseThree').addClass('in');
+					$("#collapseThree").attr("aria-expanded","true");
+					$("#collapseThree").removeAttr("style");
+
+					
+					//for active inactive the menu
+					activeInactive(v);
+
+					//close 5;4;_;2;1
+					$('.dataiku').addClass('collapsed');
+					$(".dataiku").attr("aria-expanded","false");
+					$('#collapseFive').removeClass('in');
+					$("#collapseFive").attr("aria-expanded","false");
+
+					$('.matlab').addClass('collapsed');
+					$(".matlab").attr("aria-expanded","false");
+					$('#collapseFour').removeClass('in');
+					$("#collapseFour").attr("aria-expanded","false");
+
+					$('.arx').addClass('collapsed');
+					$(".arx").attr("aria-expanded","false");
+					$('#collapseTwo').removeClass('in');
+					$("#collapseTwo").attr("aria-expanded","false");
+
+					$('.weka').addClass('collapsed');
+					$(".weka").attr("aria-expanded","false");
+					$('#collapseOne').removeClass('in');
+					$("#collapseOne").attr("aria-expanded","false");
+
+
+
+					
+				}if(v == 'arx'){
+					//prompt('Hello world');
+					//$('.dataiku').fadeOut(7000);
+					//open 2
+					$('.arx').removeClass('collapsed');
+					$(".arx").attr("aria-expanded","true");
+					$('#collapseTwo').addClass('in');
+					$("#collapseTwo").attr("aria-expanded","true");
+					$("#collapseTwo").removeAttr("style");
+
+					
+					//for active inactive the menu
+					activeInactive(v);
+
+					//close 5;4;3;_;1
+					$('.dataiku').addClass('collapsed');
+					$(".dataiku").attr("aria-expanded","false");
+					$('#collapseFive').removeClass('in');
+					$("#collapseFive").attr("aria-expanded","false");
+
+					$('.matlab').addClass('collapsed');
+					$(".matlab").attr("aria-expanded","false");
+					$('#collapseFour').removeClass('in');
+					$("#collapseFour").attr("aria-expanded","false");
+
+					$('.qgis').addClass('collapsed');
+					$(".qgis").attr("aria-expanded","false");
+					$('#collapseThree').removeClass('in');
+					$("#collapseThree").attr("aria-expanded","false");
+
+					$('.weka').addClass('collapsed');
+					$(".weka").attr("aria-expanded","false");
+					$('#collapseOne').removeClass('in');
+					$("#collapseOne").attr("aria-expanded","false");
+
+					
+				}if(v == 'weka'){
+					//prompt('Hello world');
+					//$('.dataiku').fadeOut(7000);
+					//open 1
+					$('.weka').removeClass('collapsed');
+					$(".weka").attr("aria-expanded","true");
+					$('#collapseOne').addClass('in');
+					$("#collapseOne").attr("aria-expanded","true");
+					$("#collapseOne").removeAttr("style");
+
+					
+					//for active inactive the menu
+					activeInactive(v);
+
+					//close 5;4;3;2;_
+					$('.dataiku').addClass('collapsed');
+					$(".dataiku").attr("aria-expanded","false");
+					$('#collapseFive').removeClass('in');
+					$("#collapseFive").attr("aria-expanded","false");
+
+					$('.matlab').addClass('collapsed');
+					$(".matlab").attr("aria-expanded","false");
+					$('#collapseFour').removeClass('in');
+					$("#collapseFour").attr("aria-expanded","false");
+
+					$('.qgis').addClass('collapsed');
+					$(".qgis").attr("aria-expanded","false");
+					$('#collapseThree').removeClass('in');
+					$("#collapseThree").attr("aria-expanded","false");
+
+					$('.arx').addClass('collapsed');
+					$(".arx").attr("aria-expanded","false");
+					$('#collapseTwo').removeClass('in');
+					$("#collapseTwo").attr("aria-expanded","false");
+
+					
+				}
+				
+				//}
+			
+			
+		}
+
+
+		function activeInactive(identifier){
+
+			if(identifier == 'dataiku'){
+					
+					
+					$('#dataikuMenu').addClass('active');
+					$('#matlabMenu').removeClass('active');
+					$('#qgisMenu').removeClass('active');
+					$('#arxMenu').removeClass('active');
+					$('#wekaMenu').removeClass('active');
+					scrollToBottom();
+
+					
+				}if(identifier == 'matlab'){
+					
+
+					$('#dataikuMenu').removeClass('active');
+					$('#matlabMenu').addClass('active');
+					$('#qgisMenu').removeClass('active');
+					$('#arxMenu').removeClass('active');
+					$('#wekaMenu').removeClass('active');
+					scrollToBottom();
+
+					
+				}if(identifier == 'qgis'){
+					
+					$('#dataikuMenu').removeClass('active');
+					$('#matlabMenu').removeClass('active');
+					$('#qgisMenu').addClass('active');
+					$('#arxMenu').removeClass('active');
+					$('#wekaMenu').removeClass('active');
+					scrollToBottom();
+
+					
+				}if(identifier == 'arx'){
+					$('#dataikuMenu').removeClass('active');
+					$('#matlabMenu').removeClass('active');
+					$('#qgisMenu').removeClass('active');
+					$('#arxMenu').addClass('active');
+					$('#wekaMenu').removeClass('active');
+					scrollToBottom();
+					
+				}if(identifier == 'weka'){
+					$('#dataikuMenu').removeClass('active');
+					$('#matlabMenu').removeClass('active');
+					$('#qgisMenu').removeClass('active');
+					$('#arxMenu').removeClass('active');
+					$('#wekaMenu').addClass('active');
+					scrollToBottom();
+					
+				}
+
+		}
+
+		function scrollToBottom() {
+			//colorlib-tools
+				//$("#colorlib-page").animate({ scrollTop: $("#colorlib-page")[0].scrollHeight }, 1000);
+				$("html, body").animate({ scrollTop: $(document).height() }, 1000);
+			}
+	
 	</script>
 
 
