@@ -28,6 +28,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700" rel="stylesheet">
 
+	
+
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="css/animate.css">
 	<!-- Icomoon Icon Fonts-->
@@ -61,7 +63,22 @@
 
 		
 	</script>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script>
+		$( document ).ready(function () {
+				$(".moreBox").slice(0, 3).show();
+				if ($(".blogBox:hidden").length != 0) {
+					$("#loadMore").show();
+				}		
+				$("#loadMore").on('click', function (e) {
+					e.preventDefault();
+					$(".moreBox:hidden").slice(0, 2).slideDown();
+					if ($(".moreBox:hidden").length == 0) {
+						$("#loadMore").fadeOut('slow');
+					}
+				});
+			});
+	</script>
 
 
 </head>
@@ -643,6 +660,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="timeline-centered">
+										<div class="blogBox moreBox">
 									<article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
 										<div class="timeline-entry-inner">
 											
@@ -667,7 +685,8 @@
 											</div>
 										</div>
 									</article>
-
+										</div>
+									<div class="blogBox moreBox">
 									<article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
 										<div class="timeline-entry-inner">
 
@@ -684,8 +703,9 @@
 											</div>
 										</div>
 									</article>
+										</div>
 
-
+									<div class="blogBox moreBox">
 									<article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
 										<div class="timeline-entry-inner">
 											<div class="timeline-icon color-2">
@@ -702,7 +722,8 @@
 											</div>
 										</div>
 									</article>
-
+										</div>
+									<div class="blogBox moreBox" style="display: none;">
 									<article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
 										<div class="timeline-entry-inner">
 											<div class="timeline-icon color-2">
@@ -722,7 +743,8 @@
 											</div>
 										</div>
 									</article>
-
+										</div>
+									<div class="blogBox moreBox" style="display: none;">
 									<article class="timeline-entry animate-box" data-animate-effect="fadeInTop">
 										<div class="timeline-entry-inner">
 											<div class="timeline-icon color-3">
@@ -739,7 +761,8 @@
 											</div>
 										</div>
 									</article>
-
+										</div>
+									<div class="blogBox moreBox" style="display: none;">
 									<article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
 										<div class="timeline-entry-inner">
 											<div class="timeline-icon color-4">
@@ -756,8 +779,9 @@
 											</div>
 										</div>
 									</article>
+										</div>
 
-
+									<div class="blogBox moreBox" style="display: none;">
 									<article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
 										<div class="timeline-entry-inner">
 
@@ -774,11 +798,25 @@
 											</div>
 										</div>
 									</article>
+										</div>
+									
 
+
+									<article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
+										<div class="timeline-entry-inner" id="loadMore">
+											<div class="timeline-icon color-5">
+											&#128346;
+											</div>
+											<div class="timeline-label">
+												<h2 align="center"><span>Earlier</span></h2>
+											</div>
+										</div>
+									</article>
 									<article class="timeline-entry begin animate-box" data-animate-effect="fadeInBottom">
 										<div class="timeline-entry-inner">
 											<div class="timeline-icon color-none">
 											</div>
+
 										</div>
 									</article>
 								</div>
