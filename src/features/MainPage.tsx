@@ -8,6 +8,9 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
+
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Image } from 'antd'
 import './mainpage.scss'
@@ -37,7 +40,7 @@ function MainPage() {
       minHeight: '100vh',
     }}
     >
-    <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+    <Sider collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} collapsedWidth={0}>
       { !collapsed &&
         <>
         <img src="/favicon.png" alt="favicon" className='avatar'/>
@@ -57,6 +60,10 @@ function MainPage() {
           padding: 0,
         }}
       >
+      {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+        className: 'trigger',
+        onClick: () => setCollapsed(!collapsed),
+      })}
         <p className='header-text'>
           Welcome to my personal page
         </p>
