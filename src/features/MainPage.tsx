@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -9,7 +9,8 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Card } from 'antd'
+import { Layout, Menu, Image } from 'antd'
+import './mainpage.scss'
 
 const { Header, Content, Footer, Sider } = Layout;
 const items = [
@@ -29,66 +30,95 @@ const items = [
 
 
 function MainPage() {
-  const { Meta } = Card
+  const [collapsed, setCollapsed] = useState(false)
   return (
-  <Layout>
-    <Sider
-      style={{
-        overflow: 'auto',
-        height: '100vh',
-        position: 'fixed',
-        left: 0,
-        top: 0,
-        bottom: 0,
-      }}
-    >
-      <img src="/favicon.png" alt="favicon" className='avatar'/>
-      <div className="logo"/>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} items={items} />
-    </Sider>
     <Layout
-      className="site-layout"
-      style={{
-        marginLeft: 200,
-      }}
+    style={{
+      minHeight: '100vh',
+    }}
     >
+    <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      { !collapsed &&
+        <>
+        <img src="/favicon.png" alt="favicon" className='avatar'/>
+        <div className="logo">
+          <p className='text'>
+            Bogdan Gorelkin
+          </p>
+        </div>
+        </>
+      }
+      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+    </Sider>
+    <Layout className="site-layout">
       <Header
         className="site-layout-background"
         style={{
           padding: 0,
         }}
       >
-        asd
+        <p className='header-text'>
+          Welcome to my personal page
+        </p>
       </Header>
       <Content
         style={{
-          margin: '24px 16px 0',
-          overflow: 'initial',
+          margin: '1rem 1.25rem',
         }}
       >
         <div
           className="site-layout-background"
           style={{
             padding: 24,
-            textAlign: 'center',
+            minHeight: 360,
           }}
-        >
-          <p>long content</p>
+          >
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
+          <br/>123
 
-          {
-            // indicates very long content
-            Array.from(
-              {
-                length: 100,
-              },
-              (_, index) => (
-                <React.Fragment key={index}>
-                  {index % 20 === 0 && index ? 'more' : '...'}
-                  <br />
-                </React.Fragment>
-              ),
-            )
-          }
         </div>
       </Content>
       <Footer

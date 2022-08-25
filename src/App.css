@@ -37,12 +37,3 @@
     transform: rotate(360deg);
   }
 }
-
-.avatar{
-  max-width: 12rem;
-}
-.logo {
-  height: 32px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.2);
-}
