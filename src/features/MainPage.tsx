@@ -12,9 +12,10 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Image } from 'antd'
+import { Layout, Menu, Image, Input } from 'antd'
 import './mainpage.scss'
-
+import ReactPlayer from 'react-player'
+const { Search } = Input
 const { Header, Content, Footer, Sider } = Layout;
 const items = [
   UserOutlined,
@@ -33,7 +34,19 @@ const items = [
 
 
 function MainPage() {
+  const [videoLink, setVideoLink] = useState("/test.mp4")
+  ///test.mp4
+  //"https://youtu.be/nkH8fYdq80c"
+  //"Духи огня (RMX).mp3"
   const [collapsed, setCollapsed] = useState(false)
+
+  /* const [videoFilePath, setVideoFilePath] = useState<any>(null)
+
+
+  const handleVideoUpload = (event: any) => {
+    setVideoFilePath(URL.createObjectURL(event.target.files[0]))
+  } */
+
   return (
     <Layout
     style={{
@@ -80,6 +93,19 @@ function MainPage() {
             minHeight: 360,
           }}
           >
+        <Search
+      placeholder="link to youtube"
+      allowClear
+      enterButton="to player"
+      size="large"
+      onSearch={(e) => setVideoLink("https://youtu.be/nkH8fYdq80c")} //set to `e`
+    />
+            <p>
+              npm распознаватель эмоций + подбор музыки по настроению?
+            </p>
+              
+
+            <ReactPlayer url={videoLink} controls={true} />
           <br/>123
           <br/>123
           <br/>123
