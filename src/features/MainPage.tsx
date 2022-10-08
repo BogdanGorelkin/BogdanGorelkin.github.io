@@ -12,9 +12,10 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Image, Input } from 'antd'
+import { Layout, Menu, Image, Input, Button } from 'antd'
 import './mainpage.scss'
 import ReactPlayer from 'react-player'
+import { useNavigate } from 'react-router'
 const { Search } = Input
 const { Header, Content, Footer, Sider } = Layout;
 const items = [
@@ -30,10 +31,12 @@ const items = [
   key: String(index + 1),
   icon: React.createElement(icon),
   label: `nav ${index + 1}`,
+  onclick: console.log("eeee")
 }))
 
 
 function MainPage() {
+  const navigate = useNavigate()
   const [videoLink, setVideoLink] = useState("/test.mp4")
   ///test.mp4
   //"https://youtu.be/nkH8fYdq80c"
@@ -65,6 +68,7 @@ function MainPage() {
         </>
       }
       <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+      <Button onClick={() => navigate('/stack-overflow-answers/73821041')}> to SO</Button>
     </Sider>
     <Layout className="site-layout">
       <Header
