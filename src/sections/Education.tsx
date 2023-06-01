@@ -18,7 +18,7 @@ export class Education extends React.Component {
                 <Timeline key={e.degree} time={e.period} title={e.school} icon={['fas', 'graduation-cap']}>
                   <p>{e.degree}</p>
                   <div dangerouslySetInnerHTML={ { __html: e.description } } />
-              </Timeline>
+                </Timeline>
               ))}
 
               <span className="line" />
