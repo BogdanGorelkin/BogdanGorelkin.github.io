@@ -2,7 +2,7 @@ import React from 'react'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components'
-import Fade from 'react-reveal/Fade'
+// import Fade from 'react-reveal/Fade'
 
 interface Props {
   time: string
@@ -29,13 +29,13 @@ export class Timeline extends React.Component<Props> {
 
     return(
       <div className="timeline-container">
-        <Fade bottom>
+        {/* <Fade bottom>
           <div className="content">
             <span className="time">{this.props.time}</span>
             <h3 className="title">{this.props.title}</h3>
             {this.props.children}
           </div>
-        </Fade>
+        </Fade> */}
         <IconBox>
           <FontAwesomeIcon icon={props.icon} />
         </IconBox>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Container } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ParticlesContainer } from '../components/ParticlesContainer'
-import TextLoop from 'react-text-loop'
+// import TextLoop from 'react-text-loop'
 import styled from 'styled-components'
 import { Scroller } from '../components'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -32,9 +32,9 @@ export class Home extends React.Component {
 
             <span>              
               {`I'm a `}
-              <TextLoop springConfig={{ stiffness: 180, damping: 10 }} interval={2000}>
+              {/* <TextLoop springConfig={{ stiffness: 180, damping: 10 }} interval={2000}>
                 {details.titles.map(t => (<span key={t}>{t}</span>))}
-              </TextLoop>
+              </TextLoop> */}
             </span>
 
             <ul className="social-icons light list-inline mb-0 mt-4">
