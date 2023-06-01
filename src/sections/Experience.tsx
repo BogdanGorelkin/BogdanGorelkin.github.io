@@ -1,6 +1,7 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { Section, Timeline } from '../components'
+import { Section } from '../components'
+import Timeline from '../components/Timeline'
 import history from '../data/history.json'
 
 const career = history.career
