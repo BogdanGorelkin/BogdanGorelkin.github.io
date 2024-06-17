@@ -1,0 +1,20 @@
+.main-pdf-view {
+    display: flex;
+    min-height: 100vh;
+    // width: 210mm;
+    // height: 297mm;
+    background-color: white;
+}
+
+.sidebar {
+    position: relative;
+    display:flex;
+    justify-content: center;
+    width: 20%;
+    background-color: lightgray;
+    padding: 1em;
+}
+  
+.content {
+    flex: 1;
+}
