@@ -718,6 +718,9 @@ body.offcanvas {
   -moz-background-clip: padding;
   background-clip: padding-box; }
 
+.earlier-btn{
+  cursor: pointer;
+}
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label:after {
   content: '';
   display: block;
