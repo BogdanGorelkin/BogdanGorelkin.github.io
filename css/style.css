@@ -756,6 +756,7 @@ body.offcanvas {
 .services {
   margin-bottom: 30px;
   padding: 1.5em;
+  min-height: 10em;
   -webkit-box-shadow: 0px 0px 56px -8px rgba(0, 0, 0, 0.17);
   -moz-box-shadow: 0px 0px 56px -8px rgba(0, 0, 0, 0.17);
   -ms-box-shadow: 0px 0px 56px -8px rgba(0, 0, 0, 0.17);
@@ -786,8 +787,12 @@ body.offcanvas {
       color: #a84cb8; }
   .services.color-5 {
     border-bottom: 2px solid #2fa499; }
+    .services.color-5 .icon2 i {
+      color: #2fa499; }
   .services.color-6 {
     border-bottom: 2px solid #4054b2; }
+    .services.color-6 .icon2 i {
+      color: #4054b2; }
 
 .services {
   margin-bottom: 80px;
