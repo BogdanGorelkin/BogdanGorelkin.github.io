@@ -1,7 +1,7 @@
 import { Chapter } from '../components/Chapter'
 import { Headline } from '../components/Headline'
 import { copy } from '../data/copy'
-import { career } from '../data/experience'
+import { career, stationLabel } from '../data/experience'
 import type { CareerStation } from '../data/types'
 import { emphasise, fadeIn, fadeOut, linesIn, linesOut } from '../lib/motion'
 
@@ -55,7 +55,7 @@ export function TimelineChapter() {
       <ol className="mono rail" aria-label="Career stations">
         {career.map((s) => (
           <li key={s.id} className={s.current ? 'is-current' : undefined}>
-            {s.era}
+            {stationLabel(s)}
           </li>
         ))}
       </ol>
@@ -75,6 +75,7 @@ function StationPanel({ station: s, index, total }: { station: CareerStation; in
       <h3 id={`station-${s.id}`} className="station__era">
         {s.era}
       </h3>
+      {!isFuture && s.location && <p className="mono station__where">{s.location}</p>}
       {!isFuture && (
         <dl className="mono station__facts">
           <Fact label="Role" value={s.role} />
@@ -89,6 +90,15 @@ function StationPanel({ station: s, index, total }: { station: CareerStation; in
             <li key={h}>{h}</li>
           ))}
         </ul>
+      )}
+      {s.links && s.links.length > 0 && (
+        <p className="mono station__links">
+          {s.links.map((l) => (
+            <a key={l.href} href={l.href} target="_blank" rel="noreferrer">
+              {l.label} ↗
+            </a>
+          ))}
+        </p>
       )}
     </article>
   )

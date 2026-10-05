@@ -142,15 +142,20 @@
 .intro__meta {
   color: var(--ink-2);
 }
+.intro__role {
+  display: grid;
+}
+.intro__domains {
+  color: var(--ink-3);
+}
 
 .scroll-cue {
   color: var(--ink-3);
 }
 .is-cinematic .scroll-cue {
   position: absolute;
-  left: 50%;
-  bottom: calc(var(--gutter) * 1.5 + 2.4rem);
-  transform: translateX(-50%);
+  right: var(--gutter);
+  top: 50%;
   display: grid;
   justify-items: center;
   gap: 10px;
@@ -178,6 +183,25 @@
 }
 .is-cinematic .scroll-cue {
   animation-delay: 3.2s;
+}
+
+/* The opening statement reveals on a timer / first scroll via `translate`,
+   leaving `transform` free for the scrubbed exit. */
+.is-cinematic .chapter--signal .statement {
+  bottom: calc(var(--gutter) * 1.5 + 5.5rem);
+}
+.is-cinematic #intro-statement .line__inner {
+  translate: 0 112%;
+  transition: translate 1.3s var(--ease-out);
+}
+.is-cinematic #intro-statement.is-revealed .line__inner {
+  translate: 0 0;
+}
+.is-cinematic #intro-statement .line:nth-child(2) .line__inner {
+  transition-delay: 0.12s;
+}
+.is-cinematic #intro-statement .line:nth-child(3) .line__inner {
+  transition-delay: 0.24s;
 }
 
 @keyframes rise {
@@ -284,11 +308,44 @@
 .case__desc {
   color: var(--ink-2);
 }
+/* In the film the subtitle + signal chain carry the case; the Index has the full text. */
+.is-cinematic .case__desc {
+  display: none;
+}
+
+/* Soft scrim behind text blocks that sit over busy 3D. */
+.is-cinematic .case,
+.is-cinematic .field-notes,
+.is-cinematic .stations {
+  isolation: isolate;
+}
+.is-cinematic .case::before,
+.is-cinematic .field-notes::before,
+.is-cinematic .stations::before {
+  content: '';
+  position: absolute;
+  inset: -4rem -5rem;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgb(7 8 10 / 0.82), rgb(7 8 10 / 0));
+  pointer-events: none;
+}
 .case__award {
   justify-self: start;
   padding: 0.2rem 0.6rem;
   border: 1px solid var(--line);
 }
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0;
+  color: var(--ink);
+}
+.flow li + li::before {
+  content: '→';
+  margin: 0 0.7em;
+  color: var(--ink-3);
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -299,10 +356,17 @@
 
 /* ── 4 Field ───────────────────────────────────────────────────────────── */
 
+.field-notes {
+  display: grid;
+  gap: 1.2rem;
+  width: min(28rem, 100%);
+}
 .field-list {
   display: grid;
   gap: 0.35rem;
-  width: min(26rem, 100%);
+}
+.field-list a {
+  color: var(--ink-2);
 }
 .field-list li {
   display: grid;
@@ -348,6 +412,18 @@
   color: var(--ink-3);
 }
 .station__now {
+  color: var(--ink-2);
+}
+.station__where {
+  color: var(--ink-3);
+  margin-top: -0.4rem;
+}
+.station__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.4rem;
+}
+.station__links a {
   color: var(--ink-2);
 }
 .station__era {
@@ -430,11 +506,6 @@
   font-size: var(--fs-lead);
   font-weight: 500;
 }
-.contact-links--stacked {
-  display: grid;
-  gap: 0.4rem;
-  font-size: var(--fs-body);
-}
 .contact-links .link__note {
   font-family: var(--font-mono);
   font-size: var(--fs-mono);
@@ -468,8 +539,20 @@
     right: var(--gutter);
   }
   .is-cinematic .chapter--screen .case,
-  .is-cinematic .chapter--field .field-list {
+  .is-cinematic .chapter--field .field-notes {
     width: auto;
+  }
+  /* Keep station panels short enough to sit above the rail on phones. */
+  .is-cinematic .station__highlights {
+    display: none;
+  }
+  /* The identity row wraps to three lines on phones; lift the statement above it. */
+  .is-cinematic .chapter--signal .statement {
+    bottom: calc(var(--gutter) * 1.5 + 9rem);
+  }
+  .is-cinematic .case .tags,
+  .is-cinematic .field-caption {
+    display: none;
   }
 }
 

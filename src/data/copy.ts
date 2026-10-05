@@ -5,26 +5,29 @@
  */
 export const copy = {
   signal: {
+    /** Second line of the opening identity row, under the role. */
+    domains: 'Neurotech · connected devices · realtime',
     meta: 'Paris / 2026',
     scrollCue: 'Scroll',
   },
   neural: {
     index: '01 — Human',
     headline: ['It starts with', 'a person.'],
-    body: 'Real devices. Real signals. Read in realtime.',
+    body: 'Real devices on real people. Signals read, streamed and acted on in realtime.',
+    // Device-agnostic on purpose: no sample rates or specs that aren't verified for a public device.
     annotations: [
-      { key: 'EEG', value: 'Signal' },
+      { key: 'EEG', value: 'Brain signal' },
       { key: 'BLE', value: 'Wireless link' },
-      { key: '250 Hz', value: 'Sample rate' },
+      { key: 'Sensors', value: 'On the body' },
       { key: 'Realtime', value: 'Streaming' },
     ],
   },
   data: {
     index: '02 — System',
     headline: ['One stream', 'becomes many.'],
-    body: 'Multiple wireless devices streaming realtime sensor data into a larger software system.',
-    layers: ['Headbands', 'Mobile / edge', 'Realtime backend', 'Processing / experience'],
-    projectId: 'multi-device-eeg',
+    body: 'Several wireless headbands at once — through phones, into a realtime backend, out to whatever has to react.',
+    layers: ['EEG headbands', 'Mobile · BLE', 'Realtime backend', 'Processing · experience'],
+    projectId: 'habs-multi-device',
   },
   screen: {
     index: '03 — Physical',
@@ -34,11 +37,12 @@ export const copy = {
   field: {
     index: '04 — Field',
     headline: ["I don't like", 'building things', 'only for the lab.'],
+    caption: 'Prototypes get tested where they will actually be used.',
   },
   timeline: {
     index: '05 — Career',
     headline: ["You've been inside", 'the current', 'chapter.'],
-    caption: 'Everything so far happened at one station. Here is the whole line.',
+    caption: 'Everything so far is the current chapter — neurotech, now at HABS. Here is the whole line.',
   },
   contact: {
     index: '06 — Next',

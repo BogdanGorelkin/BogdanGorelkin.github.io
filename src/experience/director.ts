@@ -21,6 +21,8 @@ export const stage = {
   fogFar: 26,
   /** Overall level of the room's practical light and LEDs. */
   roomLight: 0,
+  /** Flash of every LED as the camera breaks through the screen. */
+  ledBurst: 0,
   /** Brain-signal amplitude on the intro spine. */
   signalAmp: 1,
   /** 0 = lively EEG, 1 = calm, nearly flat line (the closing bookend). */
@@ -63,6 +65,8 @@ export function buildDirector(): gsap.core.Timeline {
 
   tl.to(stage, { signalAmp: 1.35, duration: 0.4 }, 1.2)
     .to(stage, { roomLight: 1, duration: 0.25, ease: 'flow' }, 3.42)
+    .to(stage, { ledBurst: 1, duration: 0.04, ease: 'power2.out' }, 3.38)
+    .to(stage, { ledBurst: 0, duration: 0.22, ease: 'power1.in' }, 3.42)
     .to(stage, { roomLight: 0, duration: 0.3 }, 4.35)
     .to(stage, { calm: 1, duration: 0.35 }, 5.95)
 

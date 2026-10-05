@@ -20,6 +20,8 @@ export type MediaAsset =
   /** Procedural stand-in rendered at runtime until real media exists. */
   | { kind: 'placeholder'; label: string; alt: string; aspect: AspectRatio }
 
+export type Link = { label: string; href: string }
+
 export type Project = {
   id: string
   title: string
@@ -30,9 +32,11 @@ export type Project = {
   location?: string
   recognition?: string
   description?: string
+  /** Short signal chain shown as metadata, e.g. ['EEG', 'Game world', 'Light']. */
+  flow?: string[]
   tags: string[]
   media: MediaAsset[]
-  links?: { label: string; href: string }[]
+  links?: Link[]
 }
 
 export type FieldTest = {
@@ -42,6 +46,7 @@ export type FieldTest = {
   year?: number
   description?: string
   media: MediaAsset
+  links?: Link[]
 }
 
 export type CareerStationId = 'research' | 'robotics' | 'medtech' | 'neurotech' | 'next'
@@ -57,6 +62,7 @@ export type CareerStation = {
   location?: string
   summary?: string
   highlights: string[]
+  links?: Link[]
   current?: boolean
 }
 
@@ -68,6 +74,10 @@ export type ContactLinks = {
   cv?: string
 }
 
+export type CapabilityGroup = { group: string; items: string[] }
+
+export type Education = { degree: string; school: string; years: string; note?: string }
+
 export type Profile = {
   name: string
   shortName: string
@@ -76,6 +86,11 @@ export type Profile = {
   /** Opening statement, one entry per visual line. */
   statement: string[]
   thesis: string
-  focus: string[]
+  /** Two or three sentences for the recruiter Index. */
+  summary: string
+  photo?: { src: string; alt: string }
+  capabilities: CapabilityGroup[]
+  education: Education[]
+  languages: string[]
   links: ContactLinks
 }

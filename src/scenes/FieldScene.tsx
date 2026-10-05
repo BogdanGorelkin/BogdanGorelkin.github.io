@@ -8,14 +8,16 @@ import { usePresence } from './shared/usePresence'
 
 /**
  * Hand-placed depth layers for the lateral dolly: near, mid and far planes
- * alternate so the parallax is legible. Extra field tests reuse the pattern.
+ * alternate so the parallax is legible. Slot 0 is the hero — where the dolly
+ * comes to rest (shots.ts, t ≈ 4.9) — so the first field test gets the
+ * final, clearest frame. Extra field tests reuse the pattern.
  */
 const SLOTS: { pos: V3; height: number; rotY: number }[] = [
+  { pos: [14.5, 1.0, -213], height: 4.4, rotY: -0.06 },
   { pos: [-3, 1.2, -207], height: 4.2, rotY: 0.18 },
   { pos: [4, 0.1, -216], height: 3.4, rotY: 0.05 },
-  { pos: [9, 2.1, -203], height: 2.4, rotY: -0.1 },
-  { pos: [14.5, 0.5, -221], height: 3.8, rotY: -0.06 },
-  { pos: [20, 1.6, -209], height: 4.4, rotY: -0.2 },
+  { pos: [6.5, 3.6, -209], height: 2.4, rotY: -0.1 },
+  { pos: [22, 2.0, -209], height: 4, rotY: -0.2 },
 ]
 
 /** Scene 4 — field tests: layered media in open space, warmer and less abstract. */

@@ -1,9 +1,8 @@
 import { ContactLinks } from '../components/ContactLinks'
 import { career } from '../data/experience'
 import { profile } from '../data/profile'
-import { caseLabel, fieldTests, projects } from '../data/projects'
-
-const TBA = <span className="pending">To be added</span>
+import { caseLabel, projects } from '../data/projects'
+import type { Link } from '../data/types'
 
 /**
  * The short version: everything a recruiter needs, as plain semantic HTML.
@@ -19,12 +18,49 @@ export function IndexSection() {
       </header>
 
       <div className="index__grid">
-        <div className="index__col index__col--wide">
+        <div className="index__col index__col--profile">
+          {profile.photo && (
+            <img className="index__photo" src={profile.photo.src} alt={profile.photo.alt} width={720} height={960} loading="lazy" decoding="async" />
+          )}
+        </div>
+
+        <div className="index__col index__col--lead">
           <h3 className="mono">Profile</h3>
           <p className="index__lead">
             {profile.name} — {profile.role}, {profile.location}.
           </p>
-          <p>{profile.thesis}</p>
+          <p className="index__thesis">{profile.thesis}</p>
+          <p>{profile.summary}</p>
+          <ContactLinks className="contact-links--inline" />
+        </div>
+
+        <div className="index__col index__col--wide">
+          <h3 className="mono">Experience</h3>
+          <ol className="index__list">
+            {career
+              .filter((s) => s.id !== 'next')
+              .reverse()
+              .map((s) => (
+                <li key={s.id}>
+                  <p className="mono">
+                    {s.period} · {s.era}
+                    {s.current && ' · current'}
+                  </p>
+                  <h4>
+                    {s.role} — {s.company}
+                  </h4>
+                  {s.summary && <p>{s.summary}</p>}
+                  {s.highlights.length > 0 && (
+                    <ul className="index__bullets">
+                      {s.highlights.map((h) => (
+                        <li key={h}>{h}</li>
+                      ))}
+                    </ul>
+                  )}
+                  <Links links={s.links} />
+                </li>
+              ))}
+          </ol>
         </div>
 
         <div className="index__col index__col--wide">
@@ -34,70 +70,44 @@ export function IndexSection() {
               <li key={p.id}>
                 <p className="mono">
                   {caseLabel(p)}
-                  {[p.context, p.location, p.year].filter(Boolean).map((v) => ` — ${v}`)}
+                  {[p.context, p.location, p.year].filter(Boolean).map((v) => ` · ${v}`)}
+                  {p.recognition && <span className="index__award"> · {p.recognition}</span>}
                 </p>
                 <h4>{p.title}</h4>
-                {p.recognition && <p className="mono index__award">{p.recognition}</p>}
-                <p>{p.description ?? TBA}</p>
-                {p.links && p.links.length > 0 && (
-                  <p className="index__links">
-                    {p.links.map((l) => (
-                      <a key={l.href} href={l.href} target="_blank" rel="noreferrer">
-                        {l.label}
-                      </a>
-                    ))}
-                  </p>
-                )}
+                <p>{p.description ?? p.subtitle}</p>
+                <Links links={p.links} />
               </li>
             ))}
           </ol>
         </div>
 
-        <div className="index__col">
-          <h3 className="mono">Experience</h3>
-          <ol className="index__list">
-            {career.map((s) => (
-              <li key={s.id}>
-                <h4>
-                  {s.era}
-                  {s.current && <span className="mono index__now"> — current</span>}
-                </h4>
-                {s.id !== 'next' && (
-                  <p className="mono">
-                    {s.role ?? TBA} · {s.company ?? TBA} · {s.period ?? TBA}
-                  </p>
-                )}
-                {s.summary && <p>{s.summary}</p>}
-                {s.highlights.length > 0 && (
-                  <ul className="index__plain">
-                    {s.highlights.map((h) => (
-                      <li key={h}>{h}</li>
-                    ))}
-                  </ul>
-                )}
+        <div className="index__col index__col--wide">
+          <h3 className="mono">Capabilities</h3>
+          <dl className="index__caps">
+            {profile.capabilities.map((c) => (
+              <div key={c.group}>
+                <dt className="mono">{c.group}</dt>
+                <dd>{c.items.join(' · ')}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div className="index__col index__col--wide">
+          <h3 className="mono">Education</h3>
+          <ul className="index__list index__list--tight">
+            {profile.education.map((e) => (
+              <li key={e.degree}>
+                <h4>{e.degree}</h4>
+                <p>
+                  {e.school}, {e.years}
+                  {e.note && <> — {e.note}</>}
+                </p>
               </li>
             ))}
-          </ol>
-        </div>
-
-        <div className="index__col">
-          <h3 className="mono">Field tests</h3>
-          <ul className="index__plain">
-            {fieldTests.map((t) => (
-              <li key={t.id}>{t.title}</li>
-            ))}
           </ul>
-          <h3 className="mono">Focus</h3>
-          <ul className="index__plain">
-            {profile.focus.map((f) => (
-              <li key={f}>{f}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="index__col">
-          <h3 className="mono">Contact</h3>
-          <ContactLinks className="contact-links--stacked" />
+          <h3 className="mono">Languages</h3>
+          <p>{profile.languages.join(' · ')}</p>
         </div>
       </div>
 
@@ -108,5 +118,18 @@ export function IndexSection() {
         <a href="#top">Back to the start ↑</a>
       </footer>
     </section>
+  )
+}
+
+function Links({ links }: { links?: Link[] }) {
+  if (!links?.length) return null
+  return (
+    <p className="mono index__links">
+      {links.map((l) => (
+        <a key={l.href} href={l.href} target="_blank" rel="noreferrer">
+          {l.label} ↗
+        </a>
+      ))}
+    </p>
   )
 }

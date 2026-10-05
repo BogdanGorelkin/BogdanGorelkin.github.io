@@ -10,7 +10,7 @@ A live EEG-like trace leads the visitor into an abstract head, then through a mu
 
 Recruiters don't have to sit through the film. The persistent nav (**Work / Experience / CV / Contact**) jumps straight to readable content, and a plain-HTML **Index** ("The short version") after the film lists everything.
 
-This is a **V1 cinematic graybox**: the choreography, architecture and typography are in place, and procedural placeholders stand in for media until the real videos, photos and models are ready (see [ASSETS.md](ASSETS.md)).
+The content is real, taken from Bogdan's CV (June 2026) and his previous site. Where real footage doesn't exist yet, procedural placeholders stand in (see [ASSETS.md](ASSETS.md)).
 
 ## Stack
 
@@ -35,9 +35,9 @@ pnpm typecheck   # type-check only
 ```text
 src/
   data/          ← edit content here
-    profile.ts     name, role, statement, focus areas, contact links, CV path
-    projects.ts    case studies (+ media) and field tests; case numbers follow array order
-    experience.ts  career stations: Research → Robotics → MedTech → NeuroTech → What's next
+    profile.ts     identity, summary, photo, grouped capabilities, education, languages, links, CV path
+    projects.ts    case studies (+ media, signal flow, links) and field tests; case numbers follow array order
+    experience.ts  career stations: Research → Robotics → MedTech → HABS / NeuroTech → What's next
     copy.ts        narrative lines for each chapter (headlines, captions)
     types.ts       content types (Project, MediaAsset, CareerStation, …)
   experience/    ← the cinematic engine
@@ -115,6 +115,25 @@ Lenis (smooth wheel) ─► ScrollTrigger ─► scrollStore.story.time   ("stor
   - Nav jumps are instant.
 - **No WebGL:** the site runs DOM-only.
 - **Semantics and keyboard:** semantic landmarks, a skip link to the Index, and keyboard focus that moves with nav jumps. The canvas is `aria-hidden`.
+
+## Content notes
+
+Content comes from two sources:
+
+- **`CV_Bogdan_Gorelkin_EN.pdf` (June 2026)** is authoritative for roles and dates.
+- **The previous site** supplied project links, the education detail and photos.
+
+Nothing beyond those two sources and the brief was invented. These items need a decision:
+
+- **AuxaSphere / TemmaCare start date:**
+  - The English CV says Jun 2022.
+  - The old site and the French CV say Jan 2022.
+  - The site shows years only (`2022 — 2025`), which is true either way.
+- **Email:** the CV uses `b.k.gorelkin@gmail.com` and the old site used `b.gorelkin@yandex.com`. The site uses the CV address.
+- **The CV PDF includes a phone number.** It was already public on the old site. Decide whether that's still OK.
+- **`TODO: PUBLIC-SAFE CONTENT REVIEW`:** HABS wording in `projects.ts` (`habs-multi-device`) and `experience.ts` (`neurotech`) is deliberately generic. It has no device names, customers, data or architecture. Confirm it before publishing.
+- **The "250 Hz" annotation was removed** because no public, device-specific source confirmed it.
+- **Production domain:** the old site used `gorelkin.vip`. The canonical and absolute OG URLs are left as a TODO in `index.html`.
 
 ## Deployment
 

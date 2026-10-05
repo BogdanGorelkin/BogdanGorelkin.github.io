@@ -39,7 +39,8 @@ export function DataChapter() {
         <Headline id="data-title" lines={c.headline} className="headline--m" />
         <p className="body">{c.body}</p>
         <p className="mono case-tag">
-          {caseLabel(project)} — {project.title} — <span className="pending">Details to be added</span>
+          {caseLabel(project)}
+          {project.context && <> — {project.context}</>} — {project.title}
         </p>
       </div>
       <ol className="mono layers" aria-label="System layers">

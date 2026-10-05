@@ -5,10 +5,17 @@ import { copy } from '../data/copy'
 import { stage } from '../experience/director'
 import { COLORS, createLineMaterial, fade } from './shared/materials'
 import { MediaPlane } from './shared/MediaPlane'
+import { SignalLine } from './shared/SignalLine'
 import { usePresence } from './shared/usePresence'
-import { ROOM, SCREEN } from './world'
+import { ROOM, SCREEN, type V3 } from './world'
 
 const LEDS_PER_WALL = 16
+
+/** The signal, now physical: it runs along the floor from the screen to the footage wall. */
+const FLOOR_SIGNAL: V3[] = [
+  [0, ROOM.floorY + 0.05, ROOM.near - 0.5],
+  [0, ROOM.floorY + 0.05, ROOM.far + 2],
+]
 
 /**
  * Scene 3 — software leaves the screen. A monitor-like surface of live
@@ -121,7 +128,7 @@ function Room() {
     positions.forEach(({ z }, i) => {
       // A wave of activity travels down the room — the signal, made physical.
       const w = 0.5 + 0.5 * Math.sin(z * 0.45 + stage.clock * 3.2 + (i < LEDS_PER_WALL ? 0 : 1.3))
-      color.copy(COLORS.warm).multiplyScalar(0.06 + light * (0.25 + 0.75 * w * w))
+      color.copy(COLORS.warm).multiplyScalar(0.06 + light * (0.25 + 0.75 * w * w) + stage.ledBurst * 1.4)
       mesh.setColorAt(i, color)
     })
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true
@@ -130,6 +137,7 @@ function Room() {
   return (
     <group ref={group}>
       <lineSegments geometry={floor} material={floorMat} />
+      <SignalLine points={FLOOR_SIGNAL} samples={500} presence="room" amplitude={0.22} />
       <instancedMesh
         ref={(mesh) => {
           leds.current = mesh

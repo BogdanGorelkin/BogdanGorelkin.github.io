@@ -33,6 +33,13 @@ export function ScreenChapter() {
         <h3 className="case__title">{project.title}</h3>
         {project.subtitle && <p className="case__subtitle">{project.subtitle}</p>}
         {project.recognition && <p className="mono case__award">{project.recognition}</p>}
+        {project.flow && (
+          <ol className="mono flow" aria-label="Signal chain">
+            {project.flow.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+        )}
         <p className="case__desc">{project.description ?? <span className="pending">Project details to be added.</span>}</p>
         <ul className="mono tags">
           {project.tags.map((t) => (

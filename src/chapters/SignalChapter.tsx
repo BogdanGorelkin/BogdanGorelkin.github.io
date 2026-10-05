@@ -1,11 +1,31 @@
+import { useEffect } from 'react'
 import { Chapter } from '../components/Chapter'
 import { Headline } from '../components/Headline'
 import { copy } from '../data/copy'
 import { profile } from '../data/profile'
-import { fadeOut, linesIn, linesOut } from '../lib/motion'
+import { fadeOut, linesOut } from '../lib/motion'
 
-/** 0 — Signal. Near-darkness, a name, a live trace; then the first statement. */
+/** Seconds before the statement appears on its own if the visitor hasn't scrolled. */
+const STATEMENT_DELAY = 5
+
+/**
+ * 0 — Signal. Near-darkness, a name, a live trace. The statement arrives by
+ * itself after a few seconds (or on the first scroll), so the point lands in
+ * the first ten seconds; scroll then carries it away.
+ */
 export function SignalChapter() {
+  useEffect(() => {
+    const el = document.getElementById('intro-statement')
+    if (!el) return
+    const reveal = () => el.classList.add('is-revealed')
+    const timer = window.setTimeout(reveal, STATEMENT_DELAY * 1000)
+    window.addEventListener('scroll', reveal, { once: true, passive: true })
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('scroll', reveal)
+    }
+  }, [])
+
   return (
     <Chapter
       id="signal"
@@ -13,7 +33,6 @@ export function SignalChapter() {
       timeline={(tl, q) => {
         fadeOut(tl, q('.scroll-cue'), 0.02, 0.05)
         fadeOut(tl, q('.intro__id'), 0.2, 0.1)
-        linesIn(tl, q('.statement .line__inner'), 0.3, 0.18)
         linesOut(tl, q('.statement .line__inner'), 0.84, 0.1)
       }}
     >
@@ -21,10 +40,13 @@ export function SignalChapter() {
         <h1 id="intro-name" className="intro__name">
           {profile.name}
         </h1>
-        <p className="mono intro__role">{profile.role}</p>
+        <p className="mono intro__role">
+          {profile.role}
+          <span className="intro__domains">{copy.signal.domains}</span>
+        </p>
         <p className="mono intro__meta">{copy.signal.meta}</p>
       </div>
-      <Headline lines={profile.statement} className="statement display" />
+      <Headline id="intro-statement" lines={profile.statement} className="statement display" />
       <p className="mono scroll-cue" aria-hidden="true">
         <span>{copy.signal.scrollCue}</span>
       </p>

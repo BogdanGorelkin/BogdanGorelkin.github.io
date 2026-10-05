@@ -49,7 +49,9 @@ export const SHOTS: Shot[] = [
   // ── 4 FIELD — a lateral dolly across layered media for real parallax.
   { t: 4.18, pos: [-4, 1.4, -186], look: [0, 1, -214], fov: 42 },
   { t: 4.55, pos: [5, 1.2, -191], look: [7, 1, -220], fov: 40 },
-  { t: 4.9, pos: [14, 1.6, -195], look: [15, 1, -226], fov: 40 },
+  // Come to rest on the hero plane (FieldScene slot 0), framed right of the notes.
+  { t: 4.86, pos: [10.5, 1.4, -198], look: [10.5, 1.3, -213], fov: 40, ease: 'silk', mobile: { pos: [14.5, 1.3, -200], look: [14.5, 1.1, -213] } },
+  { t: 4.96, pos: [10.5, 1.4, -198], look: [10.5, 1.3, -213], fov: 40, mobile: { pos: [14.5, 1.3, -200], look: [14.5, 1.1, -213] } },
 
   // ── 5 CAREER — pull back: the whole journey was one station. Then track the path.
   { t: 5.04, pos: [30, 14, -170], look: [8, 0, -215], fov: 44 },
