@@ -7,4 +7,6 @@ export default defineConfig({
   plugins: [react()],
   // three.js alone is ~600 kB minified; the lazy 3D chunk is expected to be large.
   build: { target: 'es2022', chunkSizeWarningLimit: 1100 },
+  // `pnpm start` serves dist/ behind the host's proxy, so accept its domain.
+  preview: { allowedHosts: true },
 })
