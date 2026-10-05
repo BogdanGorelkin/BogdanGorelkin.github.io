@@ -1,0 +1,51 @@
+import { useMemo, useRef } from 'react'
+import * as THREE from 'three'
+import { fieldTests } from '../data/projects'
+import type { V3 } from './world'
+import { MediaPlane } from './shared/MediaPlane'
+import { createLineMaterial, fade } from './shared/materials'
+import { usePresence } from './shared/usePresence'
+
+/**
+ * Hand-placed depth layers for the lateral dolly: near, mid and far planes
+ * alternate so the parallax is legible. Extra field tests reuse the pattern.
+ */
+const SLOTS: { pos: V3; height: number; rotY: number }[] = [
+  { pos: [-3, 1.2, -207], height: 4.2, rotY: 0.18 },
+  { pos: [4, 0.1, -216], height: 3.4, rotY: 0.05 },
+  { pos: [9, 2.1, -203], height: 2.4, rotY: -0.1 },
+  { pos: [14.5, 0.5, -221], height: 3.8, rotY: -0.06 },
+  { pos: [20, 1.6, -209], height: 4.4, rotY: -0.2 },
+]
+
+/** Scene 4 — field tests: layered media in open space, warmer and less abstract. */
+export function FieldScene() {
+  const horizon = useRef<THREE.LineSegments>(null)
+  const { geometry, material } = useMemo(() => {
+    const g = new THREE.BufferGeometry()
+    g.setAttribute('position', new THREE.Float32BufferAttribute([-30, -3, -236, 50, -3, -236], 3))
+    return { geometry: g, material: createLineMaterial(0.25) }
+  }, [])
+  usePresence('field', horizon, (p) => fade(material, 0.25 * p))
+
+  return (
+    <group>
+      <lineSegments ref={horizon} geometry={geometry} material={material} />
+      {fieldTests.map((test, i) => {
+        const slot = SLOTS[i % SLOTS.length]!
+        const lap = Math.floor(i / SLOTS.length)
+        const pos: V3 = [slot.pos[0] + lap * 26, slot.pos[1], slot.pos[2]]
+        return (
+          <MediaPlane
+            key={test.id}
+            asset={test.media}
+            height={slot.height}
+            presence="field"
+            position={pos}
+            rotation-y={slot.rotY}
+          />
+        )
+      })}
+    </group>
+  )
+}

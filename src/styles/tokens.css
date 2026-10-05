@@ -1,0 +1,36 @@
+:root {
+  --bg: #07080a;
+  --bg-raise: #0c0d10;
+  --ink: #ecebe6;
+  --ink-2: rgb(236 235 230 / 0.68);
+  --ink-3: rgb(236 235 230 / 0.4);
+  --line: rgb(236 235 230 / 0.14);
+
+  --font-sans: 'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --gutter: clamp(16px, 3.2vw, 48px);
+  --nav-h: 64px;
+
+  /* Huge, expanded statements vs. small mono metadata. */
+  --fs-display: clamp(2.6rem, 7.2vw, 10.5rem);
+  --fs-headline-l: clamp(2.2rem, 5vw, 6.5rem);
+  --fs-headline-m: clamp(1.8rem, 3.4vw, 4rem);
+  --fs-lead: clamp(1.15rem, 1.6vw, 1.6rem);
+  --fs-body: clamp(1rem, 1.05vw, 1.15rem);
+  --fs-mono: 11px;
+  --stretch-display: 118%;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 768px) {
+  :root {
+    /* The width axis lets phones go condensed instead of tiny. */
+    --fs-display: 12.5vw;
+    --fs-headline-l: 10.5vw;
+    --fs-headline-m: 8.6vw;
+    --stretch-display: 76%;
+    --nav-h: 56px;
+  }
+}

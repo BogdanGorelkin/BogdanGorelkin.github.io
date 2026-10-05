@@ -1,0 +1,292 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 4px;
+}
+main:focus,
+section:focus {
+  outline: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.7;
+}
+
+.pending {
+  color: var(--ink-3);
+}
+
+.body {
+  max-width: 36ch;
+  color: var(--ink-2);
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: var(--gutter);
+  z-index: 100;
+  padding: 10px 14px;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: none;
+}
+
+/* ── Layers: canvas (0) → veil (1) → DOM film (2) → nav (10) ─────────── */
+
+.webgl {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.28s linear;
+}
+.webgl canvas {
+  display: block;
+}
+.webgl.is-cutting {
+  opacity: 0 !important;
+}
+/* Static layout: text scrolls over still key frames, so keep them quiet. */
+html:not(.is-cinematic) .webgl {
+  opacity: 0.45;
+}
+
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 120% 90% at 50% 45%, transparent 55%, rgb(0 0 0 / 0.55) 100%);
+}
+.veil::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+main {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Nav ───────────────────────────────────────────────────────────────── */
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  height: var(--nav-h);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 var(--gutter);
+  pointer-events: none;
+}
+.nav > * {
+  pointer-events: auto;
+}
+
+.nav__mark {
+  justify-self: start;
+  font-weight: 600;
+  font-stretch: 125%;
+  letter-spacing: 0.12em;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.nav__counter {
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.nav nav {
+  justify-self: end;
+}
+
+.nav__links {
+  display: flex;
+  gap: clamp(14px, 2vw, 28px);
+}
+.nav__links a,
+.nav__links .link--pending {
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav__links a:hover,
+.nav__links a[aria-current] {
+  color: var(--ink);
+}
+.nav__links a[aria-current] {
+  text-decoration: underline;
+}
+.nav__links .link--pending {
+  color: var(--ink-3);
+  cursor: default;
+}
+.nav__links .link__note {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+@media (max-width: 768px) {
+  .nav__counter {
+    display: none;
+  }
+  .nav {
+    grid-template-columns: auto 1fr;
+  }
+  .nav__links {
+    gap: 14px;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* ── Links ─────────────────────────────────────────────────────────────── */
+
+.link--pending {
+  color: var(--ink-3);
+}
+
+/* ── DOM labels pinned to 3D points (SpatialLabels.tsx) ─────────────────── */
+
+.spatial-labels {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.spatial-labels > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  will-change: translate, opacity;
+}
+
+.annotation,
+.station-label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  color: var(--ink);
+  user-select: none;
+}
+.annotation {
+  display: grid;
+  gap: 2px;
+  padding-left: 10px;
+  border-left: 1px solid var(--line);
+  transform: translateY(-50%);
+}
+.annotation__key {
+  font-size: 13px;
+  font-weight: 500;
+}
+.annotation__value {
+  font-size: 10px;
+  color: var(--ink-3);
+}
+.station-label {
+  display: grid;
+  gap: 2px;
+  font-size: 10px;
+  transform: translate(-50%, -100%);
+  text-align: center;
+}
+.station-label__era {
+  font-size: 12px;
+  font-weight: 500;
+}
+.station-label__now {
+  color: var(--ink-3);
+}
