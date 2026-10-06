@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { getProject } from '../data/projects'
+import { getProject, moments } from '../data/projects'
 import { copy } from '../data/copy'
 import { stage } from '../experience/director'
 import { COLORS, createLineMaterial, fade } from './shared/materials'
@@ -18,14 +18,20 @@ const FLOOR_SIGNAL: V3[] = [
 ]
 
 /**
- * Scene 3 — software leaves the screen. A monitor-like surface of live
- * channels fills the frame; the camera pushes through it into a physical
- * room where LEDs respond to the same signal and the project footage plays.
+ * Scenes 3–4 — one screen, two beats. First it shows live channels, then a
+ * grid of experiments running on one system (HABS Player). Then the camera
+ * pushes through it into a physical room where LEDs respond to the signal
+ * and the hackathon footage plays: software leaves the screen.
  */
 export function ScreenScene() {
+  const player = getProject(copy.player.projectId)
   return (
     <>
       <SoftwareSurface />
+      {/* A real Player teaser, once provided, plays on the screen itself. */}
+      {player.teaser && player.teaser.kind !== 'placeholder' && (
+        <MediaPlane asset={player.teaser} height={SCREEN.height * 0.92} presence="player" position={[0, 0, SCREEN.z + 0.05]} />
+      )}
       <Room />
     </>
   )
@@ -36,7 +42,7 @@ function SoftwareSurface() {
   const material = useMemo(
     () =>
       new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uOpacity: { value: 0 } },
+        uniforms: { uTime: { value: 0 }, uOpacity: { value: 0 }, uGrid: { value: 0 } },
         vertexShader: /* glsl */ `
           varying vec2 vUv;
           void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
@@ -44,6 +50,7 @@ function SoftwareSurface() {
         fragmentShader: /* glsl */ `
           uniform float uTime;
           uniform float uOpacity;
+          uniform float uGrid;
           varying vec2 vUv;
           // One channel of a multi-channel recording, drawn as an anti-aliased hairline.
           float channel(vec2 uv, float k) {
@@ -55,12 +62,31 @@ function SoftwareSurface() {
             float w = fwidth(uv.y) * 1.1;
             return smoothstep(w, 0.0, abs(uv.y - y));
           }
+          // HABS Player: one system, many experiments. A 4×3 grid of runs; a few
+          // are live at any moment and the live set keeps rotating.
+          float experiments(vec2 uv) {
+            vec2 g = uv * vec2(4.0, 3.0);
+            vec2 id = floor(g);
+            vec2 f = fract(g);
+            float k = id.x + (2.0 - id.y) * 4.0;
+            float edge = min(min(f.x, 1.0 - f.x), min(f.y, 1.0 - f.y)) - 0.05;
+            float border = 1.0 - smoothstep(0.0, fwidth(g.x) * 1.4, abs(edge));
+            float traces = 0.0;
+            for (int j = 0; j < 3; j++) {
+              float fj = float(j);
+              float y = 0.3 + 0.2 * fj + 0.045 * sin(f.x * 15.0 - uTime * 2.4 + k * 1.3 + fj * 2.1) * sin(f.x * 4.0 + k);
+              traces += smoothstep(fwidth(f.y) * 1.2, 0.0, abs(f.y - y)) * step(0.1, f.x) * step(f.x, 0.9);
+            }
+            float live = step(mod(uTime * 1.2 - k, 12.0), 4.0);
+            return border * mix(0.25, 0.7, live) + traces * mix(0.15, 1.0, live);
+          }
           void main() {
             float lines = 0.0;
             for (int k = 0; k < 8; k++) lines += channel(vUv, float(k));
             // A sweep cursor, like a monitor: fresh data bright, older data dim.
             float age = fract(fract(uTime * 0.07) - vUv.x);
             lines *= mix(1.0, 0.2, age);
+            lines = mix(lines, experiments(vUv), uGrid);
             vec2 cell = vUv * vec2(32.0, 18.0);
             vec2 gd = abs(fract(cell - 0.5) - 0.5) / fwidth(cell);
             float grid = 1.0 - min(min(gd.x, gd.y), 1.0);
@@ -79,6 +105,7 @@ function SoftwareSurface() {
   usePresence('screen', mesh, (p) => {
     material.uniforms.uTime!.value = stage.clock
     material.uniforms.uOpacity!.value = 0.94 * p
+    material.uniforms.uGrid!.value = stage.playerGrid
     fade(frame, 0.6 * p)
   })
 
@@ -93,8 +120,7 @@ function SoftwareSurface() {
 function Room() {
   const group = useRef<THREE.Group>(null)
   const leds = useRef<THREE.InstancedMesh>(null)
-  const project = getProject(copy.screen.projectId)
-  const media = project.media[0]
+  const media = getProject(copy.screen.projectId).teaser
 
   const floor = useMemo(() => {
     const v: number[] = []
@@ -148,6 +174,14 @@ function Room() {
         args={[ledGeo, ledMat, positions.length]}
       />
       {media && <MediaPlane asset={media} height={6.2} presence="room" position={[0, 0.9, ROOM.far + 1.5]} />}
+      {/* Bogdan in the room — a documentary moment on the side wall. */}
+      <MediaPlane
+        asset={moments.hackathon.media}
+        height={3.6}
+        presence="room"
+        position={[-ROOM.halfWidth + 0.6, 0.6, ROOM.far + 13]}
+        rotation-y={Math.PI / 2.6}
+      />
     </group>
   )
 }

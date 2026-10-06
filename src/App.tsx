@@ -1,12 +1,16 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useState } from 'react'
 import { ContactChapter } from './chapters/ContactChapter'
 import { DataChapter } from './chapters/DataChapter'
+import { MedTechChapter } from './chapters/MedTechChapter'
+import { PatternChapter } from './chapters/PatternChapter'
+import { PlayerChapter } from './chapters/PlayerChapter'
+import { ResearchChapter } from './chapters/ResearchChapter'
+import { RevealChapter } from './chapters/RevealChapter'
 import { FieldChapter } from './chapters/FieldChapter'
 import { IndexSection } from './chapters/IndexSection'
 import { NeuralChapter } from './chapters/NeuralChapter'
 import { ScreenChapter } from './chapters/ScreenChapter'
 import { SignalChapter } from './chapters/SignalChapter'
-import { TimelineChapter } from './chapters/TimelineChapter'
 import { Nav } from './components/Nav'
 import { navigateToHash } from './experience/navigation'
 import { supportsWebGL } from './experience/quality'
@@ -44,9 +48,13 @@ export function App() {
         <SignalChapter />
         <NeuralChapter />
         <DataChapter />
+        <PlayerChapter />
         <ScreenChapter />
         <FieldChapter />
-        <TimelineChapter />
+        <RevealChapter />
+        <MedTechChapter />
+        <ResearchChapter />
+        <PatternChapter />
         <ContactChapter />
         <IndexSection />
       </main>

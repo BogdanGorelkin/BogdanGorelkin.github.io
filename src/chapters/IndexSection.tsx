@@ -1,8 +1,8 @@
 import { ContactLinks } from '../components/ContactLinks'
-import { career } from '../data/experience'
+import { DeepDiveLinks } from '../components/DeepDiveLinks'
+import { career, earlierRoles } from '../data/experience'
 import { profile } from '../data/profile'
 import { caseLabel, projects } from '../data/projects'
-import type { Link } from '../data/types'
 
 /**
  * The short version: everything a recruiter needs, as plain semantic HTML.
@@ -30,6 +30,7 @@ export function IndexSection() {
             {profile.name} — {profile.role}, {profile.location}.
           </p>
           <p className="index__thesis">{profile.thesis}</p>
+          <p className="mono index__across">Works across: {profile.worksAcross.join(' · ')}</p>
           <p>{profile.summary}</p>
           <ContactLinks className="contact-links--inline" />
         </div>
@@ -43,7 +44,7 @@ export function IndexSection() {
               .map((s) => (
                 <li key={s.id}>
                   <p className="mono">
-                    {s.period} · {s.era}
+                    {s.period} · {s.theme}
                     {s.current && ' · current'}
                   </p>
                   <h4>
@@ -57,27 +58,39 @@ export function IndexSection() {
                       ))}
                     </ul>
                   )}
-                  <Links links={s.links} />
+                  <DeepDiveLinks item={s} className="index__links" />
                 </li>
               ))}
+            {earlierRoles.map((r) => (
+              <li key={r.company}>
+                <p className="mono">{r.period} · Earlier research</p>
+                <h4>
+                  {r.role} — {r.company}
+                </h4>
+                <p>{r.summary}</p>
+                <DeepDiveLinks item={r} className="index__links" />
+              </li>
+            ))}
           </ol>
         </div>
 
         <div className="index__col index__col--wide">
           <h3 className="mono">Selected work</h3>
           <ol className="index__list">
-            {projects.map((p) => (
-              <li key={p.id}>
-                <p className="mono">
-                  {caseLabel(p)}
-                  {[p.context, p.location, p.year].filter(Boolean).map((v) => ` · ${v}`)}
-                  {p.recognition && <span className="index__award"> · {p.recognition}</span>}
-                </p>
-                <h4>{p.title}</h4>
-                <p>{p.description ?? p.subtitle}</p>
-                <Links links={p.links} />
-              </li>
-            ))}
+            {projects
+              .filter((p) => p.featured)
+              .map((p) => (
+                <li key={p.id}>
+                  <p className="mono">
+                    {caseLabel(p)}
+                    {[p.context, p.location, p.period].filter(Boolean).map((v) => ` · ${v}`)}
+                    {p.recognition && <span className="index__award"> · {p.recognition}</span>}
+                  </p>
+                  <h4>{p.title}</h4>
+                  <p>{p.summary ?? p.subtitle}</p>
+                  <DeepDiveLinks item={p} className="index__links" />
+                </li>
+              ))}
           </ol>
         </div>
 
@@ -118,18 +131,5 @@ export function IndexSection() {
         <a href="#top">Back to the start ↑</a>
       </footer>
     </section>
-  )
-}
-
-function Links({ links }: { links?: Link[] }) {
-  if (!links?.length) return null
-  return (
-    <p className="mono index__links">
-      {links.map((l) => (
-        <a key={l.href} href={l.href} target="_blank" rel="noreferrer">
-          {l.label} ↗
-        </a>
-      ))}
-    </p>
   )
 }

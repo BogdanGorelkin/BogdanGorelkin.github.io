@@ -27,6 +27,10 @@ export const stage = {
   signalAmp: 1,
   /** 0 = lively EEG, 1 = calm, nearly flat line (the closing bookend). */
   calm: 0,
+  /** 0 = the screen shows live channels, 1 = a grid of experiments (HABS Player). */
+  playerGrid: 0,
+  /** 0 → 1: programmable-matter modules reconfigure from one shape to another. */
+  morph: 0,
   presence: {
     signal: 1,
     neural: 0,
@@ -34,9 +38,15 @@ export const stage = {
     // Not `data`: that's a reserved GSAP vars key and would silently never tween.
     system: 0,
     screen: 0,
+    /** HABS Player chapter (only drives the optional real teaser over the screen). */
+    player: 0,
     room: 0,
     field: 0,
     career: 0,
+    medtech: 0,
+    medtechLabels: 0,
+    research: 0,
+    pattern: 0,
     next: 0,
   },
 }
@@ -55,44 +65,58 @@ export function buildDirector(): gsap.core.Timeline {
   const show = (key: PresenceKey, from: number, to: number, value = 1) =>
     tl.to(p, { [key]: value, duration: to - from }, from)
 
-  // Fog is the main depth/lighting instrument: tight in rooms, vast on reveal.
+  // Fog is the main depth/lighting instrument: tight in rooms, vast on the career line.
   tl.to(stage, { fogFar: 85, duration: 0.5 }, 0.3)
     .to(stage, { fogFar: 70, duration: 0.3 }, 2.0)
-    .to(stage, { fogNear: 2, fogFar: 52, duration: 0.2 }, 3.3)
-    .to(stage, { fogNear: 4, fogFar: 95, duration: 0.3 }, 4.0)
-    .to(stage, { fogNear: 260, fogFar: 2600, duration: 0.16, ease: 'power2.in' }, 5.04)
-    .to(stage, { fogNear: 6, fogFar: 46, duration: 0.3 }, 6.0)
+    .to(stage, { fogNear: 2, fogFar: 52, duration: 0.2 }, 4.3)
+    .to(stage, { fogNear: 4, fogFar: 95, duration: 0.3 }, 5.0)
+    .to(stage, { fogNear: 260, fogFar: 2600, duration: 0.16, ease: 'power2.in' }, 6.04)
+    .to(stage, { fogNear: 6, fogFar: 46, duration: 0.3 }, 9.95)
 
   tl.to(stage, { signalAmp: 1.35, duration: 0.4 }, 1.2)
-    .to(stage, { roomLight: 1, duration: 0.25, ease: 'flow' }, 3.42)
-    .to(stage, { ledBurst: 1, duration: 0.04, ease: 'power2.out' }, 3.38)
-    .to(stage, { ledBurst: 0, duration: 0.22, ease: 'power1.in' }, 3.42)
-    .to(stage, { roomLight: 0, duration: 0.3 }, 4.35)
-    .to(stage, { calm: 1, duration: 0.35 }, 5.95)
+    // HABS Player: the same screen becomes a grid of experiments, then back to live channels.
+    .to(stage, { playerGrid: 1, duration: 0.22 }, 3.1)
+    .to(stage, { playerGrid: 0, duration: 0.2 }, 3.85)
+    .to(stage, { roomLight: 1, duration: 0.25, ease: 'flow' }, 4.42)
+    .to(stage, { ledBurst: 1, duration: 0.04, ease: 'power2.out' }, 4.38)
+    .to(stage, { ledBurst: 0, duration: 0.22, ease: 'power1.in' }, 4.42)
+    .to(stage, { roomLight: 0, duration: 0.3 }, 5.35)
+    .to(stage, { morph: 1, duration: 0.5 }, 8.2)
+    .to(stage, { calm: 1, duration: 0.35 }, 9.95)
 
-  // Scenes 0–4: each environment fades in ahead of the camera and out behind it.
+  // Today (HABS → hackathon → field): environments fade in ahead of the camera, out behind it.
   show('signal', 1.75, 2.1, 0)
   show('neural', 0.75, 1.0)
   show('annotations', 1.42, 1.58)
   show('annotations', 1.84, 1.95, 0)
   show('system', 1.85, 2.1)
-  show('screen', 2.55, 2.85)
-  // The screen dissolves as the lens reaches it — we pass *through* software.
-  show('screen', 3.3, 3.42, 0)
   show('neural', 2.3, 2.5, 0)
-  show('room', 3.3, 3.45)
-  show('system', 3.36, 3.5, 0)
-  show('field', 3.9, 4.12)
-  show('room', 4.4, 4.6, 0)
+  show('screen', 2.55, 2.85)
+  show('player', 3.05, 3.2)
+  show('player', 3.8, 3.95, 0)
+  // The screen dissolves as the lens reaches it — we pass *through* software.
+  show('screen', 4.3, 4.42, 0)
+  show('room', 4.3, 4.45)
+  show('system', 4.36, 4.5, 0)
+  show('field', 4.9, 5.12)
+  show('room', 5.4, 5.6, 0)
 
-  // Scene 5: pulled back, the whole journey reappears as one lit station.
+  // Rewind: pulled back, today's journey stays lit as one station among others.
   for (const key of ['signal', 'neural', 'system', 'screen', 'room', 'field'] as const) {
-    show(key, 5.06, 5.2, key === 'field' ? 0.55 : 0.45)
-    show(key, 6.0, 6.15, 0)
+    show(key, 6.06, 6.2, key === 'field' ? 0.55 : 0.45)
+    show(key, 9.95, 10.1, 0)
   }
-  show('career', 5.02, 5.16)
-  show('next', 5.1, 5.2)
-  show('career', 6.0, 6.25, 0)
+  show('career', 6.02, 6.16)
+  show('medtech', 6.05, 6.2)
+  show('research', 6.05, 6.2)
+  show('next', 6.1, 6.2)
+  show('medtechLabels', 7.2, 7.35)
+  show('medtechLabels', 7.85, 7.95, 0)
+  show('pattern', 9.05, 9.25)
+  show('pattern', 9.92, 10.05, 0)
+  show('medtech', 9.95, 10.1, 0)
+  show('research', 9.95, 10.1, 0)
+  show('career', 9.95, 10.2, 0)
 
   tl.set({}, {}, STORY_END)
   // Render once end-to-end so every tween records its start values in order;

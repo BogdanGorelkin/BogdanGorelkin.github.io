@@ -280,7 +280,8 @@ main {
   display: grid;
   gap: 2px;
   font-size: 10px;
-  transform: translate(-50%, -100%);
+  /* Sits under the career line, centred on the station. */
+  transform: translate(-50%, 0);
   text-align: center;
 }
 .station-label__era {
@@ -289,4 +290,16 @@ main {
 }
 .station-label__now {
   color: var(--ink-3);
+}
+/* Thread names on the pattern payoff: set just above the start of each thread. */
+.thread-label {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-stretch: 118%;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  letter-spacing: 0.02em;
+  transform: translate(0, -125%);
+  color: var(--ink);
+  white-space: nowrap;
 }

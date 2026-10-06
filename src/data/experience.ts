@@ -1,69 +1,78 @@
-import type { CareerStation } from './types'
+import type { CareerStation, EarlierRole } from './types'
 
 /**
- * Career stations in chronological order. The 3D timeline places one
- * environment per station. Periods are year-level on purpose: the old site
- * and the CVs disagree on some months (see README → content notes).
+ * Stations on the career line, in chronological order. The film visits them
+ * backwards (HABS → MedTech → Research) after the reveal. Periods are
+ * year-level on purpose: the old site and the CVs disagree on some months.
  */
 export const career: CareerStation[] = [
   {
     id: 'research',
     era: 'Research',
-    role: 'Researcher',
-    company: 'Polytech Nantes · TUSUR',
-    period: '2018 — 2020',
-    location: 'Nantes · Tomsk',
-    summary: 'Embedded security and wireless IoT: side-channel analysis of RSA on an STM32, and NB-IoT channel modelling for telemetry devices.',
-    highlights: [],
-    links: [
-      { label: 'RSA side-channel', href: 'https://github.com/BogdanGorelkin/RSA-SCA' },
-      { label: 'NB-IoT downlink', href: 'https://github.com/BogdanGorelkin/NB-IoT-Downlink-Physical-Layer-Design' },
-    ],
-  },
-  {
-    id: 'robotics',
-    era: 'Robotics',
+    theme: 'Programmable matter',
     role: 'Research engineer',
     company: 'Inria & Femto-ST',
     period: '2020 — 2021',
     location: 'Lille · Montbéliard',
-    summary: 'Modular, self-reconfigurable robots: module behaviour as finite-state machines and a stronger time-synchronisation protocol between modules.',
+    summary: 'Self-reconfigurable modular robots: rules for each module as finite-state machines, and a stronger time-synchronisation protocol between them.',
     highlights: [],
-    links: [
-      { label: 'Boosted MRTP', href: 'https://github.com/BogdanGorelkin/Boosted-MRTP' },
-      { label: 'Simulation video', href: 'https://youtu.be/x4lbToZrboo' },
-    ],
+    codeUrl: 'https://github.com/BogdanGorelkin/Boosted-MRTP',
+    youtubeUrl: 'https://youtu.be/x4lbToZrboo',
+    deepDiveLabel: 'Watch the simulation',
   },
   {
     id: 'medtech',
     era: 'MedTech',
+    theme: 'Remote medicine',
     role: 'Software application developer',
-    company: 'AuxaSphere · TemmaCare',
+    company: 'TemmaCare · AuxaSphere',
     period: '2022 — 2025',
     location: 'Paris',
-    summary: 'Telemedicine where apps and diagnostic hardware work together, so patients can run measurements and consult a doctor remotely.',
+    summary: 'A patient at home, diagnostic devices beside them, a doctor on the other end — the software connected all three.',
     highlights: ['Medical-device data: visualisation, encryption, storage, delivery', 'UX & UI for a multi-role system', 'Microservices, reusable strictly typed packages', 'Mentoring and code review'],
-    links: [{ label: 'temma.care', href: 'https://temma.care/' }],
+    externalUrl: 'https://temma.care/',
+    deepDiveLabel: 'temma.care',
   },
   {
     // TODO: PUBLIC-SAFE CONTENT REVIEW — generic on purpose; confirm wording.
     id: 'neurotech',
-    era: 'NeuroTech',
+    era: 'HABS',
+    theme: 'Connected human signals',
     role: 'Full-stack developer',
-    company: 'HABS',
+    company: 'HABS — Human Augmented Brain Systems',
     period: '2025 — now',
     location: 'Paris',
-    summary: 'Human Augmented Brain Systems. Software for biometric signal acquisition, processing workflows and protocol execution — from PoC to production.',
-    highlights: ['EEG devices over BLE, several at once', 'React / React Native, backend services, infrastructure', 'Realtime data pipelines and experiment tooling', 'CI/CD pipelines that reduce release friction'],
+    summary: 'Software for biometric signal acquisition, processing workflows and protocol execution — from PoC to production.',
+    highlights: ['Device integration over BLE, several devices at once', 'React / React Native, backend services, infrastructure', 'Realtime data pipelines and experiment tooling (HABS Player)', 'CI/CD pipelines that reduce release friction'],
     current: true,
   },
   {
     id: 'next',
-    era: "What's next?",
-    summary: 'Robotics, neurotech, medtech, connected products — systems where software meets people and hardware.',
+    era: 'Next',
+    theme: 'What should we build?',
+    summary: 'Robotics, medtech, neurotech, connected products — systems where software meets people and hardware.',
     highlights: [],
   },
 ]
 
-/** Rail / label text: the current station names its company. */
-export const stationLabel = (s: CareerStation) => (s.current && s.company ? `${s.company} / ${s.era}` : s.era)
+export const getStation = (id: CareerStation['id']) => career.find((s) => s.id === id)!
+
+/** Earlier research roles — kept in the Index, not on the film's career line. */
+export const earlierRoles: EarlierRole[] = [
+  {
+    role: 'Research engineer',
+    company: 'Polytech Nantes / IETR',
+    period: '2020',
+    location: 'Nantes',
+    summary: 'Embedded security: RSA on an STM32 microcontroller, analysed through side channels.',
+    codeUrl: 'https://github.com/BogdanGorelkin/RSA-SCA',
+  },
+  {
+    role: 'Research student',
+    company: 'TUSUR lab',
+    period: '2018 — 2019',
+    location: 'Tomsk',
+    summary: 'NB-IoT channel modelling (3GPP) for low-data telemetry devices.',
+    codeUrl: 'https://github.com/BogdanGorelkin/NB-IoT-Downlink-Physical-Layer-Design',
+  },
+]

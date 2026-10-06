@@ -6,13 +6,15 @@ import { emphasise, fadeIn, fadeOut, linesIn } from '../lib/motion'
 
 /** Local-progress windows in which each layer is "under the lens" (see shots.ts, t 2.18–3.0). */
 const LAYER_WINDOWS: [number, number][] = [
-  [0.12, 0.38],
-  [0.38, 0.6],
-  [0.6, 0.82],
-  [0.82, 1],
+  [0.1, 0.3],
+  [0.3, 0.42],
+  [0.42, 0.6],
+  [0.6, 0.78],
+  [0.78, 0.9],
+  [0.9, 1],
 ]
 
-/** 2 — System. One stream becomes many; the camera flies through the stack. */
+/** 2 — From sensor to experience. The camera flies through the stack Bogdan builds end to end. */
 export function DataChapter() {
   const c = copy.data
   const project = getProject(c.projectId)

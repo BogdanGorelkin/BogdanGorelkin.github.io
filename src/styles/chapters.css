@@ -185,6 +185,30 @@
   animation-delay: 3.2s;
 }
 
+/* "Human. Hardware. Software." — and, set against it, the quieter line. */
+.statement-tail {
+  font-size: clamp(1.4rem, 2.6vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.1;
+  max-width: 16ch;
+  color: var(--ink);
+}
+.is-cinematic .statement-tail {
+  position: absolute;
+  right: var(--gutter);
+  bottom: calc(var(--gutter) * 1.5 + 5.6rem);
+  text-align: right;
+  opacity: 0;
+  translate: 0 0.6em;
+  transition:
+    opacity 1.2s var(--ease-out) 0.9s,
+    translate 1.2s var(--ease-out) 0.9s;
+}
+.is-cinematic .statement-tail.is-revealed {
+  opacity: 1;
+  translate: 0 0;
+}
+
 /* The opening statement reveals on a timer / first scroll via `translate`,
    leaving `transform` free for the scrubbed exit. */
 .is-cinematic .chapter--signal .statement {
@@ -316,12 +340,14 @@
 /* Soft scrim behind text blocks that sit over busy 3D. */
 .is-cinematic .case,
 .is-cinematic .field-notes,
-.is-cinematic .stations {
+.is-cinematic .medtech__copy,
+.is-cinematic .research__copy {
   isolation: isolate;
 }
 .is-cinematic .case::before,
 .is-cinematic .field-notes::before,
-.is-cinematic .stations::before {
+.is-cinematic .medtech__copy::before,
+.is-cinematic .research__copy::before {
   content: '';
   position: absolute;
   inset: -4rem -5rem;
@@ -381,81 +407,57 @@
 .field-list .pending {
   text-align: right;
 }
+.field-list__what {
+  display: grid;
+  gap: 0.15rem;
+}
+.field-list__caption {
+  color: var(--ink-3);
+  text-transform: none;
+  letter-spacing: 0.03em;
+}
+.is-cinematic .chapter--field .statement {
+  font-size: var(--fs-headline-l);
+}
 
-/* ── 5 Career ──────────────────────────────────────────────────────────── */
+/* ── Today / Scale / Before: shared bits ──────────────────────────────── */
+
+.station-meta {
+  color: var(--ink-3);
+}
+.deep-dive {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.4rem;
+}
+.deep-dive a {
+  color: var(--ink-2);
+}
+.player__copy,
+.medtech__copy,
+.research__copy {
+  display: grid;
+  gap: 1rem;
+  max-width: 42rem;
+}
+.research-earlier {
+  color: var(--ink-3);
+  max-width: 52ch;
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+/* ── Rewind ────────────────────────────────────────────────────────────── */
 
 .reveal-block {
   display: grid;
   gap: 1.4rem;
 }
+.is-cinematic .reveal-block {
+  bottom: calc(var(--gutter) * 1.5 + 4.5rem);
+}
 .reveal-caption {
   max-width: 34ch;
-}
-
-.stations {
-  display: grid;
-  gap: 3rem;
-}
-.is-cinematic .stations {
-  bottom: calc(var(--gutter) * 1.5 + 3.5rem);
-}
-.is-cinematic .stations > .station {
-  grid-area: 1 / 1;
-  align-self: end;
-}
-.station {
-  display: grid;
-  gap: 0.9rem;
-  width: min(36rem, calc(100vw - var(--gutter) * 2));
-}
-.station__index {
-  color: var(--ink-3);
-}
-.station__now {
-  color: var(--ink-2);
-}
-.station__where {
-  color: var(--ink-3);
-  margin-top: -0.4rem;
-}
-.station__links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem 1.4rem;
-}
-.station__links a {
-  color: var(--ink-2);
-}
-.station__era {
-  font-size: var(--fs-headline-l);
-  font-weight: 600;
-  font-stretch: var(--stretch-display);
-  text-transform: uppercase;
-  line-height: 0.9;
-}
-.station__facts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  border-top: 1px solid var(--line);
-  padding-top: 0.8rem;
-}
-.station__facts dt {
-  color: var(--ink-3);
-}
-.station__summary {
-  color: var(--ink-2);
-  max-width: 40ch;
-}
-.station__highlights {
-  display: grid;
-  gap: 0.25rem;
-  color: var(--ink-2);
-  font-size: 0.95em;
-}
-.station__highlights li::before {
-  content: '— ';
-  color: var(--ink-3);
 }
 
 .rail {
@@ -472,24 +474,67 @@
   bottom: calc(var(--gutter) * 1.5);
 }
 .rail li {
+  display: grid;
+  gap: 0.1rem;
   white-space: nowrap;
+  color: var(--ink-2);
+}
+.rail li.is-current {
+  color: var(--ink);
+}
+.rail__theme {
+  color: var(--ink-3);
+}
+
+/* ── The pattern ───────────────────────────────────────────────────────── */
+
+.pattern__copy {
+  display: grid;
+  gap: 1.2rem;
+}
+.headline--payoff {
+  font-size: var(--fs-headline-l);
+  font-stretch: 100%;
+  line-height: 0.95;
+}
+.pattern-words {
+  display: grid;
+  gap: 0.2rem;
+  font-weight: 600;
+  font-stretch: var(--stretch-display);
+  text-transform: uppercase;
+  font-size: var(--fs-headline-m);
+  line-height: 1;
+}
+.pattern-eras {
+  color: var(--ink-3);
+}
+@media (min-width: 769px) {
+  /* Desktop pins these to the threads and stations in 3D; keep them for screen readers. */
+  .is-cinematic .pattern-words,
+  .is-cinematic .pattern-eras {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+@media (max-width: 768px) {
+  .is-cinematic .pattern-words {
+    position: absolute;
+    left: var(--gutter);
+    top: 50%;
+  }
 }
 
 @media (max-width: 768px) {
-  .station__facts {
-    grid-template-columns: 1fr;
-    gap: 0.3rem;
-  }
-  .station__facts > div {
-    display: flex;
-    gap: 1rem;
-  }
-  .station__facts dt {
-    min-width: 6rem;
-  }
   .rail {
     font-size: 9px;
     letter-spacing: 0.06em;
+  }
+  .rail__theme {
+    display: none;
   }
 }
 
@@ -542,13 +587,15 @@
   .is-cinematic .chapter--field .field-notes {
     width: auto;
   }
-  /* Keep station panels short enough to sit above the rail on phones. */
-  .is-cinematic .station__highlights {
-    display: none;
-  }
   /* The identity row wraps to three lines on phones; lift the statement above it. */
   .is-cinematic .chapter--signal .statement {
-    bottom: calc(var(--gutter) * 1.5 + 9rem);
+    bottom: calc(var(--gutter) * 1.5 + 12rem);
+  }
+  .is-cinematic .statement-tail {
+    left: var(--gutter);
+    right: auto;
+    text-align: left;
+    bottom: calc(var(--gutter) * 1.5 + 8.6rem);
   }
   .is-cinematic .case .tags,
   .is-cinematic .field-caption {

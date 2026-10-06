@@ -72,6 +72,9 @@
 .index__thesis {
   color: var(--ink) !important;
 }
+.index__across {
+  color: var(--ink-3) !important;
+}
 
 .index__list {
   display: grid;

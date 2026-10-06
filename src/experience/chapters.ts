@@ -4,7 +4,18 @@
  * length (in svh) sets the pacing; 3D choreography is keyed to storyTime, so
  * heights can change without retuning the camera.
  */
-export type ChapterId = 'signal' | 'neural' | 'data' | 'screen' | 'field' | 'timeline' | 'contact'
+export type ChapterId =
+  | 'signal'
+  | 'neural'
+  | 'data'
+  | 'player'
+  | 'screen'
+  | 'field'
+  | 'reveal'
+  | 'medtech'
+  | 'research'
+  | 'pattern'
+  | 'contact'
 
 export type Chapter = {
   id: ChapterId
@@ -21,13 +32,17 @@ export type Chapter = {
 }
 
 export const CHAPTERS: readonly Chapter[] = [
-  { id: 'signal', label: 'Signal', length: { desktop: 240, mobile: 210 }, anchorT: 0, keyT: 0.05 },
-  { id: 'neural', label: 'Human', length: { desktop: 240, mobile: 210 }, anchorT: 0.6, keyT: 0.62 },
-  { id: 'data', label: 'System', length: { desktop: 300, mobile: 250 }, anchorT: 0.5, keyT: 0.55 },
-  { id: 'screen', label: 'Work', length: { desktop: 320, mobile: 260 }, anchorT: 0.66, keyT: 0.8, hash: 'work' },
-  { id: 'field', label: 'Field', length: { desktop: 260, mobile: 220 }, anchorT: 0.5, keyT: 0.5 },
-  { id: 'timeline', label: 'Career', length: { desktop: 660, mobile: 560 }, anchorT: 0.36, keyT: 0.18, hash: 'experience' },
-  { id: 'contact', label: 'Contact', length: { desktop: 260, mobile: 240 }, anchorT: 0.7, keyT: 0.7, hash: 'contact' },
+  { id: 'signal', label: 'Signal', length: { desktop: 200, mobile: 180 }, anchorT: 0, keyT: 0.05 },
+  { id: 'neural', label: 'Today', length: { desktop: 220, mobile: 190 }, anchorT: 0.62, keyT: 0.62, hash: 'work' },
+  { id: 'data', label: 'System', length: { desktop: 260, mobile: 220 }, anchorT: 0.5, keyT: 0.55 },
+  { id: 'player', label: 'Scale', length: { desktop: 200, mobile: 180 }, anchorT: 0.5, keyT: 0.5 },
+  { id: 'screen', label: 'Hackathon', length: { desktop: 300, mobile: 250 }, anchorT: 0.66, keyT: 0.8 },
+  { id: 'field', label: 'Field', length: { desktop: 280, mobile: 240 }, anchorT: 0.7, keyT: 0.9 },
+  { id: 'reveal', label: 'Rewind', length: { desktop: 220, mobile: 190 }, anchorT: 0.32, keyT: 0.32, hash: 'experience' },
+  { id: 'medtech', label: 'MedTech', length: { desktop: 240, mobile: 210 }, anchorT: 0.45, keyT: 0.45 },
+  { id: 'research', label: 'Research', length: { desktop: 240, mobile: 210 }, anchorT: 0.45, keyT: 0.45 },
+  { id: 'pattern', label: 'Pattern', length: { desktop: 240, mobile: 210 }, anchorT: 0.55, keyT: 0.55 },
+  { id: 'contact', label: 'Contact', length: { desktop: 240, mobile: 220 }, anchorT: 0.7, keyT: 0.7, hash: 'contact' },
 ]
 
 export const STORY_END = CHAPTERS.length

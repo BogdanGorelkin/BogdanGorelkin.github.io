@@ -4,9 +4,22 @@ Personal portfolio of **Bogdan Gorelkin**, a full-stack / product engineer in Pa
 
 It is built as one continuous, scroll-driven film rather than a stack of sections:
 
-> **Human → Signal → Software → Physical world → Career**
+> **The technology changed. The pattern didn't.**
+> Software that has to work with people and physical devices — human, hardware, software.
 
-A live EEG-like trace leads the visitor into an abstract head, then through a multi-device data system and out through a screen into a physical room. From there it moves to field tests. At the career stage the camera pulls back to reveal that the whole journey was one station on a larger career line. The film closes on a single calm line and a question.
+| # | Chapter | Beat |
+|---|---|---|
+| 0 | Signal | *Human. Hardware. Software. I like the space between them.* A live trace on a dark screen turns out to have depth. |
+| 1 | Today | HABS: systems around connected human signals (head, headband, annotations). |
+| 2 | System | From sensor to experience: fly through devices → BLE → mobile → backend → realtime → experience. |
+| 3 | Scale | HABS Player: the same screen becomes a grid of experiments. *Build once. Run many experiments.* |
+| 4 | Hackathon | Microsoft Hackathon, Copenhagen 2026, Crowd Award: push *through* the screen into a reacting room. |
+| 5 | Field | *If I build it, I want to know how it behaves outside the lab.* Real media planes. |
+| 6 | Rewind | Pull back: *But this didn't start with EEG.* Today's journey is one station; travel backwards. |
+| 7 | MedTech | Remote care: patient, diagnostic devices, a remote doctor (TemmaCare). |
+| 8 | Research | Programmable matter: modules reconfigure while a sync pulse spreads (Inria & Femto-ST). |
+| 9 | Pattern | Three threads (human, hardware, software) run through every station. |
+| 10 | Contact | The opening line again, calm: *What should we build next?* |
 
 Recruiters don't have to sit through the film. The persistent nav (**Work / Experience / CV / Contact**) jumps straight to readable content, and a plain-HTML **Index** ("The short version") after the film lists everything.
 
@@ -36,8 +49,8 @@ pnpm typecheck   # type-check only
 src/
   data/          ← edit content here
     profile.ts     identity, summary, photo, grouped capabilities, education, languages, links, CV path
-    projects.ts    case studies (+ media, signal flow, links) and field tests; case numbers follow array order
-    experience.ts  career stations: Research → Robotics → MedTech → HABS / NeuroTech → What's next
+    projects.ts    stories (teaser media + deep-dive URLs + publicSafe/featured), field tests, documentary moments
+    experience.ts  career stations: Research → MedTech → HABS → Next, plus earlier research roles (Index only)
     copy.ts        narrative lines for each chapter (headlines, captions)
     types.ts       content types (Project, MediaAsset, CareerStation, …)
   experience/    ← the cinematic engine
@@ -51,7 +64,7 @@ src/
     SpatialLabels.tsx  DOM labels pinned to 3D points
     quality.ts     device tiers (desktop / mobile)
     navigation.ts  hash links, nav fast-travel
-  scenes/        ← R3F environments (Signal, Neural, Data, Screen+Room, Field, Timeline, Atmosphere)
+  scenes/        ← R3F environments (Signal, Neural, Data, Screen+Player+Room, Field, Timeline, MedTech, Research, Pattern, Atmosphere)
     world.ts       world layout constants shared by scenes and shots
     shared/        SignalLine (EEG ribbon shader), MediaPlane, StreamParticles, materials, geometry
   chapters/      ← DOM layer: one component per chapter + the plain Index section
@@ -66,7 +79,7 @@ Optional fields that are left empty in `src/data` render as an explicit **"To be
 ## How the cinematic scroll works
 
 ```text
-Lenis (smooth wheel) ─► ScrollTrigger ─► scrollStore.story.time   ("story clock", 0 … 7)
+Lenis (smooth wheel) ─► ScrollTrigger ─► scrollStore.story.time   ("story clock", 0 … 11)
                                               │
                ┌──────────────────────────────┴──────────────────────────────┐
                ▼                                                             ▼
@@ -132,6 +145,8 @@ Nothing beyond those two sources and the brief was invented. These items need a 
 - **Email:** the CV uses `b.k.gorelkin@gmail.com` and the old site used `b.gorelkin@yandex.com`. The site uses the CV address.
 - **The CV PDF includes a phone number.** It was already public on the old site. Decide whether that's still OK.
 - **`TODO: PUBLIC-SAFE CONTENT REVIEW`:** HABS wording in `projects.ts` (`habs-multi-device`) and `experience.ts` (`neurotech`) is deliberately generic. It has no device names, customers, data or architecture. Confirm it before publishing.
+- **Deep dives:** YouTube and LinkedIn URLs that are still `undefined` (marked `TODO` in `src/data`) are hidden in the UI. ASSETS.md lists every slot.
+- **Company name:** the brief said "Oxisphere", but both CVs say **AuxaSphere**, so the site uses AuxaSphere. Confirm.
 - **The "250 Hz" annotation was removed** because no public, device-specific source confirmed it.
 - **Production domain:** the old site used `gorelkin.vip`. The canonical and absolute OG URLs are left as a TODO in `index.html`.
 

@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { fieldTests } from '../data/projects'
+import { fieldTests, moments } from '../data/projects'
 import type { V3 } from './world'
 import { MediaPlane } from './shared/MediaPlane'
 import { createLineMaterial, fade } from './shared/materials'
@@ -20,7 +20,10 @@ const SLOTS: { pos: V3; height: number; rotY: number }[] = [
   { pos: [22, 2.0, -209], height: 4, rotY: -0.2 },
 ]
 
-/** Scene 4 — field tests: layered media in open space, warmer and less abstract. */
+/** Field tests first, then a documentary moment of Bogdan at the bench. */
+const PLANES = [...fieldTests.map((t) => ({ id: t.id, media: t.teaser })), { id: moments.bench.id, media: moments.bench.media }]
+
+/** Scene 5 — field tests: layered media in open space, warmer and less abstract. */
 export function FieldScene() {
   const horizon = useRef<THREE.LineSegments>(null)
   const { geometry, material } = useMemo(() => {
@@ -33,14 +36,14 @@ export function FieldScene() {
   return (
     <group>
       <lineSegments ref={horizon} geometry={geometry} material={material} />
-      {fieldTests.map((test, i) => {
+      {PLANES.map((plane, i) => {
         const slot = SLOTS[i % SLOTS.length]!
         const lap = Math.floor(i / SLOTS.length)
         const pos: V3 = [slot.pos[0] + lap * 26, slot.pos[1], slot.pos[2]]
         return (
           <MediaPlane
-            key={test.id}
-            asset={test.media}
+            key={plane.id}
+            asset={plane.media}
             height={slot.height}
             presence="field"
             position={pos}

@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { copy } from '../data/copy'
 import { career } from '../data/experience'
-import { annotationAnchor, stationLabelAnchor } from '../scenes/layout'
+import { annotationAnchor, MEDTECH, medtechWorld, stationLabelAnchor, threadLabelAnchor } from '../scenes/layout'
 import { CAREER, type V3 } from '../scenes/world'
 import { stage } from './director'
 
@@ -14,36 +14,65 @@ import { stage } from './director'
  */
 type Label = {
   id: string
-  kind: 'annotation' | 'station'
+  className: string
   position: V3
   opacity: () => number
-  /** Only shown when the camera is above this height — i.e. on aerial shots. */
+  /** Only shown when the camera is above this height — i.e. on wide shots. */
   minCameraY?: number
   lines: { text: string; className: string }[]
 }
 
+const twoLines = (key: string, value: string) => [
+  { text: key, className: 'annotation__key' },
+  { text: value, className: 'annotation__value' },
+]
+
 const LABELS: Label[] = [
   ...copy.neural.annotations.map((a, i) => ({
     id: `annotation-${i}`,
-    kind: 'annotation' as const,
+    className: 'annotation',
     position: annotationAnchor(i),
     opacity: () => stage.presence.annotations * stage.presence.neural,
-    lines: [
-      { text: a.key, className: 'annotation__key' },
-      { text: a.value, className: 'annotation__value' },
-    ],
+    lines: twoLines(a.key, a.value),
   })),
+  ...MEDTECH.devices.map((d, i) => ({
+    id: `device-${d.id}`,
+    className: 'annotation',
+    position: medtechWorld(d.pos, 1.4),
+    opacity: () => stage.presence.medtechLabels,
+    lines: twoLines(copy.medtech.devices[i] ?? d.id, 'Diagnostic device'),
+  })),
+  {
+    id: 'medtech-patient',
+    className: 'annotation',
+    position: medtechWorld(MEDTECH.head, 2.4),
+    opacity: () => stage.presence.medtechLabels,
+    lines: twoLines('Patient', 'At home'),
+  },
+  {
+    id: 'medtech-doctor',
+    className: 'annotation',
+    position: medtechWorld(MEDTECH.doctor, 3.6),
+    opacity: () => stage.presence.medtechLabels,
+    lines: twoLines('Doctor', 'Remote, live'),
+  },
   ...career.map((s, i) => ({
     id: `station-${s.id}`,
-    kind: 'station' as const,
+    className: 'station-label',
     position: stationLabelAnchor(CAREER.x[s.id]),
     opacity: () => stage.presence.career,
-    minCameraY: 90,
+    minCameraY: 60,
     lines: [
-      { text: String(i + 1).padStart(2, '0'), className: '' },
-      { text: s.era, className: 'station-label__era' },
-      ...(s.current ? [{ text: s.company ? `${s.company} — now` : 'Now', className: 'station-label__now' }] : []),
+      { text: `${String(i + 1).padStart(2, '0')} — ${s.era}${s.current ? ' · now' : ''}`, className: '' },
+      { text: s.theme, className: 'station-label__era' },
     ],
+  })),
+  ...copy.pattern.threads.map((word, i) => ({
+    id: `thread-${i}`,
+    className: 'thread-label',
+    position: threadLabelAnchor(i),
+    opacity: () => stage.presence.pattern,
+    lines: [{ text: word, className: '' }],
   })),
 ]
 
@@ -55,7 +84,7 @@ export function SpatialLabels() {
       {LABELS.map((l) => (
         <div
           key={l.id}
-          className={l.kind === 'annotation' ? 'annotation' : 'station-label'}
+          className={l.className}
           ref={(el) => {
             if (el) elements.set(l.id, el)
             else elements.delete(l.id)

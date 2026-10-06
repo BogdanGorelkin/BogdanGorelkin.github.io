@@ -15,9 +15,8 @@ const STATEMENT_DELAY = 5
  */
 export function SignalChapter() {
   useEffect(() => {
-    const el = document.getElementById('intro-statement')
-    if (!el) return
-    const reveal = () => el.classList.add('is-revealed')
+    const els = [document.getElementById('intro-statement'), document.getElementById('intro-tail')]
+    const reveal = () => els.forEach((el) => el?.classList.add('is-revealed'))
     const timer = window.setTimeout(reveal, STATEMENT_DELAY * 1000)
     window.addEventListener('scroll', reveal, { once: true, passive: true })
     return () => {
@@ -34,6 +33,7 @@ export function SignalChapter() {
         fadeOut(tl, q('.scroll-cue'), 0.02, 0.05)
         fadeOut(tl, q('.intro__id'), 0.2, 0.1)
         linesOut(tl, q('.statement .line__inner'), 0.84, 0.1)
+        fadeOut(tl, q('.statement-tail'), 0.82, 0.08)
       }}
     >
       <div className="intro__id">
@@ -47,6 +47,9 @@ export function SignalChapter() {
         <p className="mono intro__meta">{copy.signal.meta}</p>
       </div>
       <Headline id="intro-statement" lines={profile.statement} className="statement display" />
+      <p id="intro-tail" className="statement-tail">
+        {profile.statementTail}
+      </p>
       <p className="mono scroll-cue" aria-hidden="true">
         <span>{copy.signal.scrollCue}</span>
       </p>

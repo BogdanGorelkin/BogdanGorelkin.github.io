@@ -1,14 +1,15 @@
 import { Chapter } from '../components/Chapter'
+import { DeepDiveLinks } from '../components/DeepDiveLinks'
 import { Headline } from '../components/Headline'
 import { copy } from '../data/copy'
 import { caseLabel, getProject } from '../data/projects'
 import { fadeIn, fadeOut, linesIn, linesOut } from '../lib/motion'
 
-/** 3 — Software leaves the screen. The camera pushes through into a room. */
+/** 4 — Microsoft Hackathon: software leaves the screen. The camera pushes through into a room. */
 export function ScreenChapter() {
   const c = copy.screen
   const project = getProject(c.projectId)
-  const place = [project.location, project.year].filter(Boolean).join(' / ')
+  const place = [project.location, project.period].filter(Boolean).join(' / ')
   return (
     <Chapter
       id="screen"
@@ -40,12 +41,13 @@ export function ScreenChapter() {
             ))}
           </ol>
         )}
-        <p className="case__desc">{project.description ?? <span className="pending">Project details to be added.</span>}</p>
+        <p className="case__desc">{project.summary}</p>
         <ul className="mono tags">
           {project.tags.map((t) => (
             <li key={t}>{t}</li>
           ))}
         </ul>
+        <DeepDiveLinks item={project} />
       </article>
     </Chapter>
   )

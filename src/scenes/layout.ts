@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { CAREER, HEAD, type V3 } from './world'
+import { CAREER, HEAD, PATTERN, type V3 } from './world'
 
 /** Headband geometry around the abstract head, in head-local space. */
 export const BAND = (() => {
@@ -25,6 +25,31 @@ const head = new THREE.Vector3(...HEAD.center)
 /** World-space anchor of annotation `i`. */
 export const annotationAnchor = (i: number): V3 => BAND.anchors[i]!.clone().add(head).toArray() as V3
 
-export const PILLAR_TOP = 70
+/** Station names sit just under the career line. */
+export const stationLabelAnchor = (x: number): V3 => [x, CAREER.y - 16, CAREER.z]
 
-export const stationLabelAnchor = (x: number): V3 => [x, PILLAR_TOP + 4, CAREER.z]
+/** Thread names sit on top of each pattern thread, at its left end. */
+export const threadLabelAnchor = (i: number): V3 => [PATTERN.from + 6, PATTERN.y[i]!, CAREER.z]
+
+/**
+ * MedTech station, in local space around (CAREER.x.medtech, CAREER.y, CAREER.z)
+ * — the floor is y = 0. Human scale (≈ metres × 1.5) so it reads up close.
+ */
+export const MEDTECH = {
+  origin: [CAREER.x.medtech, CAREER.y, CAREER.z] as V3,
+  head: [0, 8.2, 0] as V3,
+  devices: [
+    { id: 'ecg', pos: [5.5, 5, 2.6] as V3 },
+    { id: 'ultrasound', pos: [-5.2, 3.6, 3.2] as V3 },
+    { id: 'spirometry', pos: [4.8, 2.4, -3.4] as V3 },
+    { id: 'dermatoscope', pos: [-4.6, 6.2, -2.2] as V3 },
+  ],
+  hub: [2.8, 1.4, 5.2] as V3,
+  doctor: [-24, 5.5, -8] as V3,
+}
+
+export const medtechWorld = (local: V3, lift = 0): V3 => [
+  MEDTECH.origin[0] + local[0],
+  MEDTECH.origin[1] + local[1] + lift,
+  MEDTECH.origin[2] + local[2],
+]

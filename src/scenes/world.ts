@@ -38,9 +38,15 @@ export const FIELD = { z: -205, x: 6 }
 export const CAREER = {
   z: -120,
   y: -10,
-  /** Station anchor X positions; NeuroTech sits on the journey itself. */
-  x: { research: -820, robotics: -600, medtech: -380, neurotech: 0, next: 260 } as const,
+  /** Station anchor X positions; the HABS station sits on the journey itself. */
+  x: { research: -560, medtech: -280, neurotech: 0, next: 260 } as const,
 }
+
+/**
+ * The payoff: three threads — human, hardware, software — running through
+ * every station on the career line (top to bottom, same order as copy).
+ */
+export const PATTERN = { from: -640, to: 330, y: [118, 84, 50] as const }
 
 /** The bookend: a calm signal line running through the "next" frame. */
 export const NEXT_LINE = { y: 0, z: -120, from: 200, to: 900 }

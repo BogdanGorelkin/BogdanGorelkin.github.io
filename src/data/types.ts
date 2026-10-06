@@ -1,7 +1,10 @@
 /**
  * Content types. Everything the site says about Bogdan lives in `src/data/*`.
- * Optional fields that are left `undefined` render as an explicit
- * "TO BE ADDED" placeholder instead of invented copy.
+ *
+ * The site works like a trailer: the film shows a short teaser per story,
+ * and deep-dive links (LinkedIn / YouTube / external) carry the long version.
+ * Missing URLs stay `undefined` (with a TODO in the data file) and simply
+ * don't render — no dead links, no placeholder text in the film.
  */
 
 /** Width / height, e.g. `16 / 9`. */
@@ -10,7 +13,7 @@ export type AspectRatio = number
 export type MediaAsset =
   | {
       kind: 'video'
-      /** Paths relative to `public/`, e.g. `/videos/hackathon-cph.mp4`. Provide at least one. */
+      /** Paths relative to `public/`, e.g. `/videos/hackathon-cph-teaser.mp4`. Provide at least one. */
       sources: { webm?: string; mp4?: string }
       poster?: string
       alt: string
@@ -20,41 +23,61 @@ export type MediaAsset =
   /** Procedural stand-in rendered at runtime until real media exists. */
   | { kind: 'placeholder'; label: string; alt: string; aspect: AspectRatio }
 
-export type Link = { label: string; href: string }
+/** External "long version" of a story. */
+export type DeepDive = {
+  linkedinUrl?: string
+  youtubeUrl?: string
+  externalUrl?: string
+  codeUrl?: string
+  /** Label for the YouTube / external link, e.g. "Watch the 2-minute film". */
+  deepDiveLabel?: string
+}
 
-export type Project = {
+/** 'review' = wording kept generic until confirmed safe to publish (current employer, clients…). */
+export type PublicSafety = 'public' | 'review'
+
+export type Project = DeepDive & {
   id: string
   title: string
   subtitle?: string
-  /** Event, organisation or programme the project belongs to. */
+  /** Organisation / event the work belongs to. */
   context?: string
-  year?: number
+  period?: string
   location?: string
   recognition?: string
-  description?: string
+  /** One or two sentences — the Index uses it; the film mostly doesn't. */
+  summary?: string
   /** Short signal chain shown as metadata, e.g. ['EEG', 'Game world', 'Light']. */
   flow?: string[]
   tags: string[]
-  media: MediaAsset[]
-  links?: Link[]
+  /** Short local loop / still used inside the film (5–15 s). */
+  teaser?: MediaAsset
+  publicSafe: PublicSafety
+  /** Listed under "Selected work" in the Index. */
+  featured: boolean
 }
 
-export type FieldTest = {
+export type FieldTest = DeepDive & {
   id: string
   title: string
+  caption?: string
+  period?: string
   location?: string
-  year?: number
-  description?: string
-  media: MediaAsset
-  links?: Link[]
+  teaser: MediaAsset
+  publicSafe: PublicSafety
 }
 
-export type CareerStationId = 'research' | 'robotics' | 'medtech' | 'neurotech' | 'next'
+/** Documentary moments of Bogdan at work — evidence, not portraits. */
+export type Moment = { id: string; caption: string; media: MediaAsset }
 
-export type CareerStation = {
+export type CareerStationId = 'research' | 'medtech' | 'neurotech' | 'next'
+
+export type CareerStation = DeepDive & {
   id: CareerStationId
-  /** Large label used on the timeline, e.g. "ROBOTICS". */
+  /** Short label on the career line, e.g. "MedTech". */
   era: string
+  /** What the work was about, in plain words, e.g. "Programmable matter". */
+  theme: string
   company?: string
   role?: string
   /** Free-form, e.g. "2021 — 2023". */
@@ -62,9 +85,11 @@ export type CareerStation = {
   location?: string
   summary?: string
   highlights: string[]
-  links?: Link[]
   current?: boolean
 }
+
+/** Earlier roles kept for the Index only. */
+export type EarlierRole = { role: string; company: string; period: string; location: string; summary: string; codeUrl?: string }
 
 export type ContactLinks = {
   email?: string
@@ -85,9 +110,13 @@ export type Profile = {
   role: string
   /** Opening statement, one entry per visual line. */
   statement: string[]
+  /** The line that follows the statement. */
+  statementTail: string
   thesis: string
   /** Two or three sentences for the recruiter Index. */
   summary: string
+  /** Areas of work for the Index, in plain words. */
+  worksAcross: string[]
   photo?: { src: string; alt: string }
   capabilities: CapabilityGroup[]
   education: Education[]

@@ -16,6 +16,7 @@ const vertexShader = /* glsl */ `
   uniform float uAmp;
   uniform float uCalm;
   uniform float uLength;
+  uniform float uWaveScale;
   uniform float uStep;
   uniform float uWidth;
   uniform vec2 uResolution;
@@ -28,7 +29,7 @@ const vertexShader = /* glsl */ `
   #include <fog_pars_vertex>
 
   float wave(float s) {
-    float x = s * uLength;
+    float x = s * uLength * uWaveScale;
     float t = uTime;
     float eeg = sin(x * 1.7 - t * 2.1) * 0.42
               + sin(x * 4.3 + t * 3.3) * 0.2
@@ -110,9 +111,11 @@ type Props = {
   intro?: boolean
   /** Follow `stage.calm` (the closing bookend). */
   calmable?: boolean
+  /** Wave frequency multiplier — < 1 for lines seen from very far away. */
+  waveScale?: number
 }
 
-export function SignalLine({ points, samples, presence, amplitude, intro, calmable }: Props) {
+export function SignalLine({ points, samples, presence, amplitude, intro, calmable, waveScale = 1 }: Props) {
   const group = useRef<THREE.Group>(null)
   const size = useThree((s) => s.size)
 
@@ -132,6 +135,7 @@ export function SignalLine({ points, samples, presence, amplitude, intro, calmab
       u.uAmp!.value = amplitude * (calmable ? 1 : stage.signalAmp)
       u.uCalm!.value = calm
       u.uLength!.value = length
+      u.uWaveScale!.value = waveScale
       u.uStep!.value = 1 / (samples - 1)
       u.uReveal!.value = reveal
       u.uOpacity!.value = base * p
@@ -161,6 +165,7 @@ function createRibbonMaterial(width: number, opacity: number, softness: number) 
         uAmp: { value: 0.3 },
         uCalm: { value: 0 },
         uLength: { value: 1 },
+        uWaveScale: { value: 1 },
         uStep: { value: 0.001 },
         uReveal: { value: 1 },
         uPulse: { value: 1 },

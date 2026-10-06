@@ -5,7 +5,10 @@ import { gsap } from '../lib/gsap'
 import { Atmosphere } from '../scenes/Atmosphere'
 import { DataScene } from '../scenes/DataScene'
 import { FieldScene } from '../scenes/FieldScene'
+import { MedTechScene } from '../scenes/MedTechScene'
 import { NeuralScene } from '../scenes/NeuralScene'
+import { PatternScene } from '../scenes/PatternScene'
+import { ResearchScene } from '../scenes/ResearchScene'
 import { ScreenScene } from '../scenes/ScreenScene'
 import { SignalScene } from '../scenes/SignalScene'
 import { TimelineScene } from '../scenes/TimelineScene'
@@ -68,6 +71,9 @@ export default function Experience({ reducedMotion }: { reducedMotion: boolean }
           <ScreenScene />
           <FieldScene />
           <TimelineScene />
+          <MedTechScene />
+          <ResearchScene />
+          <PatternScene />
           {quality.spatialLabels && <LabelProjector />}
         </ExperienceContext.Provider>
       </Canvas>

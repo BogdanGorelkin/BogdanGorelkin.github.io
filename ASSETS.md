@@ -22,8 +22,8 @@ These were migrated from the previous site (`BogdanGorelkin.github.io`).
 | File | Source | Used in |
 |---|---|---|
 | `public/cv/bogdan-gorelkin-cv-en.pdf` | `documents/CV/CV_Bogdan_Gorelkin_EN.pdf` (June 2026) | Nav "CV", contact chapter, Index, noscript. **It contains a phone number.** |
-| `public/images/profile/bogdan-bench.webp` (720×960) | `images/about.jpg`, resized | Index → Profile (shown desaturated) |
-| `public/images/field/esp8266-lamp-prototype.webp` (1920×1080) | `images/projects/esp8266-led.png`, video letterbox cropped | Field scene hero plane: `fieldTests[0]` |
+| `public/images/profile/bogdan-bench.webp` (720×960) | `images/about.jpg`, resized | Index → Profile, and `moments.bench` in the Field scene |
+| `public/images/field/esp8266-lamp-prototype.webp` (1920×1080) | `images/projects/esp8266-led.png`, video letterbox cropped | Field scene hero plane: `fieldTests[0].teaser` |
 | `public/og-image.jpg` (1200×630) | Rendered from the site's opening frame | `og:image` / `twitter:image` |
 | `public/favicon.svg` | New | Favicon |
 
@@ -33,57 +33,87 @@ These were migrated from the previous site (`BogdanGorelkin.github.io`).
 |---|---|---|
 | `images/me2.jpg`, `images/Снимок.JPG` | Obsolete | Too small (274×324, 127×100) |
 | `favicon.png` (round portrait) | Obsolete | A photo favicon doesn't fit the new identity |
-| `images/projects/MRTP.png`, `Movable.gif` | Maybe | Real modular-robot simulation renders, but low-res. The robotics station links to the GitHub repo and video instead |
+| `images/projects/MRTP.png`, `Movable.gif` | Maybe | Real modular-robot simulation renders, but low-res. The research chapter links to the GitHub repo and video instead |
 | `images/projects/stm32f070rb.jpg`, `nucleo.jpg`, `pyBoard.jpg` | Obsolete | Vendor pinout and stock-style board images |
 | Coursework images (PCA, QGIS, Dataiku, ARX, gender, queens…) | Obsolete | Coursework, not the current story |
 | `images/programming_skils/*` | Obsolete | Logo cloud |
 | `images/supervisors/*`, `documents/recommendations/*`, `documents/diploma/*` | Obsolete | Other people's photos, letters and diplomas don't belong on the public site |
 | `documents/CV/CV_Bogdan_Gorelkin_FR.pdf` | Needs replacement | Outdated: still lists AuxaSphere as the current job |
 
+## Cinematic assets vs deep-dive links
+
+The site works like a trailer:
+
+- **Cinematic assets** are short local files played inside the film. They're set through `teaser` (or `media` on moments) in `src/data/projects.ts`, and live in `public/videos/` and `public/images/`.
+- **Deep-dive links** carry the long version on LinkedIn or YouTube. They're set through `linkedinUrl`, `youtubeUrl`, `externalUrl` and `deepDiveLabel` on the same entries.
+- **A link left `undefined` (marked `TODO`) doesn't render.** Fill in the URL and it appears in the film and in the Index.
+- **Embeds:** none. LinkedIn and YouTube are plain external links only.
+
 ## REAL ASSETS STILL NEEDED
 
-Listed in order of impact.
+Listed in order of impact on the story.
 
-### 1. Microsoft Hackathon hero video (Scene 3, the room's back wall)
+### 1. Microsoft Hackathon (chapter "Software leaves the screen")
 
-- **Goes to:** `projects.ts` → `eeg-hackathon-cph` → `media[0]`, files at `public/videos/hackathon-cph.webm`, `.mp4` and `public/images/hackathon-cph-poster.jpg`.
-- **Format:** horizontal 16:9, ideally 1920×1080 (1280×720 is fine), 8–20 s muted loop.
-- **Should show the chain in one shot if possible:** someone wearing the EEG headset, then the game reacting, then the LEDs or controller responding. Real environment, people, light.
-- **Avoid:** UI chrome, screen recordings of IDEs, faces of people who haven't agreed to be shown.
-- **Bonus:** one still of the Crowd Award moment (16:9 or 3:2).
+| What | Spec | Goes to |
+|---|---|---|
+| Cinematic teaser | Horizontal 16:9, 1280×720–1920×1080, **5–15 s** muted loop. Should show the chain in one take: the EEG headset on a person, the game reacting, then the LEDs or controller responding. No UI chrome. WebM + MP4, under 6 MB, with a poster JPG. | `public/videos/hackathon-cph-teaser.{webm,mp4}`, `public/images/hackathon-cph-poster.jpg` → `projects.ts` → `eeg-hackathon-cph.teaser` |
+| Original film | **The 2-minute video** itself. You host it, unlisted on YouTube. | `eeg-hackathon-cph.youtubeUrl` (the link label is "Watch the 2-minute film") |
+| LinkedIn post | URL, optional | `eeg-hackathon-cph.linkedinUrl` |
+| Documentary still | Bogdan building or presenting at the hackathon, 4:5 portrait | `public/images/moments/bogdan-hackathon.webp` → `moments.hackathon.media` (shown on the room's side wall) |
 
-### 2. Field: skydiving experiment (Field scene, second plane)
+### 2. HABS Player (chapter "Build once. Run many experiments.")
 
-- **Goes to:** `fieldTests` → `skydiving` → `media`, at `public/images/field/skydiving.avif` (or `public/videos/field-skydiving.*`).
-- **Format:** portrait 4:5, or a 5–10 s vertical loop.
-- **Should show:** the device or test setup in context, so it reads as an experiment rather than a holiday photo. Add one line of description: what was measured and why.
+| What | Spec | Goes to |
+|---|---|---|
+| UI or workflow teaser | 16:9 screen recording, **5–12 s**, cropped to the product UI (no OS chrome), or one clean screenshot. It plays on the big screen itself, replacing the procedural grid. | `public/videos/habs-player-teaser.*` → `projects.ts` → `habs-player.teaser` |
+| LinkedIn deep dive | URL | `habs-player.linkedinUrl` |
+| Clearance | Public-safe review of the name and description (`publicSafe: 'review'`) | — |
 
-### 3. Field: motorcycle / mobile testing
+### 3. Skydive with a headband (Field tests)
 
-- **Goes to:** `fieldTests` → `motorcycle` → `media`.
-- **Format:** landscape 3:2.
-- **Should show:** the hardware mounted or worn while moving, ideally with a phone or app visible. Add one line of description.
+| What | Spec | Goes to |
+|---|---|---|
+| Cinematic teaser | Portrait 4:5, a **5–10 s** clip (or a strong photo). The headband or app should be visible in freefall. | `public/videos/field-skydive.*` or `public/images/field/skydive.webp` → `fieldTests` → `skydive.teaser` |
+| Original footage | Kept by you, for the LinkedIn post | — |
+| LinkedIn post | URL | `skydive.linkedinUrl` |
+| Caption | One line: what was tested | `skydive.caption` |
 
-### 4. Field: hackathon floor, Copenhagen 2026
+### 4. Moto EEG — Paris (Field tests)
 
-- **Goes to:** `fieldTests` → `hackathon-floor` → `media`.
-- **Format:** square 1:1 (or 4:5).
-- **Should show:** building or debugging on site, with hardware on the table. A different moment from the hero video.
+| What | Spec | Goes to |
+|---|---|---|
+| Photo or clip | Landscape 3:2, photo or **5–10 s** clip, with the EEG headset visible on the rider | `public/images/field/moto-paris.webp` → `fieldTests` → `moto-paris.teaser` |
+| LinkedIn post | URL | `moto-paris.linkedinUrl` |
 
-### 5. HABS / multi-device system (Scene 2 + Index)
+### 5. TemmaCare / MedTech (chapter "Remote care")
 
-- **Goes to:** `projects.ts` → `habs-multi-device` → `media[0]`. Not rendered in the film yet; the system scene is procedural.
-- **Format:** 16:9, still or loop.
-- **Should show:** several headsets streaming at once, or a realtime visualisation.
-- **Needs public-safe clearance first** (see README → content notes). Avoid customer names, unreleased hardware, internal dashboards and datasets.
+| What | Spec | Goes to |
+|---|---|---|
+| Device photos | The diagnostic peripherals: ECG, ultrasound probe, spirometer, dermatoscope. 1:1 or 4:5, plain background | `public/images/medtech/*` (one can replace the "Remote doctor" plane) |
+| UI screenshot | Doctor's view during a remote examination, 16:10, **public material only** | `projects.ts` → `temmacare.teaser` (shown as the remote-doctor screen) |
 
-### 6. TemmaCare (MedTech station / Index)
+### 6. Research / programmable matter (chapter "Before products…")
 
-- **Status:** optional. A public product shot of the app with a diagnostic device, 16:9, only if TemmaCare / AuxaSphere material is public.
+| What | Spec | Goes to |
+|---|---|---|
+| Photos or video | Real modules, simulation recordings (VisibleSim), lab shots. 16:9, 5–15 s | `public/videos/research-*.mp4`. The scene is procedural today; ask to add a plane |
+| Links | Publication, presentation, or other repositories if public. Boosted-MRTP code and the simulation video are already linked. | `experience.ts` → `research.externalUrl` (or `codeUrl` / `youtubeUrl`) |
 
-### 7. Social / OG image (optional)
+### 7. Bogdan: documentary photos
 
-- **Status:** `public/og-image.jpg` is a frame of the site itself and is good enough to launch. Replace it if you want a different preview.
+Evidence of real work, not portraits. Each one should be 4:5 or 3:2, 1600–2000 px, WebP or AVIF.
+
+- **With hardware / at the bench.** One exists: `public/images/profile/bogdan-bench.webp`, used in the Field scene and the Index. A newer one would be welcome.
+- **At the Microsoft Hackathon** → `moments.hackathon` (placeholder in the room today).
+- **With a headband** → `moments.headband` (slot ready, not placed in the film yet).
+- **In a lab or workshop.**
+- **During a field test** (skydive, moto).
+
+### Also open
+
+- **HABS systems teaser** (`habs-systems.teaser`): several devices in use, 16:9. Needs public-safe clearance.
+- **Social / OG image:** `public/og-image.jpg` is a frame of the opening. Re-render it after any copy change to the intro.
 
 ## Encoding guidance
 
