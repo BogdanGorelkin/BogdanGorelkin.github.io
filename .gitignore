@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 # temporary review package (disposable)
 .portfolio-review/
+
+# temporary UI diagnostic package (disposable)
+.ui-review/

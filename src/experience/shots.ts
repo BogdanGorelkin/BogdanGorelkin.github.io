@@ -29,8 +29,9 @@ export const SHOTS: Shot[] = [
   // ── 1 HUMAN — follow the signal to its source; push in for the annotations.
   { t: 1.3, pos: [13, 3.2, -24], look: [H[0], H[1] + 0.6, H[2]], fov: 34, ease: 'silk', mobile: { pos: [16, 3.6, -20] } },
   // Frame the chain: head + headband, the wireless link, the phone.
-  { t: 1.6, pos: [12.5, 3, -26], look: [1.6, 0.2, -42], fov: 34, mobile: { pos: [14, 7, -12], look: [2.4, -6, -42] } },
-  { t: 1.72, pos: [12.2, 3, -26.4], look: [1.6, 0.2, -42], fov: 34, mobile: { pos: [13.8, 7, -12.4], look: [2.4, -6, -42] } },
+  // Slightly above eye level, so the headband reads as a ring around the head.
+  { t: 1.6, pos: [12.5, 7.2, -25], look: [-0.6, 0.4, -41.0], fov: 34, mobile: { pos: [14, 7, -12], look: [2.4, -6, -42] } },
+  { t: 1.72, pos: [12.2, 7.2, -25.4], look: [-0.6, 0.4, -41.0], fov: 34, mobile: { pos: [13.8, 7, -12.4], look: [2.4, -6, -42] } },
   // Swing behind the phone and look down the stream it sends.
   { t: 2.0, pos: [8.5, 2.6, -36.5], look: [4, 0.2, -52], fov: 40 },
 
@@ -38,16 +39,19 @@ export const SHOTS: Shot[] = [
   { t: 2.18, pos: [6, 1.5, -47], look: [2, 0, -72], fov: 44 },
   { t: 2.42, pos: [3, 0.9, -63], look: [0.5, 0, -96], fov: 46 },
   { t: 2.64, pos: [0.9, 0.5, -86], look: [0, 0, -104], fov: 46 },
-  { t: 2.84, pos: [0, 0.2, -104], look: [0, 0, -130], fov: 50 },
-  { t: 3.0, pos: [0, 0.2, -120], look: [0, 0, SCREEN.z], fov: 42, mobile: { pos: [0, 0.2, -114] } },
+  // Out of the gate, the camera eases off over half a chapter rather than braking at the
+  // boundary: speed, FOV and the drift toward the product slot all resolve across 2.84 → 3.32.
+  { t: 2.84, pos: [0, 0.2, -102], look: [0, 0, -130], fov: 50 },
+  { t: 2.98, pos: [-0.5, 0.25, -112.5], look: [-0.2, 0, SCREEN.z], fov: 46, mobile: { pos: [0.4, 0.2, -108], look: [0.8, -0.6, SCREEN.z] } },
+  { t: 3.12, pos: [-2.1, 0.33, -119], look: [-0.45, 0, SCREEN.z], fov: 43, mobile: { pos: [2, 0.25, -116.5], look: [2.4, -1.6, SCREEN.z] } },
 
   // ── 3 SCALE (HABS Player) — hold on the screen while it becomes a grid of experiments.
   // Frame the product slot (right half of the screen) with room for the copy on the left.
-  { t: 3.25, pos: [-3.4, 0.4, -122], look: [-0.6, 0, SCREEN.z], fov: 42, ease: 'silk', mobile: { pos: [3.2, 0.3, -122], look: [3.2, -2.2, SCREEN.z] } },
-  { t: 3.75, pos: [-2.8, 0.35, -123.5], look: [-0.6, 0, SCREEN.z], fov: 42, mobile: { pos: [3.2, 0.3, -123], look: [3.2, -2.2, SCREEN.z] } },
+  { t: 3.32, pos: [-3.4, 0.4, -122], look: [-0.6, 0, SCREEN.z], fov: 42, ease: 'silk', mobile: { pos: [3.2, 0.3, -122], look: [3.2, -3.1, SCREEN.z] } },
+  { t: 3.75, pos: [-2.8, 0.35, -123.5], look: [-0.6, 0, SCREEN.z], fov: 42, mobile: { pos: [3.2, 0.3, -123], look: [3.2, -3.1, SCREEN.z] } },
   { t: 4.0, pos: [0, 0.1, -127], look: [0, 0, SCREEN.z], fov: 42, mobile: { pos: [0, 0.1, -122] } },
 
-  // ── 4 SOFTWARE LEAVES THE SCREEN — push straight through the screen into a room.
+  // ── 4 FROM SIGNAL TO ENVIRONMENT — push straight through the screen into a room.
   { t: 4.2, pos: [0, 0.1, -129], look: [0, 0, SCREEN.z], fov: 42, ease: 'silk', mobile: { pos: [0, 0.1, -124] } },
   { t: 4.46, pos: [0, 0.3, -144], look: [0, 0.4, -172], fov: 54 },
   { t: 4.7, pos: [-5.2, 2.0, -150], look: [0, 0.6, -180], fov: 46 },
@@ -55,15 +59,17 @@ export const SHOTS: Shot[] = [
   { t: 4.86, pos: [0.6, 0.9, -164.2], look: [0.6, 0.8, -182.5], fov: 42, ease: 'silk', mobile: { pos: [0, 0.8, -158], look: [0, 3.4, -182.5] } },
   { t: 4.96, pos: [0.6, 0.9, -164.7], look: [0.6, 0.8, -182.5], fov: 42, mobile: { pos: [0, 0.8, -158.5], look: [0, 3.4, -182.5] } },
 
-  // ── 5 FIELD — a lateral dolly across layered media for real parallax.
+  // ── 5 FIELD — Paris at street level, then up and into the skydive.
   { t: 5.18, pos: [-4, 1.4, -186], look: [0, 1, -214], fov: 42 },
-  // Settle on the Paris ride (FieldScene slot 2)…
-  { t: 5.48, pos: [-1.5, 2.1, -206], look: [-2.5, 1.9, -222], fov: 40, ease: 'silk', mobile: { pos: [0, 2.2, -208], look: [0, 1.6, -222] } },
-  { t: 5.62, pos: [-1.1, 2.1, -206.5], look: [-2.2, 1.9, -222], fov: 40, mobile: { pos: [0.3, 2.2, -208.5], look: [0.3, 1.6, -222] } },
-  // …then on to the skydive (slot 0).
-  // Come to rest on the hero plane (FieldScene slot 0), framed right of the notes.
-  { t: 5.86, pos: [10.5, 1.4, -198], look: [10.5, 1.3, -213], fov: 40, ease: 'silk', mobile: { pos: [14.5, 1.3, -200], look: [14.5, 1.1, -213] } },
-  { t: 5.96, pos: [10.5, 1.4, -198], look: [10.5, 1.3, -213], fov: 40, mobile: { pos: [14.5, 1.3, -200], look: [14.5, 1.1, -213] } },
+  // Settle on the Paris ride (street level, FieldScene FIELD_PLANES[0])…
+  { t: 5.48, pos: [-1.6, 2.1, -206], look: [-3.3, 2.5, -222], fov: 40, ease: 'silk', mobile: { pos: [0, 2.2, -208], look: [0, 1.6, -222] } },
+  { t: 5.62, pos: [-1.2, 2.1, -206.5], look: [-3, 2.5, -222], fov: 40, mobile: { pos: [0.3, 2.2, -208.5], look: [0.3, 1.6, -222] } },
+  // …then slide past the Paris window (it leaves the frame on the left) and rise,
+  // the ground line dropping away, into the open depth where the skydive waits.
+  { t: 5.74, pos: [3.5, 4.2, -219], look: [10, 6.5, -240], fov: 42 },
+  // Rest on the skydive: larger, frameless, right of the copy.
+  { t: 5.86, pos: [9, 6.6, -228], look: [9.2, 6.6, -246], fov: 40, ease: 'silk', mobile: { pos: [12.5, 6.8, -233], look: [13, 5.4, -246] } },
+  { t: 5.96, pos: [9.2, 6.6, -228.6], look: [9.2, 6.6, -246], fov: 40, mobile: { pos: [12.6, 6.8, -233.4], look: [13, 5.4, -246] } },
 
   // ── 6 REWIND — rise above today's world while it collapses into one node…
   { t: 6.04, pos: [30, 14, -170], look: [8, 0, -215], fov: 44 },
@@ -76,8 +82,8 @@ export const SHOTS: Shot[] = [
 
   // ── 7 MEDTECH — patient, devices, a remote doctor: human + hardware + software.
   // Patient + devices + the remote doctor's screen, kept clear of the text column.
-  { t: 7.1, pos: [cx.medtech + 20, 1, cz + 46], look: [cx.medtech - 3, -4.5, cz - 8], fov: 40, ease: 'silk', mobile: { pos: [cx.medtech + 16, 4, cz + 52], look: [cx.medtech + 6, -2, cz - 6] } },
-  { t: 7.55, pos: [cx.medtech + 18, 1, cz + 43], look: [cx.medtech - 3, -4.5, cz - 8], fov: 40, mobile: { pos: [cx.medtech + 14, 4, cz + 49], look: [cx.medtech + 6, -2, cz - 6] } },
+  { t: 7.1, pos: [cx.medtech + 20, 1, cz + 46], look: [cx.medtech - 3, -4.5, cz - 8], fov: 40, ease: 'silk', mobile: { pos: [cx.medtech + 21, 2, cz + 56], look: [cx.medtech + 13.6, -19, cz + 8] } },
+  { t: 7.55, pos: [cx.medtech + 18, 1, cz + 43], look: [cx.medtech - 3, -4.5, cz - 8], fov: 40, mobile: { pos: [cx.medtech + 20.6, 2, cz + 55], look: [cx.medtech + 13.6, -19, cz + 8] } },
   { t: 7.82, pos: [cx.medtech + 8, 8, cz + 34], look: [cx.medtech - 12, 0, cz - 6], fov: 42, ease: 'silk' },
   { t: 8.0, pos: [cx.medtech - 50, 24, cz + 60], look: [cx.research, -4, cz], fov: 40 },
 
@@ -87,9 +93,10 @@ export const SHOTS: Shot[] = [
   { t: 8.86, pos: [cx.research + 50, 30, cz + 60], look: [PATTERN.center[0], PATTERN.center[1], cz], fov: 42 },
 
   // ── 9 THE PATTERN — human, hardware and software, recalled from earlier chapters, then converging.
-  { t: 9.12, pos: [PATTERN.center[0], PATTERN.center[1] + 4, cz + 80], look: [PATTERN.center[0], PATTERN.center[1] + 2, cz], fov: 38, ease: 'silk', mobile: { pos: [PATTERN.center[0], PATTERN.center[1] - 2, cz + 82], look: [PATTERN.center[0], PATTERN.center[1] - 7, cz], fov: 44 } },
-  // Hold while the motifs connect and converge, then leave for the closing line.
-  { t: 9.84, pos: [PATTERN.center[0], PATTERN.center[1] + 3, cz + 72], look: [PATTERN.center[0], PATTERN.center[1] + 2, cz], fov: 38, mobile: { pos: [PATTERN.center[0], PATTERN.center[1] - 2, cz + 76], look: [PATTERN.center[0], PATTERN.center[1] - 7, cz], fov: 44 } },
+  // Software is in the foreground (PatternScene): the camera sits close enough for it to loom.
+  { t: 9.12, pos: [PATTERN.center[0], PATTERN.center[1] + 4, cz + 70], look: [PATTERN.center[0], PATTERN.center[1] + 1, cz], fov: 38, ease: 'silk', mobile: { pos: [PATTERN.center[0], PATTERN.center[1] + 1, cz + 60], look: [PATTERN.center[0], PATTERN.center[1] - 3, cz], fov: 44 } },
+  // Hold while the software connects both worlds and the onward line is born, then follow it out.
+  { t: 9.84, pos: [PATTERN.center[0] + 1.5, PATTERN.center[1] + 3, cz + 63], look: [PATTERN.center[0] + 1, PATTERN.center[1] + 1, cz], fov: 38, mobile: { pos: [PATTERN.center[0], PATTERN.center[1] + 1, cz + 55], look: [PATTERN.center[0], PATTERN.center[1] - 3, cz], fov: 44 } },
   { t: 9.95, pos: [cx.next + 70, 30, cz + 110], look: [cx.next, 4, cz], fov: 40 },
 
   // ── 10 CONTACT — align square to the line again: the opening shot, bookended.

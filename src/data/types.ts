@@ -89,7 +89,7 @@ export type Moment = { id: string; caption: string; media: MediaAsset }
 
 export type CareerStationId = 'research' | 'medtech' | 'neurotech' | 'next'
 
-export type CareerStation = DeepDive & {
+export type CareerStation = {
   id: CareerStationId
   /** Short label on the career line, e.g. "MedTech". */
   era: string
@@ -100,8 +100,8 @@ export type CareerStation = DeepDive & {
   /** Free-form, e.g. "2021 — 2023". */
   period?: string
   location?: string
+  /** One line: what the role was about. */
   summary?: string
-  highlights: string[]
   current?: boolean
 }
 
@@ -129,11 +129,8 @@ export type Profile = {
   statement: string[]
   /** The line that follows the statement. */
   statementTail: string
+  /** The positioning line that opens the semantic tail. */
   thesis: string
-  /** Two or three sentences for the recruiter Index. */
-  summary: string
-  /** Areas of work for the Index, in plain words. */
-  worksAcross: string[]
   photo?: { src: string; alt: string }
   capabilities: CapabilityGroup[]
   education: Education[]

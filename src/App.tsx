@@ -35,7 +35,7 @@ export function App() {
   return (
     <>
       <a className="skip-link" href="#index">
-        Skip to the short version
+        Skip to the work and experience
       </a>
       <Nav />
       {webgl && (

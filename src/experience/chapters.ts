@@ -35,7 +35,7 @@ export const CHAPTERS: readonly Chapter[] = [
   { id: 'signal', label: 'Signal', length: { desktop: 200, mobile: 180 }, anchorT: 0, keyT: 0.05 },
   { id: 'neural', label: 'Today', length: { desktop: 220, mobile: 190 }, anchorT: 0.62, keyT: 0.62, hash: 'work' },
   { id: 'data', label: 'System', length: { desktop: 240, mobile: 210 }, anchorT: 0.5, keyT: 0.55 },
-  { id: 'player', label: 'Scale', length: { desktop: 200, mobile: 180 }, anchorT: 0.5, keyT: 0.5 },
+  { id: 'player', label: 'Scale', length: { desktop: 200, mobile: 180 }, anchorT: 0.6, keyT: 0.66 },
   { id: 'screen', label: 'Hackathon', length: { desktop: 300, mobile: 250 }, anchorT: 0.66, keyT: 0.8 },
   { id: 'field', label: 'Field', length: { desktop: 260, mobile: 230 }, anchorT: 0.7, keyT: 0.9 },
   { id: 'reveal', label: 'Rewind', length: { desktop: 240, mobile: 210 }, anchorT: 0.38, keyT: 0.38, hash: 'experience' },

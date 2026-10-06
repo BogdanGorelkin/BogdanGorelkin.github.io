@@ -4,7 +4,7 @@ import { easing } from 'maath'
 import * as THREE from 'three'
 import { CHAPTERS } from './chapters'
 import { useExperience } from './context'
-import { buildDirector, sampleCamera, stage, type CameraSample } from './director'
+import { buildDirector, sampleCamera, signalTime, stage, type CameraSample } from './director'
 import { story } from './scrollStore'
 
 /** Below this aspect the framing switches to the portrait shot overrides. */
@@ -43,7 +43,7 @@ export function CameraRig() {
       time = i + CHAPTERS[i]!.keyT
     }
     stage.time = time
-    stage.clock = reducedMotion ? 4 : state.clock.elapsedTime
+    stage.clock = reducedMotion ? 4 : signalTime()
     director.seek(time, false)
 
     const portrait = state.size.width / state.size.height < PORTRAIT

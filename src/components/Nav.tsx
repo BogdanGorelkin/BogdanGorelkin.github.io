@@ -22,12 +22,13 @@ export function Nav() {
   const current = CHAPTERS[active]
 
   return (
-    <header className="nav">
+    <header className={`nav${offstage ? ' nav--solid' : ''}`}>
       <a className="nav__mark" href="#top" aria-label={`${profile.name} — back to the start`}>
         {profile.shortName}
       </a>
+      {/* The chapter counter belongs to the film; after it, the section's own heading speaks. */}
       <p className="mono nav__counter" aria-hidden="true">
-        {offstage ? 'Index' : `${pad(active + 1)} / ${pad(CHAPTERS.length)} — ${current?.label ?? ''}`}
+        {offstage ? '' : `${pad(active + 1)} / ${pad(CHAPTERS.length)} — ${current?.label ?? ''}`}
       </p>
       <nav aria-label="Primary">
         <ul className="mono nav__links">

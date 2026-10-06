@@ -52,7 +52,7 @@ For narrative, content, copy or media work, use the **`portfolio-director`** age
   - Keep camera holds as repeated keyframes.
 - **Must keep:**
   - semantic HTML for all critical text (DOM labels pinned to 3D, never text only in WebGL)
-  - the recruiter fast path (nav BG · Work · Experience · CV · Contact, plus the plain Index)
+  - the recruiter fast path (nav BG · Work · Experience · CV · Contact, plus the plain-HTML "Work & Experience" section, `#index`)
   - the mobile tier, `prefers-reduced-motion` static layout, and the no-WebGL fallback
 
 ## Working style

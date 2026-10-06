@@ -6,7 +6,11 @@
  */
 export type V3 = [number, number, number]
 
-export const HEAD = { center: [0, 0.6, -41] as V3, radius: 3.2 }
+/**
+ * The person wearing the headband: a bust (shared/bust.ts) scaled by `radius`,
+ * turned by `yaw` so it's seen near profile, looking toward the phone.
+ */
+export const HEAD = { center: [0, 0.6, -41] as V3, radius: 3.2, yaw: 2.3 }
 
 /** The intro signal: flat along X, then bending away into depth toward the head. */
 export const SPINE: V3[] = [

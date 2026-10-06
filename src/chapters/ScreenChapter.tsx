@@ -5,7 +5,7 @@ import { copy } from '../data/copy'
 import { getProject } from '../data/projects'
 import { fadeIn, fadeOut, linesIn, linesOut } from '../lib/motion'
 
-/** 4 — Microsoft Hackathon: software leaves the screen. The camera pushes through into a room. */
+/** 4 — Microsoft Hackathon: from signal to environment. The camera pushes through the screen into a room. */
 export function ScreenChapter() {
   const c = copy.screen
   const project = getProject(c.projectId)

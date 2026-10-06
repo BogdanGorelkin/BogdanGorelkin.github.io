@@ -18,8 +18,8 @@ export function PlayerChapter() {
       id="player"
       labelledBy="player-title"
       timeline={(tl, q) => {
-        fadeIn(tl, q('.chapter-index'), 0.04)
-        linesIn(tl, q('.headline .line__inner'), 0.1, 0.16)
+        fadeIn(tl, q('.chapter-index'), 0.03)
+        linesIn(tl, q('.headline .line__inner'), 0.07, 0.16)
         fadeIn(tl, q('.player__copy > :not(.headline):not(.chapter-index)'), 0.3, 0.08, 0.03)
         fadeOut(tl, q('.player__copy'), 0.86, 0.08)
       }}

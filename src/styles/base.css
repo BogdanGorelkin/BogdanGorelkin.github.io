@@ -9,6 +9,8 @@ html {
   color: var(--ink);
   color-scheme: dark;
   -webkit-text-size-adjust: 100%;
+  /* Native anchor jumps land below the fixed nav. */
+  scroll-padding-top: var(--nav-h);
 }
 
 /* Lenis */
@@ -169,6 +171,15 @@ main {
 }
 .nav > * {
   pointer-events: auto;
+}
+/* Once the film ends (and in the static layout), the bar gets a backing: text never runs under it. */
+.nav--solid,
+html:not(.is-cinematic) .nav {
+  background: var(--bg-raise);
+  box-shadow: 0 1px 0 var(--line);
+}
+.nav {
+  transition: background-color 0.35s, box-shadow 0.35s;
 }
 
 .nav__mark {

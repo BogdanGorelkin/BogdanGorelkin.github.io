@@ -8,8 +8,8 @@ import { emphasise, fadeIn, fadeOut, linesIn } from '../lib/motion'
 const LAYER_WINDOWS: [number, number][] = [
   [0.02, 0.18],
   [0.18, 0.45],
-  [0.45, 0.85],
-  [0.85, 1],
+  [0.45, 0.8],
+  [0.8, 1],
 ]
 
 /** 2 — From sensor to experience. The camera flies through the stack Bogdan builds end to end. */
@@ -30,8 +30,10 @@ export function DataChapter() {
         })
         fadeIn(tl, q('.body'), 0.3)
         fadeIn(tl, q('.case-tag'), 0.5)
-        fadeOut(tl, q('.data__copy'), 0.88, 0.08)
-        fadeOut(tl, q('.layers'), 0.94, 0.05)
+        // Hand over before the boundary, while the camera is still easing: the
+        // Player copy arrives as the grid forms, never over this one.
+        fadeOut(tl, q('.data__copy'), 0.84, 0.08)
+        fadeOut(tl, q('.layers'), 0.9, 0.06)
       }}
     >
       <div className="data__copy block block--top-left">

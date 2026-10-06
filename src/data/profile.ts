@@ -11,13 +11,7 @@ export const profile: Profile = {
   role: 'Full-stack / Product Engineer',
   statement: ['Human.', 'Hardware.', 'Software.'],
   statementTail: 'I like the space between them.',
-  thesis:
-    'I build systems where software interacts with people, sensors, devices and the physical world.',
-  summary:
-    'Product-focused full-stack engineer with 5+ years taking products from idea to production across web, mobile, backend and connected devices. ' +
-    'The technologies changed — programmable-matter research at Inria & Femto-ST, remote medicine with diagnostic hardware at TemmaCare, connected human-signal systems at HABS — the pattern didn’t: software that has to work with people and physical devices. ' +
-    'I like fast PoCs, then turning the ones that work into systems that hold up.',
-  worksAcross: ['Software', 'Hardware', 'Connected systems', 'Realtime products', 'Human–machine interaction'],
+  thesis: 'Software is the tool I use to connect humans with the physical world.',
   photo: {
     src: '/images/profile/bogdan-bench.webp',
     alt: 'Bogdan Gorelkin at a workbench with microcontroller boards, wiring and an LED strip',

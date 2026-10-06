@@ -9,7 +9,7 @@ It is built as one continuous, scroll-driven film rather than a stack of section
 
 Eleven chapters run from identity through today's work at HABS, a Microsoft hackathon and field tests. Then a rewind — *"But this didn't start with EEG"* — goes back through remote medicine and programmable-matter research, and ends on the pattern that connects them. The chapter-by-chapter spine and the art direction are in [docs/STORY_AND_ART_DIRECTION.md](docs/STORY_AND_ART_DIRECTION.md).
 
-Recruiters don't have to sit through the film. The persistent nav (**Work / Experience / CV / Contact**) jumps straight to readable content, and a plain-HTML **Index** ("The short version") after the film lists everything.
+Recruiters don't have to sit through the film. The persistent nav (**Work / Experience / CV / Contact**) jumps straight to readable content, and a plain-HTML **Work & Experience** section (`#index`) after the film gives featured projects, earlier projects and the career.
 
 The content is real, taken from Bogdan's CV (June 2026) and his previous site. Where real footage doesn't exist yet, procedural placeholders stand in (see [ASSETS.md](ASSETS.md)).
 
@@ -38,7 +38,7 @@ src/
   data/          ← edit content here
     profile.ts     identity, summary, photo, grouped capabilities, education, languages, links, CV path
     projects.ts    LINKS (public deep dives), stories (teaser, deepDives, storyRole, weight, publicSafe), field tests, moments
-    experience.ts  career stations: Research → MedTech → HABS → Next, plus earlier research roles (Index only)
+    experience.ts  career stations: Research → MedTech → HABS → Next, plus earlier research roles (semantic tail only)
     copy.ts        narrative lines for each chapter (headlines, captions)
     types.ts       content types (Project, MediaAsset, CareerStation, …)
   experience/    ← the cinematic engine
@@ -55,7 +55,7 @@ src/
   scenes/        ← R3F environments (Signal, Neural, Data, Screen+Player+Room, Field, Timeline, MedTech, Research, Pattern, Atmosphere)
     world.ts       world layout constants shared by scenes and shots
     shared/        SignalLine (EEG ribbon shader), MediaPlane, StreamParticles, materials, geometry
-  chapters/      ← DOM layer: one component per chapter + the plain Index section
+  chapters/      ← DOM layer: one component per chapter + the plain Work & Experience section (IndexSection)
   components/    Nav, Chapter, Headline, LinkSlot, ContactLinks, DeepDiveLinks, TriadStrip
   lib/           gsap setup, scrubbed-timeline helpers, spline, math
   styles/        tokens, base, chapters, index section
@@ -102,7 +102,7 @@ Lenis (smooth wheel) ─► ScrollTrigger ─► scrollStore.story.time   ("stor
   - The signal waveform and the screen are drawn on the GPU.
   - There is no post-processing.
 - **Media:** images and videos load the first time their scene appears, and videos pause when it disappears.
-- **When the Index covers the screen:** the canvas stops rendering frames, and resumes as soon as you scroll back.
+- **When Work & Experience covers the screen:** the canvas stops rendering frames, and resumes as soon as you scroll back.
 - **Mobile tier:**
   - Fewer points and streams.
   - No 3D-anchored labels; the DOM lists take over.
@@ -115,7 +115,7 @@ Lenis (smooth wheel) ─► ScrollTrigger ─► scrollStore.story.time   ("stor
   - The 3D layer cuts between still key frames with a short crossfade.
   - Nav jumps are instant.
 - **No WebGL:** the site runs DOM-only.
-- **Semantics and keyboard:** semantic landmarks, a skip link to the Index, and keyboard focus that moves with nav jumps. The canvas is `aria-hidden`.
+- **Semantics and keyboard:** semantic landmarks, a skip link to Work & Experience, and keyboard focus that moves with nav jumps. The canvas is `aria-hidden`.
 
 ## Project docs
 

@@ -1,4 +1,4 @@
-import type { DeepDiveLink, FieldTest, Moment, Project } from './types'
+import type { FieldTest, Moment, Project } from './types'
 
 /** Known public deep dives (public-safe sources). One place, referenced below. */
 export const LINKS = {
@@ -7,12 +7,11 @@ export const LINKS = {
   parisRidePost: 'https://www.linkedin.com/feed/update/urn:li:activity:7401523361895464960/',
   skydivePost: 'https://www.linkedin.com/feed/update/urn:li:activity:7371069399224569856/',
   medtechPost: 'https://www.linkedin.com/feed/update/urn:li:activity:7135241238428966912/',
+  temmaCare: 'https://temma.care/',
+  // "Simulation of the movement of modular robots hexanodes" (legacy site: gorelkin.vip/projects.html).
+  hexanodesFilm: 'https://youtu.be/alA4-bqghO0?si=lCiKSfFQ0miONd8x',
+  hexanodesCode: 'https://github.com/BogdanGorelkin/Modular-Movable-Robots',
 } as const
-
-const research: DeepDiveLink[] = [
-  { label: 'Watch the simulation', href: 'https://youtu.be/x4lbToZrboo', platform: 'YouTube' },
-  { label: 'Read the code', href: 'https://github.com/BogdanGorelkin/Boosted-MRTP', platform: 'GitHub' },
-]
 
 /**
  * Stories, in display order. Case numbers ("CASE 01") are derived from this
@@ -48,7 +47,15 @@ export const projects: Project[] = [
       'Experiments used to be Python scripts, run and watched on one machine. Now protocols are designed visually, run and monitored remotely, and personalised per participant — faster iteration, more data, beyond a single lab.',
     flow: ['Visual protocols', 'Remote monitoring', 'Per-participant setup'],
     tags: ['Product', 'Platform', 'Realtime', 'Experiment orchestration'],
-    teaser: { kind: 'placeholder', label: 'HABS PLAYER — UI TEASER', alt: 'HABS Player interface', aspect: 16 / 9 },
+    // Two screen recordings in one loop: a study flow being built, then live lab-station monitoring.
+    // Operator names and client study titles are blurred in the encode.
+    teaser: {
+      kind: 'video',
+      sources: { mp4: '/videos/optimized/habs-player.web.mp4' },
+      poster: '/videos/optimized/habs-player.poster.jpg',
+      alt: 'HABS Player: building a study flow from protocols and forms, then monitoring connected lab stations live',
+      aspect: 1600 / 1004,
+    },
     publicSafe: 'public',
     storyRole: 'Can he make a whole team faster, not just ship features?',
     weight: 'lead',
@@ -66,12 +73,11 @@ export const projects: Project[] = [
       'Built end to end, from scratch: realtime EEG read the player’s state; software turned it into changes in the game world, the room’s LEDs and the controller’s feedback.',
     flow: ['EEG', 'Software', 'Game', 'Physical feedback'],
     tags: ['Realtime EEG', 'Game environment', 'Environment orchestration', 'LED & controller feedback'],
-    // TODO: replace with the 5–15 s local loop:
-    // { kind: 'video', sources: { webm: '/videos/hackathon-cph-teaser.webm', mp4: '/videos/hackathon-cph-teaser.mp4' }, poster: '/images/hackathon-cph-poster.jpg', alt: '…', aspect: 16 / 9 }
     teaser: {
-      kind: 'placeholder',
-      label: 'HACKATHON FOOTAGE — COPENHAGEN 2026',
-      alt: 'EEG-driven game environment at the Microsoft Hackathon, Copenhagen',
+      kind: 'video',
+      sources: { mp4: '/videos/optimized/hackathon.web.mp4' },
+      poster: '/videos/optimized/hackathon.poster.jpg',
+      alt: 'Microsoft Hackathon, Copenhagen: the EEG-driven game, the HABS dashboard and a player wearing a headband',
       aspect: 16 / 9,
     },
     publicSafe: 'public',
@@ -91,31 +97,43 @@ export const projects: Project[] = [
       'Remote consultations where the doctor works with diagnostic devices connected locally to the patient. Medical-device data rendered live — e.g. pulse-oximetry graphs drawn on canvas during the move from JavaFX to React and TypeScript.',
     flow: ['Patient', 'Diagnostic devices', 'Software', 'Remote doctor'],
     tags: ['React', 'TypeScript', 'Canvas', 'Medical devices', 'Microservices'],
-    teaser: { kind: 'placeholder', label: 'REMOTE DOCTOR', alt: 'Remote doctor view', aspect: 16 / 10 },
+    // Oximetry graphs being built on the desk, a real device beside the keyboard.
+    teaser: {
+      kind: 'video',
+      sources: { mp4: '/videos/optimized/temmacare-spo2.web.mp4' },
+      poster: '/videos/optimized/temmacare-spo2.poster.jpg',
+      alt: 'Drawing canvas graphs for pulse-oximetry data while migrating the healthcare app front end from JavaFX to React',
+      aspect: 480 / 854,
+    },
     publicSafe: 'public',
     storyRole: 'Did the human + hardware + software pattern exist before HABS?',
     weight: 'continuity',
     deepDives: [
       { label: 'See the medical device work', href: LINKS.medtechPost, platform: 'LinkedIn' },
-      { label: 'temma.care', href: 'https://temma.care/', platform: 'Website' },
+      { label: 'temma.care', href: LINKS.temmaCare, platform: 'Website' },
     ],
   },
   {
+    // Public sources: LINKS.hexanodesFilm, LINKS.hexanodesCode; listed on the legacy site
+    // as "Simulation of the movement of modular robots hexanodes" (C++, VisibleSim, Univ. of Franche-Comté / IUT-BM).
     id: 'programmable-matter',
-    title: 'Programmable matter: modular robots',
-    subtitle: 'Self-reconfigurable robots that keep a shared clock',
-    context: 'Inria & Femto-ST',
-    period: '2020 — 2021',
-    location: 'Lille · Montbéliard',
-    summary:
-      'Behaviour of robot modules as finite-state machines, a boosted time-synchronisation protocol (MRTP) and movement simulation, in VisibleSim and BIP.',
-    tags: ['C++', 'VisibleSim', 'Distributed algorithms', 'Modular robotics'],
+    title: 'Modular movable robots — hexanodes',
+    subtitle: 'Simulating how self-reconfiguring robot modules move',
+    context: 'Univ. of Franche-Comté',
+    // TODO: exact period not in the public sources (research years: 2020 — 2021).
+    period: undefined,
+    summary: 'A simulation of the movement of hexanode modular robots, written in C++ on VisibleSim — a two-person project.',
+    flow: ['C++', 'VisibleSim'],
+    tags: ['C++', 'VisibleSim', 'Modular robotics', 'Simulation'],
     // TODO: real simulation footage (16:9, 5–15 s) — appears beside the modules in the Research scene.
     teaser: undefined,
     publicSafe: 'public',
     storyRole: 'Did the pattern start even earlier?',
     weight: 'continuity',
-    deepDives: research,
+    deepDives: [
+      { label: 'Watch the hexanodes simulation', href: LINKS.hexanodesFilm, platform: 'YouTube' },
+      { label: 'View the code', href: LINKS.hexanodesCode, platform: 'GitHub' },
+    ],
   },
 ]
 
@@ -132,7 +150,13 @@ export const fieldTests: FieldTest[] = [
     caption: 'A portable EEG headset and a mobile app I coded, recording brain rhythms alongside GPS, speed and acceleration on a real ride.',
     signals: ['EEG', 'GPS', 'Speed', 'Acceleration'],
     location: 'Paris',
-    teaser: { kind: 'placeholder', label: 'PARIS RIDE — EEG', alt: 'EEG test on a motorcycle in Paris', aspect: 3 / 2 },
+    teaser: {
+      kind: 'video',
+      sources: { mp4: '/videos/optimized/paris-eeg-ride.web.mp4' },
+      poster: '/videos/optimized/paris-eeg-ride.poster.jpg',
+      alt: 'Riding through Paris past the Eiffel Tower with the EEG app streaming alpha and beta waves',
+      aspect: 4 / 3,
+    },
     publicSafe: 'public',
     storyRole: 'Does he test systems in uncontrolled, moving environments?',
     featured: true,
@@ -144,7 +168,13 @@ export const fieldTests: FieldTest[] = [
     title: 'EEG in freefall — skydive',
     caption: 'A jump from 4,000 m wearing an EEG headset, with HABS’s app analysing emotional state in real time.',
     signals: ['4,000 m', 'EEG', 'Real-time analysis'],
-    teaser: { kind: 'placeholder', label: 'SKYDIVE — EEG', alt: 'Bogdan skydiving with an EEG headset', aspect: 4 / 5 },
+    teaser: {
+      kind: 'video',
+      sources: { mp4: '/videos/optimized/skydive.web.mp4' },
+      poster: '/videos/optimized/skydive.poster.jpg',
+      alt: 'Bogdan at the aircraft door and in freefall, wearing an EEG headset under the helmet',
+      aspect: 4 / 3,
+    },
     publicSafe: 'public',
     storyRole: 'Does he personally push real-world validation further?',
     featured: true,

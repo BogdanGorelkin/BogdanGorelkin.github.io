@@ -44,7 +44,8 @@ export const copy = {
   },
   screen: {
     index: 'Microsoft Hackathon',
-    headline: ['Software', 'leaves', 'the screen.'],
+    // What actually happened: a person's EEG state became changes in a game world, LEDs and a controller.
+    headline: ['From signal', 'to environment.'],
     projectId: 'eeg-hackathon-cph',
   },
   field: {

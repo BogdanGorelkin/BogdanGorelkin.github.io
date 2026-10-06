@@ -1,128 +1,89 @@
+import { useState } from 'react'
 import { ContactLinks } from '../components/ContactLinks'
-import { DeepDiveLinks } from '../components/DeepDiveLinks'
+import { DeepDiveAnchor } from '../components/DeepDiveLinks'
 import { career, earlierRoles } from '../data/experience'
+import { earlierProjects, featuredProjects, type ExploreEntry } from '../data/explore'
 import { profile } from '../data/profile'
-import { caseLabel, fieldTests, projects } from '../data/projects'
-import type { Project } from '../data/types'
-
-const lead = projects.filter((p) => p.weight === 'lead')
-const continuity = projects.filter((p) => p.weight === 'continuity')
-const field = fieldTests.filter((t) => t.featured)
 
 /**
- * The short version: everything a recruiter needs, as plain semantic HTML.
- * Slides over the film like a curtain; also the reduced-motion / no-WebGL
- * source of truth.
+ * Work & Experience — the recruiter layer after the film. Not a second CV:
+ * featured projects (concrete public proof, with their deep dives — the only
+ * place they're listed), earlier projects behind a disclosure (optional
+ * technical history), then the professional timeline, one line per role.
+ * Plain semantic HTML; also the reduced-motion / no-WebGL source of truth.
+ * Keeps id="index" — nav, skip link and the scroll director hand off to it.
  */
 export function IndexSection() {
   return (
     <section id="index" className="index" aria-labelledby="index-title" tabIndex={-1}>
       <header className="index__head">
-        <p className="mono">Index</p>
-        <h2 id="index-title">The short version</h2>
-      </header>
-
-      <div className="index__grid">
-        <div className="index__col index__col--profile">
-          {profile.photo && (
-            <img className="index__photo" src={profile.photo.src} alt={profile.photo.alt} width={720} height={960} loading="lazy" decoding="async" />
-          )}
-        </div>
-
-        <div className="index__col index__col--lead">
-          <h3 className="mono">Profile</h3>
-          <p className="index__lead">
-            {profile.name} — {profile.role}, {profile.location}.
-          </p>
-          <p className="index__thesis">{profile.thesis}</p>
-          <p className="mono index__across">Works across: {profile.worksAcross.join(' · ')}</p>
-          <p>{profile.summary}</p>
-          <ContactLinks className="contact-links--inline" />
-        </div>
-
-        <div className="index__col index__col--full">
-          <h3 className="mono">Selected work</h3>
-          <ol className="index__work index__work--lead">
-            {lead.map((p) => (
-              <li key={p.id}>
-                <WorkMeta project={p} />
-                <h4>{p.title}</h4>
-                <p>{p.summary ?? p.subtitle}</p>
-                <DeepDiveLinks item={p} className="index__links" />
-              </li>
-            ))}
-          </ol>
-          <div className="index__work-row">
-            <div>
-              <p className="mono index__group">Field tests</p>
-              <ul className="index__work index__work--compact">
-                {field.map((t) => (
-                  <li key={t.id}>
-                    <h4>{t.title}</h4>
-                    <p>{t.caption}</p>
-                    <DeepDiveLinks item={t} primaryOnly className="index__links" />
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="mono index__group">Before HABS</p>
-              <ul className="index__work index__work--compact">
-                {continuity.map((p) => (
-                  <li key={p.id}>
-                    <WorkMeta project={p} />
-                    <h4>{p.title}</h4>
-                    <p>{p.summary ?? p.subtitle}</p>
-                    <DeepDiveLinks item={p} className="index__links" />
-                  </li>
-                ))}
-              </ul>
-            </div>
+        <div className="index__intro">
+          <h2 id="index-title">Work &amp; Experience</h2>
+          <p className="index__lead">{profile.thesis}</p>
+          <div className="index__who">
+            <p className="mono">
+              {profile.name} — {profile.role} — {profile.location}
+            </p>
+            <ContactLinks className="contact-links--inline" />
           </div>
         </div>
+        {profile.photo && (
+          <img className="index__photo" src={profile.photo.src} alt={profile.photo.alt} width={720} height={960} loading="lazy" decoding="async" />
+        )}
+      </header>
 
-        <div className="index__col index__col--wide">
-          <h3 className="mono">Experience</h3>
-          <ol className="index__list">
-            {career
-              .filter((s) => s.id !== 'next')
-              .reverse()
-              .map((s) => (
-                <li key={s.id}>
-                  <p className="mono">
-                    {s.period} · {s.theme}
-                    {s.current && ' · current'}
-                  </p>
+      <section className="index__block" aria-labelledby="projects-title">
+        <h3 id="projects-title" className="mono">
+          Featured projects
+        </h3>
+        <div>
+          <ol className="evidence">
+            {featuredProjects.map((e) => (
+              <EvidenceRow key={e.id} entry={e} />
+            ))}
+          </ol>
+          <EarlierProjects />
+        </div>
+      </section>
+
+      <section className="index__block" aria-labelledby="experience-title">
+        <h3 id="experience-title" className="mono">
+          Experience
+        </h3>
+        <ol className="roles">
+          {career
+            .filter((s) => s.id !== 'next')
+            .reverse()
+            .map((s) => (
+              <li key={s.id}>
+                <p className="mono roles__period">{s.period}</p>
+                <div>
                   <h4>
                     {s.role} — {s.company}
                   </h4>
                   {s.summary && <p>{s.summary}</p>}
-                  {s.highlights.length > 0 && (
-                    <ul className="index__bullets">
-                      {s.highlights.map((h) => (
-                        <li key={h}>{h}</li>
-                      ))}
-                    </ul>
-                  )}
-                  <DeepDiveLinks item={s} className="index__links" />
-                </li>
-              ))}
-            {earlierRoles.map((r) => (
-              <li key={r.company}>
-                <p className="mono">{r.period} · Earlier research</p>
+                </div>
+              </li>
+            ))}
+          {earlierRoles.map((r) => (
+            <li key={r.company} className="roles--earlier">
+              <p className="mono roles__period">{r.period}</p>
+              <div>
                 <h4>
                   {r.role} — {r.company}
                 </h4>
                 <p>{r.summary}</p>
-                <DeepDiveLinks item={r} className="index__links" />
-              </li>
-            ))}
-          </ol>
-        </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-
-        <div className="index__col index__col--wide">
-          <h3 className="mono">Capabilities</h3>
+      <div className="index__facts">
+        <section aria-labelledby="capabilities-title">
+          <h3 id="capabilities-title" className="mono">
+            Capabilities
+          </h3>
           <dl className="index__caps">
             {profile.capabilities.map((c) => (
               <div key={c.group}>
@@ -131,11 +92,12 @@ export function IndexSection() {
               </div>
             ))}
           </dl>
-        </div>
-
-        <div className="index__col index__col--wide">
-          <h3 className="mono">Education</h3>
-          <ul className="index__list index__list--tight">
+        </section>
+        <section aria-labelledby="education-title">
+          <h3 id="education-title" className="mono">
+            Education
+          </h3>
+          <ul className="index__edu">
             {profile.education.map((e) => (
               <li key={e.degree}>
                 <h4>{e.degree}</h4>
@@ -148,7 +110,7 @@ export function IndexSection() {
           </ul>
           <h3 className="mono">Languages</h3>
           <p>{profile.languages.join(' · ')}</p>
-        </div>
+        </section>
       </div>
 
       <footer className="mono index__foot">
@@ -161,12 +123,37 @@ export function IndexSection() {
   )
 }
 
-function WorkMeta({ project: p }: { project: Project }) {
+/** Optional technical history: collapsed by default, a quiet disclosure under the featured rows. */
+function EarlierProjects() {
+  const [open, setOpen] = useState(false)
   return (
-    <p className="mono">
-      {caseLabel(p)}
-      {[p.context, p.location, p.period].filter(Boolean).map((v) => ` · ${v}`)}
-      {p.recognition && <span className="index__award"> · {p.recognition}</span>}
-    </p>
+    <div className={`earlier${open ? ' is-open' : ''}`}>
+      <button type="button" className="mono earlier__toggle" aria-expanded={open} aria-controls="earlier-projects" onClick={() => setOpen((o) => !o)}>
+        <span className="earlier__icon" aria-hidden="true" />
+        {open ? 'Hide earlier projects' : 'Show earlier projects'}
+      </button>
+      <div id="earlier-projects" className="earlier__panel" inert={!open}>
+        <ol className="evidence evidence--earlier" aria-label="Earlier projects">
+          {earlierProjects.map((e) => (
+            <EvidenceRow key={e.id} entry={e} />
+          ))}
+        </ol>
+      </div>
+    </div>
+  )
+}
+
+function EvidenceRow({ entry: e }: { entry: ExploreEntry }) {
+  return (
+    <li className="evidence__row">
+      <h4 className="evidence__name">{e.name}</h4>
+      <p className="evidence__proves">{e.proves}</p>
+      <p className="mono evidence__meta">{e.meta}</p>
+      <p className="mono evidence__links">
+        {e.links.map((l) => (
+          <DeepDiveAnchor key={l.href} link={l} />
+        ))}
+      </p>
+    </li>
   )
 }

@@ -21,7 +21,7 @@ const QUALITY: Record<Tier, Quality> = {
   high: {
     tier: 'high',
     dpr: [1, 1.75],
-    headPoints: 5200,
+    headPoints: 12000,
     dust: 900,
     streams: 6,
     particlesPerStream: 60,
@@ -31,7 +31,7 @@ const QUALITY: Record<Tier, Quality> = {
   low: {
     tier: 'low',
     dpr: [1, 1.25],
-    headPoints: 1800,
+    headPoints: 5000,
     dust: 280,
     streams: 3,
     particlesPerStream: 36,

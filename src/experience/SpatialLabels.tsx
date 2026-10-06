@@ -39,25 +39,18 @@ const LABELS: Label[] = [
     opacity: () => stage.presence.annotations * stage.presence.neural,
     lines: twoLines(a.key, a.value),
   })),
-  // MedTech: three roles, not a device catalogue.
+  // MedTech: two people and the software between them — no device catalogue.
   {
     id: 'medtech-patient',
     className: 'annotation',
-    position: medtechWorld(MEDTECH.head, 2.4),
+    position: medtechWorld(MEDTECH.patient.pos, 2.6),
     opacity: () => stage.presence.medtechLabels,
-    lines: twoLines('Patient', 'At home'),
-  },
-  {
-    id: 'medtech-devices',
-    className: 'annotation',
-    position: medtechWorld(MEDTECH.devices[0]!.pos, 1.6),
-    opacity: () => stage.presence.medtechLabels,
-    lines: twoLines('Diagnostic devices', 'Connected locally'),
+    lines: twoLines('Patient', 'Devices beside them'),
   },
   {
     id: 'medtech-doctor',
     className: 'annotation',
-    position: medtechWorld(MEDTECH.doctor, 4.6),
+    position: medtechWorld(MEDTECH.doctor.pos, 2.6),
     opacity: () => stage.presence.medtechLabels,
     lines: twoLines('Doctor', 'Remote, live'),
   },
@@ -77,7 +70,7 @@ const LABELS: Label[] = [
     id: `thread-${i}`,
     className: 'thread-label',
     position: () => PATTERN_ANCHORS[i]!,
-    opacity: () => stage.presence.pattern * (1 - stage.converge),
+    opacity: () => stage.presence.pattern,
     mobile: true,
     lines: [{ text: word, className: '' }],
   })),

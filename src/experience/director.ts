@@ -12,7 +12,12 @@ import { SHOTS } from './shots'
 export const stage = {
   /** storyTime as rendered this frame (snapped to key shots under reduced motion). */
   time: 0,
-  /** Seconds for ambient animation; frozen under reduced motion. */
+  /**
+   * Seconds for ambient animation (waveforms, sweeps, packets, LEDs); frozen
+   * under reduced motion. One monotonic signal clock for the whole film — never
+   * R3F's clock, which `setFrameloop` resets to 0 — and never scroll progress:
+   * scroll only morphs layout and opacity, so no animation restarts at a chapter.
+   */
   clock: 0,
   /** 0 → 1 timed intro on first load (not scroll-driven). */
   intro: 0,
@@ -50,6 +55,10 @@ export const stage = {
     player: 0,
     room: 0,
     field: 0,
+    /** Field media enters only after the statement clears — no text over the footage. */
+    paris: 0,
+    /** The skydive emerges as the camera leaves Paris, not before. */
+    skydive: 0,
     career: 0,
     medtech: 0,
     medtechLabels: 0,
@@ -60,6 +69,10 @@ export const stage = {
 }
 
 export type PresenceKey = keyof typeof stage.presence
+
+const signalEpoch = performance.now()
+/** Seconds since the page loaded: the continuous signal time behind `stage.clock`. */
+export const signalTime = () => (performance.now() - signalEpoch) / 1000
 
 /**
  * The film, as one paused GSAP timeline whose time axis *is* storyTime.
@@ -78,13 +91,16 @@ export function buildDirector(): gsap.core.Timeline {
     .to(stage, { fogFar: 70, duration: 0.3 }, 2.0)
     .to(stage, { fogNear: 2, fogFar: 52, duration: 0.2 }, 4.3)
     .to(stage, { fogNear: 4, fogFar: 95, duration: 0.3 }, 5.0)
+    // Field: the space opens up as the camera rises from the street toward the skydive.
+    .to(stage, { fogFar: 150, duration: 0.2 }, 5.64)
     .to(stage, { fogNear: 180, fogFar: 1300, duration: 0.16, ease: 'power2.in' }, 6.06)
     .to(stage, { fogNear: 6, fogFar: 46, duration: 0.3 }, 9.95)
 
   tl.to(stage, { signalAmp: 1.35, duration: 0.4 }, 1.2)
     // HABS Player: the same screen becomes a grid of experiments, then back to live channels.
-    .to(stage, { playerGrid: 1, duration: 0.22 }, 3.1)
-    .to(stage, { playerFocus: 1, duration: 0.2 }, 3.42)
+    // The live channels reorganise into the grid while the camera settles — one motion, not a cut.
+    .to(stage, { playerGrid: 1, duration: 0.28, ease: 'power1.inOut' }, 3.04)
+    .to(stage, { playerFocus: 1, duration: 0.2 }, 3.38)
     .to(stage, { playerGrid: 0, playerFocus: 0, duration: 0.2 }, 3.86)
     .to(stage, { roomLight: 1, duration: 0.25, ease: 'flow' }, 4.42)
     .to(stage, { ledBurst: 1, duration: 0.04, ease: 'power2.out' }, 4.38)
@@ -97,20 +113,27 @@ export function buildDirector(): gsap.core.Timeline {
     .to(stage, { calm: 1, duration: 0.35 }, 9.95)
 
   // Today (HABS → hackathon → field): environments fade in ahead of the camera, out behind it.
-  show('signal', 1.75, 2.1, 0)
+  // The thread has led us to the person; it gives way before the type settles.
+  show('signal', 1.44, 1.6, 0)
   show('neural', 0.75, 1.0)
   show('annotations', 1.42, 1.58)
   show('annotations', 1.84, 1.95, 0)
   show('system', 1.85, 2.1)
   show('neural', 2.3, 2.5, 0)
   show('screen', 2.55, 2.85)
-  show('player', 3.46, 3.6)
+  // The streams have delivered into the screen; they clear before the real Player UI appears.
+  show('system', 3.2, 3.4, 0)
+  show('player', 3.44, 3.58)
   show('player', 3.84, 3.94, 0)
   // The screen dissolves as the lens reaches it — we pass *through* software.
   show('screen', 4.3, 4.42, 0)
   show('room', 4.3, 4.45)
   show('system', 4.36, 4.5, 0)
   show('field', 4.9, 5.12)
+  show('paris', 5.4, 5.5)
+  show('paris', 5.64, 5.72, 0)
+  show('skydive', 5.64, 5.76)
+  show('skydive', 6.02, 6.1, 0)
   show('room', 5.4, 5.6, 0)
 
   // Rewind: pulled back, today's journey stays lit as one station among others.

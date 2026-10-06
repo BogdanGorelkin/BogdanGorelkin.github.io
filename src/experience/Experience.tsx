@@ -99,6 +99,7 @@ function RenderGate({
   wrapper: RefObject<HTMLDivElement | null>
 }) {
   const setFrameloop = useThree((s) => s.setFrameloop)
+  const get = useThree((s) => s.get)
   const invalidate = useThree((s) => s.invalidate)
 
   useEffect(() => {
@@ -107,7 +108,9 @@ function RenderGate({
     const update = () => {
       const offstage = getOffstage()
       if (!reducedMotion) {
-        setFrameloop(offstage ? 'demand' : 'always')
+        // Only on a real change: setFrameloop also resets R3F's clock.
+        const next = offstage ? 'demand' : 'always'
+        if (get().frameloop !== next) setFrameloop(next)
         return
       }
       const next = getActiveChapter()
@@ -128,7 +131,7 @@ function RenderGate({
       unsubscribe()
       window.clearTimeout(timer)
     }
-  }, [reducedMotion, setFrameloop, invalidate, wrapper])
+  }, [reducedMotion, setFrameloop, get, invalidate, wrapper])
 
   return null
 }

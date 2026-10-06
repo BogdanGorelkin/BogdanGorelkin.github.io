@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { getProject, moments } from '../data/projects'
+import { getProject } from '../data/projects'
 import { copy } from '../data/copy'
 import { stage } from '../experience/director'
 import { COLORS, createLineMaterial, fade } from './shared/materials'
@@ -12,11 +12,26 @@ import { ROOM, SCREEN, type V3 } from './world'
 const LEDS_PER_WALL = 16
 
 /**
- * The HABS Player product slot on the big screen: the right half (16:9).
- * The experiment grid resolves into this frame; a real UI recording plays here.
- * UV rect and world rect describe the same area.
+ * The HABS Player product slot on the big screen (right half). The experiment
+ * grid resolves into this frame and the real Player recording plays in it, so
+ * its size follows the recording's aspect ratio. UV rect and world rect
+ * describe the same area.
  */
-const PLAYER_SLOT = { uv: { cx: 0.7, cy: 0.5, hx: 0.25, hy: 0.25 }, x: 3.2, width: 8, height: 4.5 }
+const PLAYER_ASPECT = (() => {
+  const teaser = getProject(copy.player.projectId).teaser
+  return teaser && teaser.kind !== 'placeholder' ? teaser.aspect : 16 / 9
+})()
+const PLAYER_SLOT = (() => {
+  const height = 5
+  const width = height * PLAYER_ASPECT
+  const x = 3.2
+  return {
+    x,
+    width,
+    height,
+    uv: { cx: 0.5 + x / SCREEN.width, cy: 0.5, hx: width / 2 / SCREEN.width, hy: height / 2 / SCREEN.height },
+  }
+})()
 
 /** The hackathon footage wall — the protagonist of the climax. */
 export const FOOTAGE = { height: 7.2, y: 2.6 }
@@ -28,19 +43,27 @@ const FLOOR_SIGNAL: V3[] = [
 ]
 
 /**
- * Scenes 3–4 — one screen, two beats. First it shows live channels, then a
- * grid of experiments running on one system (HABS Player). Then the camera
- * pushes through it into a physical room where LEDs respond to the signal
- * and the hackathon footage plays: software leaves the screen.
+ * Scenes 3–4 — one screen, two beats. First it shows live channels, which
+ * reorganise into a grid of experiments running on one system and then
+ * narrow onto the real HABS Player recording. Then the camera pushes through
+ * it into a physical room where LEDs respond to the signal and the hackathon
+ * footage plays: the signal becomes an environment.
  */
 export function ScreenScene() {
   const player = getProject(copy.player.projectId)
   return (
     <>
       <SoftwareSurface />
-      {/* A real Player recording, once provided, fills the product slot the grid resolves into. */}
+      {/* The real Player recording fills the product slot the grid resolves into; the shader draws its frame. */}
       {player.teaser && player.teaser.kind !== 'placeholder' && (
-        <MediaPlane asset={player.teaser} height={PLAYER_SLOT.height} presence="player" position={[PLAYER_SLOT.x, 0, SCREEN.z + 0.05]} />
+        <MediaPlane
+          asset={player.teaser}
+          height={PLAYER_SLOT.height}
+          presence="player"
+          loadWith="screen"
+          frame="none"
+          position={[PLAYER_SLOT.x, 0, SCREEN.z + 0.05]}
+        />
       )}
       <Room />
     </>
@@ -63,58 +86,66 @@ function SoftwareSurface() {
           uniform float uGrid;
           uniform float uFocus;
           varying vec2 vUv;
-          const vec2 SLOT_C = vec2(${PLAYER_SLOT.uv.cx.toFixed(3)}, ${PLAYER_SLOT.uv.cy.toFixed(3)});
-          const vec2 SLOT_H = vec2(${PLAYER_SLOT.uv.hx.toFixed(3)}, ${PLAYER_SLOT.uv.hy.toFixed(3)});
+          const vec2 SLOT_C = vec2(${PLAYER_SLOT.uv.cx.toFixed(4)}, ${PLAYER_SLOT.uv.cy.toFixed(4)});
+          const vec2 SLOT_H = vec2(${PLAYER_SLOT.uv.hx.toFixed(4)}, ${PLAYER_SLOT.uv.hy.toFixed(4)});
+          const vec2 CELLS = vec2(4.0, 3.0);
+          float hash(vec2 p) { return fract(sin(dot(p, vec2(41.3, 289.1))) * 43758.5453); }
           // Signed distance (in uv) to the product slot's edge: < 0 inside.
           float slotDist(vec2 uv) {
             vec2 d = abs(uv - SLOT_C) - SLOT_H;
             return max(d.x, d.y);
           }
-          // One channel of a multi-channel recording, drawn as an anti-aliased hairline.
-          float channel(vec2 uv, float k) {
-            float base = (k + 0.5) / 8.0;
-            float x = uv.x * 36.0;
-            float y = base + 0.028 * (sin(x * 1.3 - uTime * 2.0 + k * 1.7) * 0.4
-                                    + sin(x * 3.1 + uTime * 2.7 + k) * 0.2
-                                    + sin(x * 8.3 - uTime * 5.0 + k * 2.3) * 0.1);
-            float w = fwidth(uv.y) * 1.1;
-            return smoothstep(w, 0.0, abs(uv.y - y));
-          }
-          // HABS Player: one system, many experiments. A 4×3 grid of runs; a few
-          // are live at any moment and the live set keeps rotating.
-          float experiments(vec2 uv) {
-            vec2 g = uv * vec2(4.0, 3.0);
-            vec2 id = floor(g);
-            vec2 f = fract(g);
-            float k = id.x + (2.0 - id.y) * 4.0;
-            float edge = min(min(f.x, 1.0 - f.x), min(f.y, 1.0 - f.y)) - 0.05;
-            float border = 1.0 - smoothstep(0.0, fwidth(g.x) * 1.4, abs(edge));
-            float traces = 0.0;
-            for (int j = 0; j < 3; j++) {
-              float fj = float(j);
-              float y = 0.3 + 0.2 * fj + 0.045 * sin(f.x * 15.0 - uTime * 2.4 + k * 1.3 + fj * 2.1) * sin(f.x * 4.0 + k);
-              traces += smoothstep(fwidth(f.y) * 1.2, 0.0, abs(f.y - y)) * step(0.1, f.x) * step(f.x, 0.9);
-            }
-            float live = step(mod(uTime * 1.2 - k, 12.0), 4.0);
-            return border * mix(0.25, 0.7, live) + traces * mix(0.15, 1.0, live);
+          // The one live signal everything on this screen is drawn from. Global
+          // time and a global x: the grid never restarts it, only reframes it.
+          float wave(float x, float k) {
+            return sin(x * 1.3 - uTime * 2.0 + k * 1.7) * 0.4
+                 + sin(x * 3.1 + uTime * 2.7 + k) * 0.2
+                 + sin(x * 8.3 - uTime * 5.0 + k * 2.3) * 0.1;
           }
           void main() {
+            vec2 g = vUv * CELLS;
+            vec2 cell = floor(g);
+            vec2 f = fract(g);
+            float seed = hash(cell);
+            // Live channels → many experiments: each of the 9 channels glides
+            // from its full-width lane into a lane of its tile row. Phase comes
+            // only from time and position — the grid (scroll progress) moves
+            // lanes and scales amplitude per tile, it never shifts the wave.
             float lines = 0.0;
-            for (int k = 0; k < 8; k++) lines += channel(vUv, float(k));
+            for (int i = 0; i < 9; i++) {
+              float k = float(i);
+              float row = floor(k / 3.0);
+              float slot = k - row * 3.0;
+              float base = mix((k + 0.5) / 9.0, (row + 0.3 + 0.2 * slot) / 3.0, uGrid);
+              float amp = mix(0.026, 0.015 * mix(0.6, 1.3, seed), uGrid);
+              float y = base + amp * wave(vUv.x * 36.0, k);
+              lines += smoothstep(fwidth(vUv.y) * 1.1, 0.0, abs(vUv.y - y));
+            }
             // A sweep cursor, like a monitor: fresh data bright, older data dim.
+            // It keeps running through the change, so the system never stops.
             float age = fract(fract(uTime * 0.07) - vUv.x);
-            lines *= mix(1.0, 0.2, age);
-            // Player: many runs on one system… which resolve into one product frame.
+            lines *= mix(1.0, mix(0.2, 0.45, uGrid), age);
+            // Tiles form around the lanes: gaps open, hairline borders draw in.
+            float edge = min(min(f.x, 1.0 - f.x), min(f.y, 1.0 - f.y));
+            float inTile = smoothstep(0.03, 0.07, edge);
+            float border = 1.0 - smoothstep(0.0, fwidth(g.x) * 1.4, abs(edge - 0.05));
+            // A few runs are live at any moment; the live set rotates, with soft fades.
+            float k = cell.x + (2.0 - cell.y) * 4.0;
+            float live = smoothstep(0.15, 0.6, 0.5 + 0.5 * sin(uTime * 0.55 - k * 1.9));
+            lines *= mix(1.0, inTile * mix(0.3, 1.0, live), uGrid);
+            lines += border * mix(0.18, 0.5, live) * uGrid;
+            // …then attention narrows onto one product frame, where the real UI plays.
             float sd = slotDist(vUv);
-            float inside = step(sd, 0.0);
-            float runs = experiments(vUv) * mix(1.0, mix(0.2, 0.0, inside), uFocus);
-            float slotEdge = (1.0 - smoothstep(0.0, fwidth(sd) * 1.5, abs(sd))) * uFocus;
-            lines = mix(lines, runs + slotEdge * 0.85, uGrid);
-            vec2 cell = vUv * vec2(32.0, 18.0);
-            vec2 gd = abs(fract(cell - 0.5) - 0.5) / fwidth(cell);
-            float grid = 1.0 - min(min(gd.x, gd.y), 1.0);
+            float inside = 1.0 - smoothstep(-0.004, 0.004, sd);
+            lines *= mix(1.0, mix(0.22, 0.0, inside), uFocus);
+            float frameD = abs(sd - 0.006);
+            lines += (1.0 - smoothstep(0.0, fwidth(sd) * 1.5, frameD)) * uFocus * 0.9;
+            vec2 px = vUv * vec2(32.0, 18.0);
+            vec2 gd = abs(fract(px - 0.5) - 0.5) / fwidth(px);
+            float grid = (1.0 - min(min(gd.x, gd.y), 1.0)) * (1.0 - inside * uFocus);
             vec3 col = mix(vec3(0.045, 0.047, 0.052), vec3(0.925, 0.92, 0.9), clamp(lines + grid * 0.05, 0.0, 1.0));
-            gl_FragColor = vec4(col, uOpacity);
+            // The slot turns transparent as attention lands on it: the recording behind shows unveiled.
+            gl_FragColor = vec4(col, uOpacity * (1.0 - inside * uFocus));
           }
         `,
         transparent: true,
@@ -197,17 +228,8 @@ function Room() {
         }}
         args={[ledGeo, ledMat, positions.length]}
       />
-      {/* The footage is the protagonist: big, centred, high in frame so the text sits below it. */}
-      {media && <MediaPlane asset={media} height={FOOTAGE.height} presence="room" position={[0, FOOTAGE.y, ROOM.far + 1.5]} />}
-      {/* Bogdan at the event — a smaller documentary moment beside the footage. */}
-      <MediaPlane
-        asset={moments.hackathon.media}
-        height={3.4}
-        presence="room"
-        opacity={0.85}
-        position={[8.1, 0.4, ROOM.far + 3.2]}
-        rotation-y={-0.3}
-      />
+      {/* The real hackathon footage is the protagonist: big, centred, high in frame, the text below it. */}
+      {media && <MediaPlane asset={media} height={FOOTAGE.height} presence="room" frame="screen" position={[0, FOOTAGE.y, ROOM.far + 1.5]} />}
     </group>
   )
 }

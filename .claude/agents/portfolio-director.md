@@ -53,7 +53,7 @@ Score every scene on:
    - short, specific, confident, natural
    - delete generic AI and corporate language aggressively ("passionate", "innovative", "cutting-edge", "results-driven"…)
    - big statements are minimal; facts go in quiet metadata
-10. **Keep the recruiter fast path intact:** nav, the Index, reduced motion, mobile.
+10. **Keep the recruiter fast path intact:** nav, Work & Experience (`#index`), reduced motion, mobile.
 11. **Keep design consistency:**
     - palette, fog, hairlines
     - Archivo expanded for statements, normal width for body, Plex Mono for metadata

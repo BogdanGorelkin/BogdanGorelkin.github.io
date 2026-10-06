@@ -1,33 +1,31 @@
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
-import { getFieldTest, moments } from '../data/projects'
+import { getFieldTest } from '../data/projects'
+import type { PresenceKey } from '../experience/director'
 import type { V3 } from './world'
-import { MediaPlane } from './shared/MediaPlane'
+import { MediaPlane, type MediaFrame } from './shared/MediaPlane'
 import { createLineMaterial, fade } from './shared/materials'
 import { usePresence } from './shared/usePresence'
 
 /**
- * Two experiments, one documentary moment — not a collage.
- * The skydive is the hero where the dolly comes to rest (shots.ts, t ≈ 5.86);
- * the Paris ride is framed mid-dolly (t ≈ 5.5); Bogdan at the bench sits far
- * behind for depth. Other field tests live in the "Also" line and the Index.
+ * Two real experiments, staged as a move from the street into the sky.
+ * The Paris ride sits at street level, a framed window on the city (beat 1,
+ * shots.ts t ≈ 5.48–5.62). The camera then slides past it and rises while
+ * the ground line drops away, coming to rest on the skydive: larger,
+ * frameless, higher and deeper — the more personal moment (beat 2, t ≈ 5.86).
  */
-const PLANES = [
-  { id: 'skydive', pos: [14.5, 1.2, -213] as V3, height: 5.2, rotY: -0.06 },
-  { id: 'moto-paris', pos: [0, 2.4, -222] as V3, height: 4, rotY: 0.08 },
-  { id: 'bench', pos: [24, 2.4, -230] as V3, height: 3.4, rotY: -0.25 },
-].map((slot) => ({
-  ...slot,
-  media: slot.id === moments.bench.id ? moments.bench.media : getFieldTest(slot.id).teaser,
-  opacity: slot.id === moments.bench.id ? 0.7 : 1,
-}))
+export const FIELD_PLANES: { id: string; pos: V3; height: number; rotY: number; frame: MediaFrame; presence: PresenceKey }[] = [
+  { id: 'moto-paris', pos: [0, 2.4, -222], height: 5.4, rotY: 0.08, frame: 'hairline', presence: 'paris' },
+  { id: 'skydive', pos: [13, 7.5, -246], height: 7.6, rotY: -0.18, frame: 'none', presence: 'skydive' },
+]
 
-/** Scene 5 — field tests: layered media in open space, warmer and less abstract. */
+/** Scene 5 — field tests. */
 export function FieldScene() {
   const horizon = useRef<THREE.LineSegments>(null)
   const { geometry, material } = useMemo(() => {
     const g = new THREE.BufferGeometry()
-    g.setAttribute('position', new THREE.Float32BufferAttribute([-30, -3, -236, 50, -3, -236], 3))
+    // The ground line: present on the street, falling out of frame as the camera rises.
+    g.setAttribute('position', new THREE.Float32BufferAttribute([-30, -3, -236, 60, -3, -236], 3))
     return { geometry: g, material: createLineMaterial(0.25) }
   }, [])
   usePresence('field', horizon, (p) => fade(material, 0.25 * p))
@@ -35,13 +33,13 @@ export function FieldScene() {
   return (
     <group>
       <lineSegments ref={horizon} geometry={geometry} material={material} />
-      {PLANES.map((plane) => (
+      {FIELD_PLANES.map((plane) => (
         <MediaPlane
           key={plane.id}
-          asset={plane.media}
+          asset={getFieldTest(plane.id).teaser}
           height={plane.height}
-          presence="field"
-          opacity={plane.opacity}
+          presence={plane.presence}
+          frame={plane.frame}
           position={plane.pos}
           rotation-y={plane.rotY}
         />

@@ -21,11 +21,28 @@ These were migrated from the previous site (`BogdanGorelkin.github.io`).
 
 | File | Source | Used in |
 |---|---|---|
-| `public/cv/bogdan-gorelkin-cv-en.pdf` | `documents/CV/CV_Bogdan_Gorelkin_EN.pdf` (June 2026) | Nav "CV", contact chapter, Index, noscript. **It contains a phone number.** |
-| `public/images/profile/bogdan-bench.webp` (720×960) | `images/about.jpg`, resized | Index → Profile, and `moments.bench` in the Field scene |
-| `public/images/field/esp8266-lamp-prototype.webp` (1920×1080) | `images/projects/esp8266-led.png`, video letterbox cropped | Index and the Field "Also" line (no longer a 3D plane — the Field scene is reduced to the two experiments) |
+| `public/cv/bogdan-gorelkin-cv-en.pdf` | `documents/CV/CV_Bogdan_Gorelkin_EN.pdf` (June 2026) | Nav "CV", contact chapter, Work & Experience, noscript. **It contains a phone number.** |
+| `public/images/profile/bogdan-bench.webp` (720×960) | `images/about.jpg`, resized | Work & Experience → small documentary image beside the header |
+| `public/images/field/esp8266-lamp-prototype.webp` (1920×1080) | `images/projects/esp8266-led.png`, video letterbox cropped | Field "Also" line data (not a 3D plane — the Field scene is reduced to the two experiments) |
 | `public/og-image.jpg` (1200×630) | Rendered from the site's opening frame | `og:image` / `twitter:image` |
 | `public/favicon.svg` | New | Favicon |
+
+### Real video (added October 2026)
+
+The repo holds only the web versions the site plays, in `public/videos/optimized/`: H.264 High, yuv420p, 30 fps, no audio, `+faststart`, each with a poster JPG. Source recordings are not kept in the repo; if one is dropped under `public/videos/` while preparing an encode, `vite.config.ts` → `shipOptimizedVideosOnly` keeps it out of `dist/`.
+
+| Web version | Made from | Where |
+|---|---|---|
+| `optimized/habs-player.web.mp4`: **0.9 MB**, 1600×1004, 26.1 s (CRF 22) | Two screen recordings, in this order: study-flow creation (20.8 s), then live lab-station monitoring (5.3 s, login screen cut). VFR → CFR 30, the second cropped to the first's 1.594 aspect. **Operator names, the organisation column and client study titles are blurred in the encode.** | Scale: the product slot the experiment grid resolves into (`habs-player.teaser`), frame drawn by the screen shader |
+| `optimized/hackathon.web.mp4`: **2.9 MB**, 1600×900 (CRF 23) | H.264 1920×1080, 11.6 s | Hackathon room: the footage wall (`eeg-hackathon-cph.teaser`), frame `screen` |
+| `optimized/paris-eeg-ride.web.mp4`: **7.3 MB**, 1280×960 (CRF 25) | HEVC 1920×1440 60 fps, 12.9 s | Field beat 1 (`moto-paris.teaser`), frame `hairline` |
+| `optimized/skydive.web.mp4`: **6.1 MB**, 1280×960 (CRF 25) | HEVC 2704×2028 60 fps, 9.9 s | Field beat 2, the large frameless hero (`skydive.teaser`) |
+| `optimized/temmacare-spo2.web.mp4`: **1.1 MB**, 480×854 (CRF 22) | H.264 480×854, 9 s | MedTech: the device-shaped evidence panel (`temmacare.teaser`), frame `device` |
+
+**Format notes:**
+- Always ship H.264: HEVC doesn't decode in many Chrome and Firefox setups.
+- Re-encode with the same settings: `ffmpeg -i in -map 0:v:0 -an -vf scale=W:H -r 30 -c:v libx264 -preset slow -crf 23 -pix_fmt yuv420p -movflags +faststart out.web.mp4`.
+- Before encoding any HABS screen recording, check every frame for names, emails, client or organisation names, and blur or cut them.
 
 ### Not migrated, and why
 
@@ -45,7 +62,7 @@ These were migrated from the previous site (`BogdanGorelkin.github.io`).
 The site works like a trailer:
 
 - **Cinematic assets** are short local files played inside the film. They're set through `teaser` on projects and field tests, or `media` on moments, all in `src/data/projects.ts`, and live in `public/videos/` and `public/images/`.
-- **Deep dives** carry the long version on YouTube or LinkedIn. They're set through `deepDives: [{ label, href, platform }]` on the same entries. The first link is the story's call to action in the film; every link is listed in the Index.
+- **Deep dives** carry the long version on YouTube or LinkedIn. They're set through `deepDives: [{ label, href, platform }]` on the same entries. The first link is the story's call to action in the film; project links are listed once in **Work & Experience** after the film (Featured projects, then Earlier projects behind a disclosure). Roles in the Experience list carry no links.
 - **Embeds:** none. Links open in a new tab with an accessible label ("… — opens LinkedIn in a new tab").
 
 ## KNOWN EXTERNAL LINKS
@@ -58,94 +75,49 @@ All are public-safe sources and wired in through `LINKS` in `src/data/projects.t
 | HABS Player | **Read how we scaled experiments ↗** | https://www.linkedin.com/feed/update/urn:li:activity:7466058297108811777/ |
 | Paris ride (EEG on a motorcycle) | **Watch the Paris field test ↗** | https://www.linkedin.com/feed/update/urn:li:activity:7401523361895464960/ |
 | Skydive (EEG in freefall) | **See the skydive experiment ↗** | https://www.linkedin.com/feed/update/urn:li:activity:7371069399224569856/ |
-| TemmaCare / MedTech | **See the medical device work ↗** | https://www.linkedin.com/feed/update/urn:li:activity:7135241238428966912/ |
-| Research / programmable matter | Watch the simulation ↗ · Read the code ↗ | https://youtu.be/x4lbToZrboo · https://github.com/BogdanGorelkin/Boosted-MRTP (both from the old site) |
+| TemmaCare / MedTech | **See the medical device work ↗** (kept in data, not shown to visitors) | https://www.linkedin.com/feed/update/urn:li:activity:7135241238428966912/ |
+| Research: modular robots — hexanodes | **Watch the hexanodes simulation ↗** · **View the code ↗** | https://youtu.be/alA4-bqghO0?si=lCiKSfFQ0miONd8x · https://github.com/BogdanGorelkin/Modular-Movable-Robots |
 | Networked wall lamp | Watch the build ↗ | https://youtu.be/EpEfgixWeLc (old site) |
 
 ## REAL LOCAL ASSETS STILL NEEDED
 
-Listed in order of impact. "Still" means a photo; "video" means a muted local loop.
+**Available now:**
+- HABS Player (two-clip recording)
+- Microsoft hackathon teaser
+- Paris EEG ride
+- Skydive
+- TemmaCare SpO₂
 
-### 1. Microsoft Hackathon: the first climax
+The list below is what's still missing, in order of impact.
 
-- **Teaser loop** (video)
-  - **Format:** horizontal 16:9, 1280×720–1920×1080, **5–15 s**, muted.
-  - **Content:** the chain in one take — a person wearing the EEG headset, the game world shifting, then the LEDs or controller responding. No UI chrome.
-  - **Used:** the large footage wall the camera comes to rest on, high in frame as the protagonist, with only a quiet credits row below.
-  - **Files:** `public/videos/hackathon-cph-teaser.{webm,mp4}` → `eeg-hackathon-cph.teaser`.
-- **Poster** (still)
-  - **Format:** a 16:9 frame from the loop.
-  - **Used:** shown while the video loads.
-  - **File:** `public/images/hackathon-cph-poster.jpg`.
-- **Documentary still** (still)
-  - **Format:** 4:5 portrait.
-  - **Content:** Bogdan building or presenting at the hackathon.
-  - **Used:** a smaller plane beside the footage wall.
-  - **File:** `public/images/moments/bogdan-hackathon.webp` → `moments.hackathon`.
-- **Full film:** already linked (YouTube above).
+### 1. HABS Player: clearance only
 
-### 2. HABS Player: scale
+The recording is in (see above). Still to confirm: the name "HABS Player" and the on-screen content are public (dashboard counts, lab-station names and route labels are visible; names and client titles are blurred).
 
-- **UI teaser** (video, or one still)
-  - **Format:** 16:9, **5–12 s**.
-  - **Content:** the product UI only — protocol design, then a run, then monitoring. No OS chrome.
-  - **Used:** plays inside the framed product slot (right half of the big screen, 16:9, 8 × 4.5 units) that the experiment grid resolves into.
-  - **Files:** `public/videos/habs-player-teaser.*` → `habs-player.teaser`.
-- **Clearance:** confirm on-screen content is public (no participant data).
+### 2. HABS current system (Today / System chapters)
 
-### 3. Skydive: EEG in freefall
+- **What:** real device / mobile / multi-device footage: headbands on people, the phone app receiving, several devices at once.
+- **Format:** 16:9 or 4:5, 5–10 s.
+- **Used:** `habs-systems.teaser`. There's no slot in the film yet: the Today scene is procedural. Ask to add a plane once footage exists.
+- **Clearance:** needs public-safe clearance.
 
-- **Teaser** (video or still)
-  - **Format:** portrait 4:5, **5–10 s**.
-  - **Content:** Bogdan in freefall with the headset visible.
-  - **Used:** the hero plane where the Field dolly comes to rest — the film's main "Bogdan in person" moment.
-  - **File:** `public/videos/field-skydive.*` or `public/images/field/skydive.webp` → `fieldTests` → `skydive.teaser`.
-- **Optional extra:** a documentary still on the ground with the headset (4:5).
+### 3. Research: hexanodes
 
-### 4. Paris ride: EEG on a motorcycle
+- **What:** a 5–15 s 16:9 loop cut from the hexanodes simulation (the public video, https://youtu.be/alA4-bqghO0), as an H.264 web version.
+- **Used:** set `programmable-matter.teaser` and it appears automatically beside the modules.
+- **Note:** the old site's `Movable.gif` is real but low-res.
 
-- **Teaser** (video or still)
-  - **Format:** landscape 3:2, **5–10 s**.
-  - **Content:** the rider with the headset in traffic. A phone or app view in frame is a plus.
-  - **Used:** the plane the camera settles on mid-dolly.
-  - **File:** `public/images/field/moto-paris.webp` (or `public/videos/field-moto-paris.*`) → `moto-paris.teaser`.
+### 4. Bogdan: documentary photos (optional)
 
-### 5. TemmaCare / MedTech
-
-- **Doctor-view UI** (still)
-  - **Format:** 16:10.
-  - **Content:** a public screenshot, e.g. the live oximetry graphs.
-  - **Used:** the large remote-doctor screen in the MedTech scene (16:10), at the end of the data arc.
-  - **Goes to:** `temmacare.teaser`.
-- **Device photos** (stills)
-  - **Format:** 1:1 or 4:5, plain background.
-  - **Content:** ECG, ultrasound probe, spirometer, dermatoscope, pulse oximeter.
-  - **Used:** reserved for the Index / a future plane.
-  - **Files:** `public/images/medtech/*`.
-
-### 6. Research / programmable matter
-
-- **Footage** (video or still)
-  - **Format:** 16:9, **5–15 s**.
-  - **Content:** real modules, VisibleSim recordings, lab shots.
-  - **Used:** set `programmable-matter.teaser` and it appears automatically as a plane beside the modules.
-  - **Files:** `public/videos/research-*.mp4`.
-- **Links:** a publication or presentation, if public → `experience.ts` → `research.deepDives`.
-
-### 7. Bogdan: documentary material
-
-Evidence of real work, not portraits. Each one should be 4:5 or 3:2, 1600–2000 px, WebP or AVIF.
-
-- **Hardware / bench:** one exists (`public/images/profile/bogdan-bench.webp`, used in the Field scene and the Index). A newer one is welcome.
-- **Hackathon:** see 1.
-- **Headband test:** → `moments.headband`. The slot is ready but not placed in the film yet.
-- **Lab or workshop.**
-- **Field testing:** skydive and Paris ride, covered above.
+The skydive footage now puts Bogdan in the film. Still useful:
+- **At the hackathon** (4:5): `moments.hackathon`. It's no longer shown in the room, because the real footage carries that scene.
+- **With a headband** (4:5): `moments.headband`, not placed in the film yet.
+- **In a lab or at the bench:** one exists (`public/images/profile/bogdan-bench.webp`, used in Work & Experience).
 
 ### Also open
 
-- **HABS systems teaser** (`habs-systems.teaser`): several devices in use, 16:9. Needs public-safe clearance.
-- **Social / OG image:** `public/og-image.jpg` is a frame of the opening. Re-render it if the intro copy changes.
+- **TemmaCare device photos:** ECG, ultrasound probe, pulse oximeter. Optional now that the SpO₂ footage exists.
+- **Social / OG image:** `public/og-image.jpg` is a frame of the opening. Re-render it if the intro changes.
 
 ## Encoding guidance
 

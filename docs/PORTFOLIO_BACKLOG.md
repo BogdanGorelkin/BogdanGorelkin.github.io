@@ -6,9 +6,15 @@ Known unfinished work, as of commit `23a5bb5`. Only tick an item off once it exi
 
 Done in the clarity pass: the name is promoted in the intro; HABS is now a device → link → phone chain; System is a single gate; the Player slot is defined; the Hackathon is footage-first; Field is reduced to two experiments + one moment; the Rewind collapse; MedTech has 3 devices and 3 labels; Research is calmer; the Pattern is a motif convergence; Contact → Index handoff; portrait framings for Rewind and Pattern.
 
-- [ ] **Placeholders still carry the key scenes** (hackathon footage, Paris, skydive, doctor screen). Real media is now the main lever.
-- [ ] **Hackathon credits row:** the title floats in the middle column; revisit once the video sets the visual weight.
-- [ ] **MedTech:** the patient figure is faint, and on mobile the doctor screen sits at the right edge.
+- [x] Real footage integrated: hackathon, Paris ride, skydive and TemmaCare SpO₂, all web-optimized with posters.
+- [x] **HABS Player:** the real two-clip recording plays in the product slot; the 03 → 04 transition is one continuous signal.
+- [x] **Today:** the head is a legible point-cloud bust wearing the band.
+- [x] **Pattern:** software is the foreground connector; the onward line becomes the Contact bookend.
+- [x] **Semantic tail:** "Work & Experience": Featured projects (4, fixed order), Earlier projects disclosure, Experience; links listed once; nav backing after the film.
+- [x] **Signal clock:** one monotonic signal clock (`signalTime`), so no animation restarts at a chapter boundary.
+- [ ] **Hackathon credits row:** the title still floats in the middle column under the footage; consider aligning it to the footage's left edge.
+- [x] **MedTech:** simplified to patient + 3 devices → one arc → remote doctor, with the SpO₂ footage as the only screen; no CTA in the film.
+- [ ] **MedTech on mobile:** the composition is small at the top of the frame; consider a closer portrait shot.
 - [ ] **Mobile Today:** the 5-line headline leaves only the top quarter for the head / phone chain.
 - [ ] **Rewind on mobile:** the "03 — HABS" label sits close to the headline.
 - [ ] **Pacing:** the total scroll is still long (~25 screens desktop); tighten once media is in.
@@ -20,7 +26,7 @@ Done in the clarity pass: the name is promoted in the intro; HABS is now a devic
 - [ ] **Field triad** "A rider in traffic · me, in freefall": clunky; refine.
 - [ ] **Scale lede** "Not just features — systems that let a team move faster": decent; consider something shorter.
 - [ ] **MedTech headline** "Connected through software." wraps heavily on phones.
-- [ ] Hackathon `flow` is now the short chain *EEG → Software → Game → Physical feedback*; the longer subtitle/summary only show in the Index and static layout.
+- [ ] Hackathon `flow` is now the short chain *EEG → Software → Game → Physical feedback*; the longer subtitle/summary only show in the static layout.
 - [ ] **Rewind caption** "Everything so far is one chapter — HABS, today. Rewind.": check it reads to zero-context visitors.
 
 ## Real media needed
@@ -28,17 +34,18 @@ Done in the clarity pass: the name is promoted in the intro; HABS is now a devic
 Full specs are in [ASSETS.md](../ASSETS.md).
 
 **Not yet in the repo:**
-- [ ] Microsoft Hackathon: 5–15 s 16:9 local teaser + poster.
-- [ ] Microsoft Hackathon: documentary still of Bogdan (4:5).
-- [ ] HABS Player: UI teaser (5–12 s) or screenshot.
-- [ ] Skydive: footage or strong still (4:5).
-- [ ] Paris ride: footage or still (3:2).
-- [ ] TemmaCare: doctor-view UI screenshot (public), device photos.
+- [ ] HABS Player: UI recording (5–12 s) or a strong screenshot. **Highest priority.**
+- [ ] HABS systems: real device / mobile / multi-device footage (needs clearance).
 - [ ] Programmable-matter research: photos or simulation footage.
-- [ ] Documentary images of Bogdan: hackathon, lab, headband, field tests.
-- [ ] HABS systems teaser: needs clearance.
+- [ ] Optional documentary images of Bogdan: hackathon, lab, headband.
+- [ ] Optional TemmaCare device photos.
 
 **Already in the repo:**
+- [x] Microsoft Hackathon teaser (`public/videos/optimized/hackathon.web.mp4` + poster).
+- [x] Paris EEG ride (`optimized/paris-eeg-ride.web.mp4` + poster).
+- [x] Skydive (`optimized/skydive.web.mp4` + poster).
+- [x] TemmaCare SpO₂ (`optimized/temmacare-spo2.web.mp4` + poster).
+- [x] DIY / WLED (`videos/diy/wled-short.mp4`, unused).
 - [x] Bench portrait (`public/images/profile/bogdan-bench.webp`).
 - [x] ESP8266 lamp photo.
 - [x] English CV.

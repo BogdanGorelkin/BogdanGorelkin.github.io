@@ -113,9 +113,11 @@ type Props = {
   calmable?: boolean
   /** Wave frequency multiplier — < 1 for lines seen from very far away. */
   waveScale?: number
+  /** Draw-on progress 0–1 read every frame (e.g. from the director's stage). */
+  reveal?: () => number
 }
 
-export function SignalLine({ points, samples, presence, amplitude, intro, calmable, waveScale = 1 }: Props) {
+export function SignalLine({ points, samples, presence, amplitude, intro, calmable, waveScale = 1, reveal: revealFn }: Props) {
   const group = useRef<THREE.Group>(null)
   const size = useThree((s) => s.size)
 
@@ -124,7 +126,7 @@ export function SignalLine({ points, samples, presence, amplitude, intro, calmab
   const halo = useMemo(() => createRibbonMaterial(9, 0.14, 2.2), [])
 
   usePresence(presence, group, (p) => {
-    const reveal = intro ? Math.max(stage.intro, Math.min(1, stage.time * 2.2)) : 1
+    const reveal = revealFn ? revealFn() : intro ? Math.max(stage.intro, Math.min(1, stage.time * 2.2)) : 1
     const calm = calmable ? stage.calm : 0
     for (const [m, base] of [
       [core, 1],

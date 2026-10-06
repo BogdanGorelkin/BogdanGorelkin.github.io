@@ -118,7 +118,7 @@ Current HABS wording in `src/data` is marked `publicSafe: 'review'` / `TODO: PUB
 - **Use:** "the environment reacts to the player's state in real time."
 - **Avoid:** "controlling the game with your mind."
 
-**Role:** the main cinematic proof that software leaves the screen.
+**Role:** the main cinematic proof: from signal to environment — a person's EEG state became a game world, LEDs and controller feedback.
 
 ## Field tests
 
@@ -171,10 +171,12 @@ These are **real-world validation, not stunts.** Tone: a curious engineer, never
   - a boosted time-synchronisation protocol (MRTP)
   - movement simulation (hexanodes), in VisibleSim and BIP
 
-**Public links (from the old site):**
-- Code: https://github.com/BogdanGorelkin/Boosted-MRTP
-- Video: https://youtu.be/x4lbToZrboo
-- Also: https://github.com/BogdanGorelkin/Modular-Movable-Robots and https://youtu.be/alA4-bqghO0
+**Public proof used in the portfolio:** "Simulation of the movement of modular robots hexanodes" — C++, VisibleSim, Univ. of Franche-Comté / IUT-BM; a two-person project (repo authors: Bogdan Gorelkin and Sheikh Shah Mohammad Motiur Rahman; supervisor Benoit Piranda). Exact dates aren't in the public sources.
+- Video: https://youtu.be/alA4-bqghO0?si=lCiKSfFQ0miONd8x
+- Code: https://github.com/BogdanGorelkin/Modular-Movable-Robots
+- Legacy listing: https://gorelkin.vip/projects.html
+
+**Not used in the portfolio:** the MRTP time-sync work (https://github.com/BogdanGorelkin/Boosted-MRTP, https://youtu.be/x4lbToZrboo) — true, but the hexanodes project is the chapter's proof.
 
 **Role in the story:** the physical / software pattern predates product work. Honest gap: there was no human in the loop yet.
 

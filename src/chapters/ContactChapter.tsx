@@ -8,7 +8,7 @@ import { fadeIn, linesIn } from '../lib/motion'
 
 /**
  * 10 — Contact. Complexity stripped back to one calm line and a question.
- * As the Index curtain rises, the ending recedes (fades and lifts) so the
+ * As the Work & Experience curtain rises, the ending recedes (fades and lifts) so the
  * handoff reads as deliberate rather than the Index covering the scene.
  */
 export function ContactChapter() {
@@ -20,7 +20,9 @@ export function ContactChapter() {
     const mm = gsap.matchMedia()
     mm.add('(prefers-reduced-motion: no-preference)', () => {
       // Opacity / y only — visibility stays owned by the chapter's is-active class.
-      gsap.to(stage, { opacity: 0, y: -48, ease: 'none', scrollTrigger: { trigger: index, start: 'top bottom', end: 'top 40%', scrub: 0.4 } })
+      // Gone while the curtain's top is still low in the viewport, before any
+      // of its text is readable: the ending never ghosts through it.
+      gsap.to(stage, { opacity: 0, y: -48, ease: 'power1.in', scrollTrigger: { trigger: index, start: 'top bottom', end: 'top 72%', scrub: 0.3 } })
     })
     return () => mm.revert()
   })
@@ -39,7 +41,7 @@ export function ContactChapter() {
       <div className="contact__links block block--bottom-left">
         <ContactLinks />
         <p className="mono contact__foot">
-          {profile.name} — {profile.location} — <a href="#index">The short version ↓</a>
+          {profile.name} — {profile.location} — <a href="#index">Work &amp; experience ↓</a>
         </p>
       </div>
     </Chapter>
