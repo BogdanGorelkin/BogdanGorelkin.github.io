@@ -41,6 +41,13 @@ jobs:
       # tsc -b && vite build; the Vite plugin ships only public/videos/optimized/.
       - run: pnpm build
 
+      # Guard: the artifact must be the built app, never the source entry.
+      - name: Check the build output
+        run: |
+          test -f dist/index.html
+          if grep -q '/src/' dist/index.html; then echo "dist/index.html references /src/ — not a production build"; exit 1; fi
+          ls dist/assets/*.js
+
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
