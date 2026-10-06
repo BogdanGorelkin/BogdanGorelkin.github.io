@@ -32,3 +32,21 @@ export function segments(flat: number[]) {
   g.setAttribute('position', new THREE.Float32BufferAttribute(flat, 3))
   return g
 }
+
+/** Outline of a rounded rectangle in the XY plane (a phone, a screen), centred on the origin. */
+export function roundedRectGeometry(w: number, h: number, r: number, seg = 6) {
+  const pts: THREE.Vector3[] = []
+  const corners: [number, number, number][] = [
+    [w / 2 - r, h / 2 - r, 0],
+    [-w / 2 + r, h / 2 - r, Math.PI / 2],
+    [-w / 2 + r, -h / 2 + r, Math.PI],
+    [w / 2 - r, -h / 2 + r, (3 * Math.PI) / 2],
+  ]
+  for (const [cx, cy, start] of corners) {
+    for (let i = 0; i <= seg; i++) {
+      const a = start + (i / seg) * (Math.PI / 2)
+      pts.push(new THREE.Vector3(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 0))
+    }
+  }
+  return new THREE.BufferGeometry().setFromPoints(pts)
+}

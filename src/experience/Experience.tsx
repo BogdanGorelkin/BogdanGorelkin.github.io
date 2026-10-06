@@ -5,6 +5,7 @@ import { gsap } from '../lib/gsap'
 import { Atmosphere } from '../scenes/Atmosphere'
 import { DataScene } from '../scenes/DataScene'
 import { FieldScene } from '../scenes/FieldScene'
+import { JourneyCollapse } from '../scenes/JourneyCollapse'
 import { MedTechScene } from '../scenes/MedTechScene'
 import { NeuralScene } from '../scenes/NeuralScene'
 import { PatternScene } from '../scenes/PatternScene'
@@ -65,19 +66,21 @@ export default function Experience({ reducedMotion }: { reducedMotion: boolean }
           <RenderGate reducedMotion={reducedMotion} wrapper={wrapper} />
           <CameraRig />
           <Atmosphere />
-          <SignalScene />
-          <NeuralScene />
-          <DataScene />
-          <ScreenScene />
-          <FieldScene />
+          <JourneyCollapse>
+            <SignalScene />
+            <NeuralScene />
+            <DataScene />
+            <ScreenScene />
+            <FieldScene />
+          </JourneyCollapse>
           <TimelineScene />
           <MedTechScene />
           <ResearchScene />
           <PatternScene />
-          {quality.spatialLabels && <LabelProjector />}
+          <LabelProjector tier={quality.tier} />
         </ExperienceContext.Provider>
       </Canvas>
-      {quality.spatialLabels && <SpatialLabels />}
+      <SpatialLabels tier={quality.tier} />
     </div>
   )
 }

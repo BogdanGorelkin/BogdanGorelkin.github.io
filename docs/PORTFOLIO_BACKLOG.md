@@ -4,16 +4,14 @@ Known unfinished work, as of commit `23a5bb5`. Only tick an item off once it exi
 
 ## UI / cinematic polish
 
-- [ ] **Field tests is the weakest scene visually.** Its media planes are placeholders except the ESP8266 lamp photo and the bench portrait. It depends on real skydive and Paris media.
-- [ ] **Field:** the triad strip (top-right) overlaps the hackathon-floor plane; a scrim was added but it's still busy.
-- [ ] **MedTech:** the patient and devices are thin wireframes, and the remote-doctor screen is a small placeholder. A real doctor-view screenshot or device photos would carry it.
-- [ ] **MedTech on mobile:** a 5-line headline + device list + triad + CTA makes a tall block, and the CTA appears late in the chapter.
-- [ ] **Hackathon room:** the footage wall is a placeholder, so the climax relies on the push-through and the LED flash until the teaser exists.
-- [ ] **Research on mobile:** the modules overlap the headline (a scrim exists).
-- [ ] **Pattern on mobile:** the DOM fallback words sit over the threads.
-- [ ] **Rewind and Pattern on mobile:** the wide shots make stations very small.
-- [ ] **Pacing:** the total scroll is about 25 screens on desktop. Consider tightening section lengths in `chapters.ts` once real media is in.
-- [ ] **Intro:** the far, depth-going part of the trace is faintly visible at the right edge at t=0 (fog 26). Minor.
+Done in the clarity pass: the name is promoted in the intro; HABS is now a device → link → phone chain; System is a single gate; the Player slot is defined; the Hackathon is footage-first; Field is reduced to two experiments + one moment; the Rewind collapse; MedTech has 3 devices and 3 labels; Research is calmer; the Pattern is a motif convergence; Contact → Index handoff; portrait framings for Rewind and Pattern.
+
+- [ ] **Placeholders still carry the key scenes** (hackathon footage, Paris, skydive, doctor screen). Real media is now the main lever.
+- [ ] **Hackathon credits row:** the title floats in the middle column; revisit once the video sets the visual weight.
+- [ ] **MedTech:** the patient figure is faint, and on mobile the doctor screen sits at the right edge.
+- [ ] **Mobile Today:** the 5-line headline leaves only the top quarter for the head / phone chain.
+- [ ] **Rewind on mobile:** the "03 — HABS" label sits close to the headline.
+- [ ] **Pacing:** the total scroll is still long (~25 screens desktop); tighten once media is in.
 - [ ] **No "headband" moment of Bogdan** placed in the film yet (`moments.headband` exists).
 
 ## Copy
@@ -22,6 +20,7 @@ Known unfinished work, as of commit `23a5bb5`. Only tick an item off once it exi
 - [ ] **Field triad** "A rider in traffic · me, in freefall": clunky; refine.
 - [ ] **Scale lede** "Not just features — systems that let a team move faster": decent; consider something shorter.
 - [ ] **MedTech headline** "Connected through software." wraps heavily on phones.
+- [ ] Hackathon `flow` is now the short chain *EEG → Software → Game → Physical feedback*; the longer subtitle/summary only show in the Index and static layout.
 - [ ] **Rewind caption** "Everything so far is one chapter — HABS, today. Rewind.": check it reads to zero-context visitors.
 
 ## Real media needed

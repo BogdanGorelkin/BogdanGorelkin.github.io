@@ -42,7 +42,7 @@ export function FieldChapter() {
     >
       <p className="mono chapter-index block block--top-left">{c.index}</p>
       <Headline id="field-title" lines={c.headline} className="statement headline--l display--left" />
-      <TriadStrip triad={c.triad} className="block block--top-right" />
+      <TriadStrip triad={c.triad} className="block block--top-left field-triad" />
       <div className="field-beats block block--bottom-left">
         {beats.map((t) => (
           <FieldBeat key={t.id} test={t} />

@@ -11,6 +11,16 @@ import { ROOM, SCREEN, type V3 } from './world'
 
 const LEDS_PER_WALL = 16
 
+/**
+ * The HABS Player product slot on the big screen: the right half (16:9).
+ * The experiment grid resolves into this frame; a real UI recording plays here.
+ * UV rect and world rect describe the same area.
+ */
+const PLAYER_SLOT = { uv: { cx: 0.7, cy: 0.5, hx: 0.25, hy: 0.25 }, x: 3.2, width: 8, height: 4.5 }
+
+/** The hackathon footage wall — the protagonist of the climax. */
+export const FOOTAGE = { height: 7.2, y: 2.6 }
+
 /** The signal, now physical: it runs along the floor from the screen to the footage wall. */
 const FLOOR_SIGNAL: V3[] = [
   [0, ROOM.floorY + 0.05, ROOM.near - 0.5],
@@ -28,9 +38,9 @@ export function ScreenScene() {
   return (
     <>
       <SoftwareSurface />
-      {/* A real Player teaser, once provided, plays on the screen itself. */}
+      {/* A real Player recording, once provided, fills the product slot the grid resolves into. */}
       {player.teaser && player.teaser.kind !== 'placeholder' && (
-        <MediaPlane asset={player.teaser} height={SCREEN.height * 0.92} presence="player" position={[0, 0, SCREEN.z + 0.05]} />
+        <MediaPlane asset={player.teaser} height={PLAYER_SLOT.height} presence="player" position={[PLAYER_SLOT.x, 0, SCREEN.z + 0.05]} />
       )}
       <Room />
     </>
@@ -42,7 +52,7 @@ function SoftwareSurface() {
   const material = useMemo(
     () =>
       new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uOpacity: { value: 0 }, uGrid: { value: 0 } },
+        uniforms: { uTime: { value: 0 }, uOpacity: { value: 0 }, uGrid: { value: 0 }, uFocus: { value: 0 } },
         vertexShader: /* glsl */ `
           varying vec2 vUv;
           void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
@@ -51,7 +61,15 @@ function SoftwareSurface() {
           uniform float uTime;
           uniform float uOpacity;
           uniform float uGrid;
+          uniform float uFocus;
           varying vec2 vUv;
+          const vec2 SLOT_C = vec2(${PLAYER_SLOT.uv.cx.toFixed(3)}, ${PLAYER_SLOT.uv.cy.toFixed(3)});
+          const vec2 SLOT_H = vec2(${PLAYER_SLOT.uv.hx.toFixed(3)}, ${PLAYER_SLOT.uv.hy.toFixed(3)});
+          // Signed distance (in uv) to the product slot's edge: < 0 inside.
+          float slotDist(vec2 uv) {
+            vec2 d = abs(uv - SLOT_C) - SLOT_H;
+            return max(d.x, d.y);
+          }
           // One channel of a multi-channel recording, drawn as an anti-aliased hairline.
           float channel(vec2 uv, float k) {
             float base = (k + 0.5) / 8.0;
@@ -86,7 +104,12 @@ function SoftwareSurface() {
             // A sweep cursor, like a monitor: fresh data bright, older data dim.
             float age = fract(fract(uTime * 0.07) - vUv.x);
             lines *= mix(1.0, 0.2, age);
-            lines = mix(lines, experiments(vUv), uGrid);
+            // Player: many runs on one system… which resolve into one product frame.
+            float sd = slotDist(vUv);
+            float inside = step(sd, 0.0);
+            float runs = experiments(vUv) * mix(1.0, mix(0.2, 0.0, inside), uFocus);
+            float slotEdge = (1.0 - smoothstep(0.0, fwidth(sd) * 1.5, abs(sd))) * uFocus;
+            lines = mix(lines, runs + slotEdge * 0.85, uGrid);
             vec2 cell = vUv * vec2(32.0, 18.0);
             vec2 gd = abs(fract(cell - 0.5) - 0.5) / fwidth(cell);
             float grid = 1.0 - min(min(gd.x, gd.y), 1.0);
@@ -106,6 +129,7 @@ function SoftwareSurface() {
     material.uniforms.uTime!.value = stage.clock
     material.uniforms.uOpacity!.value = 0.94 * p
     material.uniforms.uGrid!.value = stage.playerGrid
+    material.uniforms.uFocus!.value = stage.playerFocus
     fade(frame, 0.6 * p)
   })
 
@@ -173,14 +197,16 @@ function Room() {
         }}
         args={[ledGeo, ledMat, positions.length]}
       />
-      {media && <MediaPlane asset={media} height={6.2} presence="room" position={[0, 0.9, ROOM.far + 1.5]} />}
-      {/* Bogdan in the room — a documentary moment on the side wall. */}
+      {/* The footage is the protagonist: big, centred, high in frame so the text sits below it. */}
+      {media && <MediaPlane asset={media} height={FOOTAGE.height} presence="room" position={[0, FOOTAGE.y, ROOM.far + 1.5]} />}
+      {/* Bogdan at the event — a smaller documentary moment beside the footage. */}
       <MediaPlane
         asset={moments.hackathon.media}
-        height={3.6}
+        height={3.4}
         presence="room"
-        position={[-ROOM.halfWidth + 0.6, 0.6, ROOM.far + 13]}
-        rotation-y={Math.PI / 2.6}
+        opacity={0.85}
+        position={[8.1, 0.4, ROOM.far + 3.2]}
+        rotation-y={-0.3}
       />
     </group>
   )

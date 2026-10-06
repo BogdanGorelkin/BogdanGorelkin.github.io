@@ -16,10 +16,15 @@ export function StreamParticles({
   curves,
   perCurve,
   presence,
+  size = 1.6,
+  speed = 1,
 }: {
   curves: THREE.Curve<THREE.Vector3>[]
   perCurve: number
   presence: PresenceKey
+  size?: number
+  /** Multiplier on travel speed. */
+  speed?: number
 }) {
   const ref = useRef<THREE.Points>(null)
 
@@ -40,7 +45,7 @@ export function StreamParticles({
     return { geometry: g, luts, seeds }
   }, [curves, perCurve])
 
-  const material = useMemo(() => createPointsMaterial({ size: 1.6, opacity: 0.9, twinkle: 0.3 }), [])
+  const material = useMemo(() => createPointsMaterial({ size, opacity: 0.9, twinkle: 0.3 }), [size])
 
   usePresence(presence, ref, (p) => {
     const t = stage.clock
@@ -48,7 +53,7 @@ export function StreamParticles({
     const out = arr.array as Float32Array
     seeds.forEach((s, i) => {
       const lut = luts[s.curve]!
-      const f = (((s.offset + t * s.speed) % 1) + 1) % 1
+      const f = (((s.offset + t * s.speed * speed) % 1) + 1) % 1
       const x = f * (LUT_SIZE - 1)
       const k = Math.floor(x)
       const u = x - k

@@ -26,7 +26,7 @@ export function PlayerChapter() {
     >
       <div className="player__copy block block--bottom-left">
         <p className="mono chapter-index">{c.index}</p>
-        <Headline id="player-title" lines={c.headline} className="headline--l" />
+        <Headline id="player-title" lines={c.headline} className="headline--m" />
         <p className="lede">{c.lede}</p>
         <dl className="mono before-after">
           <div>

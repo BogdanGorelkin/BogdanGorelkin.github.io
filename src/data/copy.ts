@@ -31,7 +31,7 @@ export const copy = {
     index: 'Today — the system',
     headline: ['From sensor', 'to experience.'],
     body: 'Hardware integration, mobile, frontend, backend, realtime infrastructure — I own it end to end.',
-    layers: ['Devices', 'BLE', 'Mobile / edge', 'Backend', 'Realtime processing', 'Experiment / experience'],
+    layers: ['Device', 'Mobile / edge', 'System', 'Experience'],
     projectId: 'habs-systems',
   },
   player: {
@@ -64,7 +64,7 @@ export const copy = {
     index: 'Before — MedTech',
     headline: ['Remote care.', 'Physical diagnostics.', 'Connected through software.'],
     body: 'A patient at home, diagnostic devices beside them, a doctor somewhere else — working on the same examination.',
-    devices: ['ECG', 'Ultrasound', 'Spirometry', 'Dermatoscope', 'Pulse oximetry'],
+    devices: ['ECG', 'Ultrasound', 'Pulse oximetry'],
     projectId: 'temmacare',
     triad: { human: 'Patient and doctor', hardware: 'Diagnostic devices', software: 'Remote consultation + device data' } satisfies Triad,
   },

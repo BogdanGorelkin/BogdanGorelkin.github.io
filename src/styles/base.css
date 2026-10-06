@@ -244,6 +244,10 @@ main {
   inset: 0;
   overflow: hidden;
 }
+/* Pinned labels follow the cinematic camera; the static layout has DOM text instead. */
+html:not(.is-cinematic) .spatial-labels {
+  display: none;
+}
 .spatial-labels > * {
   position: absolute;
   top: 0;
@@ -288,6 +292,12 @@ main {
   font-size: 12px;
   font-weight: 500;
 }
+.station-label--current {
+  color: var(--ink);
+}
+.station-label:not(.station-label--current) {
+  color: var(--ink-2);
+}
 .station-label__now {
   color: var(--ink-3);
 }
@@ -297,9 +307,10 @@ main {
   font-weight: 600;
   font-stretch: 118%;
   text-transform: uppercase;
-  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  font-size: clamp(0.95rem, 1.4vw, 1.4rem);
   letter-spacing: 0.02em;
-  transform: translate(0, -125%);
+  /* Centred under its motif. */
+  transform: translate(-50%, 0);
   color: var(--ink);
   white-space: nowrap;
 }

@@ -3,9 +3,11 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { copy } from '../data/copy'
 import { career } from '../data/experience'
-import { annotationAnchor, MEDTECH, medtechWorld, stationLabelAnchor, threadLabelAnchor } from '../scenes/layout'
+import { annotationAnchor, MEDTECH, medtechWorld, stationLabelAnchor } from '../scenes/layout'
+import { PATTERN_ANCHORS } from '../scenes/PatternScene'
 import { CAREER, type V3 } from '../scenes/world'
 import { stage } from './director'
+import type { Tier } from './quality'
 
 /**
  * DOM text pinned to points in the 3D world. The elements are ordinary DOM
@@ -15,10 +17,12 @@ import { stage } from './director'
 type Label = {
   id: string
   className: string
-  position: V3
+  position: V3 | (() => V3)
   opacity: () => number
   /** Only shown when the camera is above this height — i.e. on wide shots. */
   minCameraY?: number
+  /** Also shown on the mobile tier (most small labels give way to DOM lists there). */
+  mobile?: boolean
   lines: { text: string; className: string }[]
 }
 
@@ -35,13 +39,7 @@ const LABELS: Label[] = [
     opacity: () => stage.presence.annotations * stage.presence.neural,
     lines: twoLines(a.key, a.value),
   })),
-  ...MEDTECH.devices.map((d, i) => ({
-    id: `device-${d.id}`,
-    className: 'annotation',
-    position: medtechWorld(d.pos, 1.4),
-    opacity: () => stage.presence.medtechLabels,
-    lines: twoLines(copy.medtech.devices[i] ?? d.id, 'Diagnostic device'),
-  })),
+  // MedTech: three roles, not a device catalogue.
   {
     id: 'medtech-patient',
     className: 'annotation',
@@ -50,18 +48,26 @@ const LABELS: Label[] = [
     lines: twoLines('Patient', 'At home'),
   },
   {
+    id: 'medtech-devices',
+    className: 'annotation',
+    position: medtechWorld(MEDTECH.devices[0]!.pos, 1.6),
+    opacity: () => stage.presence.medtechLabels,
+    lines: twoLines('Diagnostic devices', 'Connected locally'),
+  },
+  {
     id: 'medtech-doctor',
     className: 'annotation',
-    position: medtechWorld(MEDTECH.doctor, 3.6),
+    position: medtechWorld(MEDTECH.doctor, 4.6),
     opacity: () => stage.presence.medtechLabels,
     lines: twoLines('Doctor', 'Remote, live'),
   },
   ...career.map((s, i) => ({
     id: `station-${s.id}`,
-    className: 'station-label',
+    className: `station-label${s.current ? ' station-label--current' : ''}`,
     position: stationLabelAnchor(CAREER.x[s.id]),
-    opacity: () => stage.presence.career,
-    minCameraY: 60,
+    opacity: () => stage.presence.career * (1 - stage.presence.pattern),
+    minCameraY: 25,
+    mobile: true,
     lines: [
       { text: `${String(i + 1).padStart(2, '0')} — ${s.era}${s.current ? ' · now' : ''}`, className: '' },
       { text: s.theme, className: 'station-label__era' },
@@ -70,18 +76,20 @@ const LABELS: Label[] = [
   ...copy.pattern.threads.map((word, i) => ({
     id: `thread-${i}`,
     className: 'thread-label',
-    position: threadLabelAnchor(i),
-    opacity: () => stage.presence.pattern,
+    position: () => PATTERN_ANCHORS[i]!,
+    opacity: () => stage.presence.pattern * (1 - stage.converge),
+    mobile: true,
     lines: [{ text: word, className: '' }],
   })),
 ]
 
 const elements = new Map<string, HTMLDivElement>()
+const forTier = (tier: Tier) => (tier === 'high' ? LABELS : LABELS.filter((l) => l.mobile))
 
-export function SpatialLabels() {
+export function SpatialLabels({ tier }: { tier: Tier }) {
   return (
     <div className="spatial-labels">
-      {LABELS.map((l) => (
+      {forTier(tier).map((l) => (
         <div
           key={l.id}
           className={l.className}
@@ -101,17 +109,19 @@ export function SpatialLabels() {
   )
 }
 
-export function LabelProjector() {
+export function LabelProjector({ tier }: { tier: Tier }) {
   const v = useMemo(() => new THREE.Vector3(), [])
   const shown = useMemo(() => new Map<string, boolean>(), [])
+  const labels = useMemo(() => forTier(tier), [tier])
 
   useFrame(({ camera, size }) => {
-    for (const label of LABELS) {
+    for (const label of labels) {
       const el = elements.get(label.id)
       if (!el) continue
       const opacity = label.opacity()
       const aerial = !label.minCameraY || camera.position.y > label.minCameraY
-      v.set(...label.position).project(camera)
+      const pos = typeof label.position === 'function' ? label.position() : label.position
+      v.set(...pos).project(camera)
       const visible = aerial && opacity > 0.01 && v.z < 1 && Math.abs(v.x) < 1.2 && Math.abs(v.y) < 1.2
       if (visible) {
         const x = (v.x * 0.5 + 0.5) * size.width

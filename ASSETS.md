@@ -23,7 +23,7 @@ These were migrated from the previous site (`BogdanGorelkin.github.io`).
 |---|---|---|
 | `public/cv/bogdan-gorelkin-cv-en.pdf` | `documents/CV/CV_Bogdan_Gorelkin_EN.pdf` (June 2026) | Nav "CV", contact chapter, Index, noscript. **It contains a phone number.** |
 | `public/images/profile/bogdan-bench.webp` (720×960) | `images/about.jpg`, resized | Index → Profile, and `moments.bench` in the Field scene |
-| `public/images/field/esp8266-lamp-prototype.webp` (1920×1080) | `images/projects/esp8266-led.png`, video letterbox cropped | Field scene plane (`wall-lamp.teaser`) and the Field "Also" line |
+| `public/images/field/esp8266-lamp-prototype.webp` (1920×1080) | `images/projects/esp8266-led.png`, video letterbox cropped | Index and the Field "Also" line (no longer a 3D plane — the Field scene is reduced to the two experiments) |
 | `public/og-image.jpg` (1200×630) | Rendered from the site's opening frame | `og:image` / `twitter:image` |
 | `public/favicon.svg` | New | Favicon |
 
@@ -71,7 +71,7 @@ Listed in order of impact. "Still" means a photo; "video" means a muted local lo
 - **Teaser loop** (video)
   - **Format:** horizontal 16:9, 1280×720–1920×1080, **5–15 s**, muted.
   - **Content:** the chain in one take — a person wearing the EEG headset, the game world shifting, then the LEDs or controller responding. No UI chrome.
-  - **Used:** on the room's back wall after the camera breaks through the screen.
+  - **Used:** the large footage wall the camera comes to rest on, high in frame as the protagonist, with only a quiet credits row below.
   - **Files:** `public/videos/hackathon-cph-teaser.{webm,mp4}` → `eeg-hackathon-cph.teaser`.
 - **Poster** (still)
   - **Format:** a 16:9 frame from the loop.
@@ -80,7 +80,7 @@ Listed in order of impact. "Still" means a photo; "video" means a muted local lo
 - **Documentary still** (still)
   - **Format:** 4:5 portrait.
   - **Content:** Bogdan building or presenting at the hackathon.
-  - **Used:** on the room's side wall.
+  - **Used:** a smaller plane beside the footage wall.
   - **File:** `public/images/moments/bogdan-hackathon.webp` → `moments.hackathon`.
 - **Full film:** already linked (YouTube above).
 
@@ -89,7 +89,7 @@ Listed in order of impact. "Still" means a photo; "video" means a muted local lo
 - **UI teaser** (video, or one still)
   - **Format:** 16:9, **5–12 s**.
   - **Content:** the product UI only — protocol design, then a run, then monitoring. No OS chrome.
-  - **Used:** plays on the big screen itself, replacing the procedural experiment grid.
+  - **Used:** plays inside the framed product slot (right half of the big screen, 16:9, 8 × 4.5 units) that the experiment grid resolves into.
   - **Files:** `public/videos/habs-player-teaser.*` → `habs-player.teaser`.
 - **Clearance:** confirm on-screen content is public (no participant data).
 
@@ -115,7 +115,7 @@ Listed in order of impact. "Still" means a photo; "video" means a muted local lo
 - **Doctor-view UI** (still)
   - **Format:** 16:10.
   - **Content:** a public screenshot, e.g. the live oximetry graphs.
-  - **Used:** replaces the "Remote doctor" screen in the MedTech scene.
+  - **Used:** the large remote-doctor screen in the MedTech scene (16:10), at the end of the data arc.
   - **Goes to:** `temmacare.teaser`.
 - **Device photos** (stills)
   - **Format:** 1:1 or 4:5, plain background.
@@ -128,7 +128,7 @@ Listed in order of impact. "Still" means a photo; "video" means a muted local lo
 - **Footage** (video or still)
   - **Format:** 16:9, **5–15 s**.
   - **Content:** real modules, VisibleSim recordings, lab shots.
-  - **Used:** the scene is procedural today; a plane can be added beside the modules.
+  - **Used:** set `programmable-matter.teaser` and it appears automatically as a plane beside the modules.
   - **Files:** `public/videos/research-*.mp4`.
 - **Links:** a publication or presentation, if public → `experience.ts` → `research.deepDives`.
 

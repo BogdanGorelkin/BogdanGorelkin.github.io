@@ -15,8 +15,9 @@ import { usePresence } from './shared/usePresence'
 import type { V3 } from './world'
 
 /**
- * MedTech station — remote medicine, as one picture: a patient, diagnostic
- * devices around them, and a live link to a doctor somewhere else.
+ * MedTech station — remote medicine, as one picture: a patient, three
+ * representative diagnostic devices around them (ECG, ultrasound, pulse
+ * oximetry), and a live link to a doctor's screen somewhere else.
  * Human + hardware + software again, years before HABS.
  */
 export function MedTechScene() {
@@ -28,20 +29,17 @@ export function MedTechScene() {
     const ecgPos = MEDTECH.devices[0]!.pos
     return {
       floor: circleGeometry(10, 'xz', 96),
-      monitor: boxEdges(2.6, 1.7, 0.15),
-      probe: boxEdges(0.45, 1.5, 0.45),
-      tube: boxEdges(2.2, 0.55, 0.55),
-      scope: circleGeometry(0.55, 'xy', 32),
-      scopeHandle: boxEdges(0.25, 1.2, 0.25),
+      monitor: boxEdges(3, 2, 0.15),
+      probe: boxEdges(0.6, 2, 0.6),
       tablet: boxEdges(2.4, 0.1, 1.6),
-      oximeter: boxEdges(0.7, 0.45, 0.55),
+      oximeter: boxEdges(1, 0.6, 0.75),
       // Each device is wired to the patient and to the tablet that carries the session.
       links: segments(
         MEDTECH.devices.flatMap(({ pos }) => [...pos, MEDTECH.head[0], MEDTECH.head[1] - 3, MEDTECH.head[2], ...pos, ...MEDTECH.hub]),
       ),
       ecgTrace: [
-        [ecgPos[0] - 1.05, ecgPos[1], ecgPos[2] + 0.1],
-        [ecgPos[0] + 1.05, ecgPos[1], ecgPos[2] + 0.1],
+        [ecgPos[0] - 1.25, ecgPos[1], ecgPos[2] + 0.1],
+        [ecgPos[0] + 1.25, ecgPos[1], ecgPos[2] + 0.1],
       ] as V3[],
     }
   }, [])
@@ -50,7 +48,7 @@ export function MedTechScene() {
   const remote = useMemo(
     () =>
       new THREE.CatmullRomCurve3(
-        [new THREE.Vector3(...MEDTECH.hub), new THREE.Vector3(-8, 13, 6), new THREE.Vector3(...MEDTECH.doctor)],
+        [new THREE.Vector3(...MEDTECH.hub), new THREE.Vector3(12, 15, 2), new THREE.Vector3(...MEDTECH.doctor)],
         false,
         'centripetal',
       ),
@@ -60,9 +58,9 @@ export function MedTechScene() {
 
   const mats = useMemo(
     () => ({
-      body: createPointsMaterial({ size: 1.1, opacity: 0.6, twinkle: 0.4 }),
-      device: createLineMaterial(0.85),
-      link: createLineMaterial(0.22),
+      body: createPointsMaterial({ size: 1.2, opacity: 0.6, twinkle: 0.4 }),
+      device: createLineMaterial(0.95),
+      link: createLineMaterial(0.3),
       floor: createLineMaterial(0.25),
     }),
     [],
@@ -71,12 +69,12 @@ export function MedTechScene() {
   usePresence('medtech', group, (p) => {
     mats.body.uniforms.uTime!.value = stage.clock
     mats.body.uniforms.uOpacity!.value = 0.6 * p
-    fade(mats.device, 0.85 * p)
-    fade(mats.link, 0.3 * p)
+    fade(mats.device, 0.95 * p)
+    fade(mats.link, 0.38 * p)
     fade(mats.floor, 0.25 * p)
   })
 
-  const [ecg, us, spiro, derm, spo2] = MEDTECH.devices.map((d) => d.pos) as [V3, V3, V3, V3, V3]
+  const [ecg, us, spo2] = MEDTECH.devices.map((d) => d.pos) as [V3, V3, V3]
   const doctor = getProject(copy.medtech.projectId).teaser
 
   return (
@@ -85,23 +83,17 @@ export function MedTechScene() {
       <points geometry={patient} material={mats.body} />
       <lineSegments geometry={geos.links} material={mats.link} />
       <lineSegments geometry={geos.monitor} material={mats.device} position={ecg} />
-      <SignalLine points={geos.ecgTrace} samples={120} presence="medtech" amplitude={0.22} />
+      <SignalLine points={geos.ecgTrace} samples={120} presence="medtech" amplitude={0.26} />
       <lineSegments geometry={geos.probe} material={mats.device} position={us} rotation-z={0.5} />
-      <lineSegments geometry={geos.tube} material={mats.device} position={spiro} rotation-y={0.4} />
-      <group position={derm} rotation-y={0.6}>
-        <lineLoop geometry={geos.scope} material={mats.device} />
-        <lineSegments geometry={geos.scopeHandle} material={mats.device} position={[0, -0.9, 0]} />
-      </group>
       <lineSegments geometry={geos.oximeter} material={mats.device} position={spo2} rotation-y={-0.3} />
       <lineSegments geometry={geos.tablet} material={mats.device} position={MEDTECH.hub} />
       <line>
         <primitive object={remoteLine} attach="geometry" />
         <primitive object={mats.link} attach="material" />
       </line>
-      <StreamParticles curves={[remote]} perCurve={quality.tier === 'high' ? 40 : 20} presence="medtech" />
-      {doctor && (
-        <MediaPlane asset={doctor} height={5.4} presence="medtech" position={MEDTECH.doctor} rotation-y={0.55} />
-      )}
+      <StreamParticles curves={[remote]} perCurve={quality.tier === 'high' ? 40 : 20} presence="medtech" size={1.9} />
+      {/* The remote doctor's screen — the slot for real TemmaCare UI / device footage. */}
+      {doctor && <MediaPlane asset={doctor} height={7} presence="medtech" position={MEDTECH.doctor} rotation-y={0.22} />}
     </group>
   )
 }

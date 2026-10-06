@@ -64,7 +64,7 @@ export const projects: Project[] = [
     recognition: 'Crowd Award',
     summary:
       'Built end to end, from scratch: realtime EEG read the player’s state; software turned it into changes in the game world, the room’s LEDs and the controller’s feedback.',
-    flow: ['Player state (EEG)', 'Realtime software', 'Game world', 'LEDs · controller'],
+    flow: ['EEG', 'Software', 'Game', 'Physical feedback'],
     tags: ['Realtime EEG', 'Game environment', 'Environment orchestration', 'LED & controller feedback'],
     // TODO: replace with the 5–15 s local loop:
     // { kind: 'video', sources: { webm: '/videos/hackathon-cph-teaser.webm', mp4: '/videos/hackathon-cph-teaser.mp4' }, poster: '/images/hackathon-cph-poster.jpg', alt: '…', aspect: 16 / 9 }
@@ -110,6 +110,8 @@ export const projects: Project[] = [
     summary:
       'Behaviour of robot modules as finite-state machines, a boosted time-synchronisation protocol (MRTP) and movement simulation, in VisibleSim and BIP.',
     tags: ['C++', 'VisibleSim', 'Distributed algorithms', 'Modular robotics'],
+    // TODO: real simulation footage (16:9, 5–15 s) — appears beside the modules in the Research scene.
+    teaser: undefined,
     publicSafe: 'public',
     storyRole: 'Did the pattern start even earlier?',
     weight: 'continuity',

@@ -3,11 +3,27 @@ import { ContactLinks } from '../components/ContactLinks'
 import { Headline } from '../components/Headline'
 import { copy } from '../data/copy'
 import { profile } from '../data/profile'
+import { gsap, useGSAP } from '../lib/gsap'
 import { fadeIn, linesIn } from '../lib/motion'
 
-/** 6 — Contact. Complexity stripped back to one calm line and a question. */
+/**
+ * 10 — Contact. Complexity stripped back to one calm line and a question.
+ * As the Index curtain rises, the ending recedes (fades and lifts) so the
+ * handoff reads as deliberate rather than the Index covering the scene.
+ */
 export function ContactChapter() {
   const c = copy.contact
+  useGSAP(() => {
+    const stage = document.querySelector<HTMLElement>('[data-chapter="contact"] .stage')
+    const index = document.getElementById('index')
+    if (!stage || !index) return
+    const mm = gsap.matchMedia()
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      // Opacity / y only — visibility stays owned by the chapter's is-active class.
+      gsap.to(stage, { opacity: 0, y: -48, ease: 'none', scrollTrigger: { trigger: index, start: 'top bottom', end: 'top 40%', scrub: 0.4 } })
+    })
+    return () => mm.revert()
+  })
   return (
     <Chapter
       id="contact"

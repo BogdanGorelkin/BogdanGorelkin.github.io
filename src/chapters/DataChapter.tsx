@@ -4,14 +4,12 @@ import { copy } from '../data/copy'
 import { caseLabel, getProject } from '../data/projects'
 import { emphasise, fadeIn, fadeOut, linesIn } from '../lib/motion'
 
-/** Local-progress windows in which each layer is "under the lens" (see shots.ts, t 2.18–3.0). */
+/** Local-progress windows in which each stage is "under the lens" (see shots.ts: phone at t 2.0–2.4, gate at 2.64–2.84, screen at 3.0). */
 const LAYER_WINDOWS: [number, number][] = [
-  [0.1, 0.3],
-  [0.3, 0.42],
-  [0.42, 0.6],
-  [0.6, 0.78],
-  [0.78, 0.9],
-  [0.9, 1],
+  [0.02, 0.18],
+  [0.18, 0.45],
+  [0.45, 0.85],
+  [0.85, 1],
 ]
 
 /** 2 — From sensor to experience. The camera flies through the stack Bogdan builds end to end. */

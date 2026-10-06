@@ -6,35 +6,36 @@ import { circleGeometry, segments } from './shared/geometry'
 import { createLineMaterial, fade } from './shared/materials'
 import { SignalLine } from './shared/SignalLine'
 import { usePresence } from './shared/usePresence'
-import { CAREER, NEXT_LINE, PATTERN, type V3 } from './world'
+import { CAREER, NEXT_LINE, type V3 } from './world'
 
-/** Radius of the ring around today's journey (the HABS station). */
-const CURRENT_RING = 150
-/** Rings around the earlier, human-scale stations. */
-const STATION_RING = 26
-/** Pillars rise through all three pattern threads. */
-const PILLAR_TOP = PATTERN.y[0] + 14
+/** Every station gets the same ring: once collapsed, today's journey is one chapter like the others. */
+const STATION_RING = 22
+const PILLAR_TOP = 34
 
 /**
  * The career line along +X. Stations are marked by a ring and a pillar; the
  * environments themselves live in their own scenes (MedTech, Research, and
- * the whole journey for HABS).
+ * the collapsed journey for HABS). The current station gets a second ring.
  */
 export function TimelineScene() {
   const group = useRef<THREE.Group>(null)
 
-  const mats = useMemo(() => ({ path: createLineMaterial(0.5), marker: createLineMaterial(0.5), pillar: createLineMaterial(0.2) }), [])
+  const mats = useMemo(
+    () => ({ path: createLineMaterial(0.5), marker: createLineMaterial(0.5), current: createLineMaterial(0.9), pillar: createLineMaterial(0.2) }),
+    [],
+  )
   const geos = useMemo(() => {
     const y = CAREER.y
     const z = CAREER.z
-    const path = segments([PATTERN.from, y, z, CAREER.x.next, y, z])
+    const path = segments([CAREER.x.research - 70, y, z, CAREER.x.next, y, z])
     const pillars = segments(career.flatMap((s) => [CAREER.x[s.id], y, z, CAREER.x[s.id], PILLAR_TOP, z]))
-    return { path, pillars, ring: circleGeometry(STATION_RING), current: circleGeometry(CURRENT_RING, 'xz', 180) }
+    return { path, pillars, ring: circleGeometry(STATION_RING), current: circleGeometry(STATION_RING * 1.25, 'xz', 128) }
   }, [])
 
   usePresence('career', group, (p) => {
     fade(mats.path, 0.5 * p)
     fade(mats.marker, 0.5 * p)
+    fade(mats.current, 0.9 * p)
     fade(mats.pillar, 0.2 * p)
   })
 
@@ -44,13 +45,9 @@ export function TimelineScene() {
         <lineSegments geometry={geos.path} material={mats.path} />
         <lineSegments geometry={geos.pillars} material={mats.pillar} />
         {career.map((s) => (
-          <lineLoop
-            key={s.id}
-            geometry={s.current ? geos.current : geos.ring}
-            material={mats.marker}
-            position={[CAREER.x[s.id], CAREER.y, CAREER.z]}
-          />
+          <lineLoop key={s.id} geometry={geos.ring} material={mats.marker} position={[CAREER.x[s.id], CAREER.y, CAREER.z]} />
         ))}
+        <lineLoop geometry={geos.current} material={mats.current} position={[CAREER.x.neurotech, CAREER.y, CAREER.z]} />
       </group>
       <NextFrame />
     </>
@@ -63,7 +60,7 @@ function NextFrame() {
   const material = useMemo(() => createLineMaterial(0.55), [])
   const geometry = useMemo(() => {
     // Box edges with a few deliberately missing: not built yet.
-    const h = 20
+    const h = 12
     const c = [-h, h]
     const v: number[] = []
     let k = 0

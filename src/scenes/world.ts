@@ -20,11 +20,12 @@ export const SPINE: V3[] = [
   [0.6, 0.6, -37.6],
 ]
 
+/** The phone (mobile / edge) the headband talks to — the bridge from device to system. */
+export const PHONE = { pos: [5, 0.2, -42.8] as V3, yaw: 0.42, width: 1.15, height: 2.3 }
+
 export const DATA = {
-  originZ: -44.5,
-  headbandZ: -58,
-  edgeZ: -78,
-  backendZ: -100,
+  /** The one "system" the streams converge through — the camera flies through it. */
+  gateZ: -100,
   /** Streams terminate on the screen. */
   screenZ: -140,
 }
@@ -38,15 +39,19 @@ export const FIELD = { z: -205, x: 6 }
 export const CAREER = {
   z: -120,
   y: -10,
-  /** Station anchor X positions; the HABS station sits on the journey itself. */
-  x: { research: -560, medtech: -280, neurotech: 0, next: 260 } as const,
+  /**
+   * Station anchor X positions. The HABS station sits on the journey itself:
+   * on the rewind the whole journey collapses (JOURNEY_COLLAPSE) to the size
+   * of one station, so all stations read at the same scale.
+   */
+  x: { research: -240, medtech: -120, neurotech: 0, next: 110 } as const,
 }
 
-/**
- * The payoff: three threads — human, hardware, software — running through
- * every station on the career line (top to bottom, same order as copy).
- */
-export const PATTERN = { from: -640, to: 330, y: [118, 84, 50] as const }
+/** On the rewind, the journey scales down around the HABS station to this size. */
+export const JOURNEY_COLLAPSE = { pivot: [0, CAREER.y, CAREER.z] as V3, scale: 0.11 }
+
+/** The payoff composition: human, hardware and software motifs, above the career line. */
+export const PATTERN = { center: [-60, 46, CAREER.z] as V3, spread: 21, spreadPortrait: 15 }
 
 /** The bookend: a calm signal line running through the "next" frame. */
-export const NEXT_LINE = { y: 0, z: -120, from: 200, to: 900 }
+export const NEXT_LINE = { y: 0, z: -120, from: 80, to: 780 }

@@ -29,6 +29,14 @@ export const stage = {
   calm: 0,
   /** 0 = the screen shows live channels, 1 = a grid of experiments (HABS Player). */
   playerGrid: 0,
+  /** 0 → 1: the experiment grid resolves into one product frame (the Player media slot). */
+  playerFocus: 0,
+  /** 0 → 1: on the rewind, today's whole journey collapses into one career station. */
+  collapse: 0,
+  /** 0 → 1: the pattern motifs connect (human ↔ hardware ↔ software). */
+  patternLinks: 0,
+  /** 0 → 1: the three motifs converge into one point, which becomes the closing line. */
+  converge: 0,
   /** 0 → 1: programmable-matter modules reconfigure from one shape to another. */
   morph: 0,
   presence: {
@@ -70,18 +78,22 @@ export function buildDirector(): gsap.core.Timeline {
     .to(stage, { fogFar: 70, duration: 0.3 }, 2.0)
     .to(stage, { fogNear: 2, fogFar: 52, duration: 0.2 }, 4.3)
     .to(stage, { fogNear: 4, fogFar: 95, duration: 0.3 }, 5.0)
-    .to(stage, { fogNear: 260, fogFar: 2600, duration: 0.16, ease: 'power2.in' }, 6.04)
+    .to(stage, { fogNear: 180, fogFar: 1300, duration: 0.16, ease: 'power2.in' }, 6.06)
     .to(stage, { fogNear: 6, fogFar: 46, duration: 0.3 }, 9.95)
 
   tl.to(stage, { signalAmp: 1.35, duration: 0.4 }, 1.2)
     // HABS Player: the same screen becomes a grid of experiments, then back to live channels.
     .to(stage, { playerGrid: 1, duration: 0.22 }, 3.1)
-    .to(stage, { playerGrid: 0, duration: 0.2 }, 3.85)
+    .to(stage, { playerFocus: 1, duration: 0.2 }, 3.42)
+    .to(stage, { playerGrid: 0, playerFocus: 0, duration: 0.2 }, 3.86)
     .to(stage, { roomLight: 1, duration: 0.25, ease: 'flow' }, 4.42)
     .to(stage, { ledBurst: 1, duration: 0.04, ease: 'power2.out' }, 4.38)
     .to(stage, { ledBurst: 0, duration: 0.22, ease: 'power1.in' }, 4.42)
     .to(stage, { roomLight: 0, duration: 0.3 }, 5.35)
+    .to(stage, { collapse: 1, duration: 0.2, ease: 'power2.inOut' }, 6.06)
     .to(stage, { morph: 1, duration: 0.5 }, 8.2)
+    .to(stage, { patternLinks: 1, duration: 0.2 }, 9.3)
+    .to(stage, { converge: 1, duration: 0.24, ease: 'power2.in' }, 9.56)
     .to(stage, { calm: 1, duration: 0.35 }, 9.95)
 
   // Today (HABS → hackathon → field): environments fade in ahead of the camera, out behind it.
@@ -92,8 +104,8 @@ export function buildDirector(): gsap.core.Timeline {
   show('system', 1.85, 2.1)
   show('neural', 2.3, 2.5, 0)
   show('screen', 2.55, 2.85)
-  show('player', 3.05, 3.2)
-  show('player', 3.8, 3.95, 0)
+  show('player', 3.46, 3.6)
+  show('player', 3.84, 3.94, 0)
   // The screen dissolves as the lens reaches it — we pass *through* software.
   show('screen', 4.3, 4.42, 0)
   show('room', 4.3, 4.45)
@@ -106,14 +118,15 @@ export function buildDirector(): gsap.core.Timeline {
     show(key, 6.06, 6.2, key === 'field' ? 0.55 : 0.45)
     show(key, 9.95, 10.1, 0)
   }
-  show('career', 6.02, 6.16)
-  show('medtech', 6.05, 6.2)
-  show('research', 6.05, 6.2)
-  show('next', 6.1, 6.2)
+  // The other stations emerge only once the journey has collapsed into its node.
+  show('career', 6.16, 6.3)
+  show('medtech', 6.22, 6.36)
+  show('research', 6.22, 6.36)
+  show('next', 6.24, 6.36)
   show('medtechLabels', 7.2, 7.35)
   show('medtechLabels', 7.85, 7.95, 0)
-  show('pattern', 9.05, 9.25)
-  show('pattern', 9.92, 10.05, 0)
+  show('pattern', 9.0, 9.18)
+  show('pattern', 9.88, 9.98, 0)
   show('medtech', 9.95, 10.1, 0)
   show('research', 9.95, 10.1, 0)
   show('career', 9.95, 10.2, 0)
