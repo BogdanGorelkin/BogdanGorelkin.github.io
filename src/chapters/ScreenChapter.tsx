@@ -47,7 +47,7 @@ export function ScreenChapter() {
             <li key={t}>{t}</li>
           ))}
         </ul>
-        <DeepDiveLinks item={project} />
+        <DeepDiveLinks item={project} primaryOnly prominent />
       </article>
     </Chapter>
   )

@@ -53,7 +53,10 @@ export const SHOTS: Shot[] = [
 
   // ── 5 FIELD — a lateral dolly across layered media for real parallax.
   { t: 5.18, pos: [-4, 1.4, -186], look: [0, 1, -214], fov: 42 },
-  { t: 5.55, pos: [5, 1.2, -191], look: [7, 1, -220], fov: 40 },
+  // Settle on the Paris ride (FieldScene slot 2)…
+  { t: 5.48, pos: [3.4, 1.0, -201], look: [2.4, 0.4, -216], fov: 40, ease: 'silk', mobile: { pos: [4, 0.8, -203.5], look: [4, 0.4, -216] } },
+  { t: 5.62, pos: [3.8, 1.0, -201.5], look: [2.8, 0.4, -216], fov: 40, mobile: { pos: [4.2, 0.8, -204], look: [4.2, 0.4, -216] } },
+  // …then on to the skydive (slot 0).
   // Come to rest on the hero plane (FieldScene slot 0), framed right of the notes.
   { t: 5.86, pos: [10.5, 1.4, -198], look: [10.5, 1.3, -213], fov: 40, ease: 'silk', mobile: { pos: [14.5, 1.3, -200], look: [14.5, 1.1, -213] } },
   { t: 5.96, pos: [10.5, 1.4, -198], look: [10.5, 1.3, -213], fov: 40, mobile: { pos: [14.5, 1.3, -200], look: [14.5, 1.1, -213] } },

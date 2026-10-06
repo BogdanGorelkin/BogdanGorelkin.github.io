@@ -2,7 +2,12 @@ import { ContactLinks } from '../components/ContactLinks'
 import { DeepDiveLinks } from '../components/DeepDiveLinks'
 import { career, earlierRoles } from '../data/experience'
 import { profile } from '../data/profile'
-import { caseLabel, projects } from '../data/projects'
+import { caseLabel, fieldTests, projects } from '../data/projects'
+import type { Project } from '../data/types'
+
+const lead = projects.filter((p) => p.weight === 'lead')
+const continuity = projects.filter((p) => p.weight === 'continuity')
+const field = fieldTests.filter((t) => t.featured)
 
 /**
  * The short version: everything a recruiter needs, as plain semantic HTML.
@@ -33,6 +38,47 @@ export function IndexSection() {
           <p className="mono index__across">Works across: {profile.worksAcross.join(' · ')}</p>
           <p>{profile.summary}</p>
           <ContactLinks className="contact-links--inline" />
+        </div>
+
+        <div className="index__col index__col--full">
+          <h3 className="mono">Selected work</h3>
+          <ol className="index__work index__work--lead">
+            {lead.map((p) => (
+              <li key={p.id}>
+                <WorkMeta project={p} />
+                <h4>{p.title}</h4>
+                <p>{p.summary ?? p.subtitle}</p>
+                <DeepDiveLinks item={p} className="index__links" />
+              </li>
+            ))}
+          </ol>
+          <div className="index__work-row">
+            <div>
+              <p className="mono index__group">Field tests</p>
+              <ul className="index__work index__work--compact">
+                {field.map((t) => (
+                  <li key={t.id}>
+                    <h4>{t.title}</h4>
+                    <p>{t.caption}</p>
+                    <DeepDiveLinks item={t} primaryOnly className="index__links" />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="mono index__group">Before HABS</p>
+              <ul className="index__work index__work--compact">
+                {continuity.map((p) => (
+                  <li key={p.id}>
+                    <WorkMeta project={p} />
+                    <h4>{p.title}</h4>
+                    <p>{p.summary ?? p.subtitle}</p>
+                    <DeepDiveLinks item={p} className="index__links" />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
 
         <div className="index__col index__col--wide">
@@ -74,25 +120,6 @@ export function IndexSection() {
           </ol>
         </div>
 
-        <div className="index__col index__col--wide">
-          <h3 className="mono">Selected work</h3>
-          <ol className="index__list">
-            {projects
-              .filter((p) => p.featured)
-              .map((p) => (
-                <li key={p.id}>
-                  <p className="mono">
-                    {caseLabel(p)}
-                    {[p.context, p.location, p.period].filter(Boolean).map((v) => ` · ${v}`)}
-                    {p.recognition && <span className="index__award"> · {p.recognition}</span>}
-                  </p>
-                  <h4>{p.title}</h4>
-                  <p>{p.summary ?? p.subtitle}</p>
-                  <DeepDiveLinks item={p} className="index__links" />
-                </li>
-              ))}
-          </ol>
-        </div>
 
         <div className="index__col index__col--wide">
           <h3 className="mono">Capabilities</h3>
@@ -131,5 +158,15 @@ export function IndexSection() {
         <a href="#top">Back to the start ↑</a>
       </footer>
     </section>
+  )
+}
+
+function WorkMeta({ project: p }: { project: Project }) {
+  return (
+    <p className="mono">
+      {caseLabel(p)}
+      {[p.context, p.location, p.period].filter(Boolean).map((v) => ` · ${v}`)}
+      {p.recognition && <span className="index__award"> · {p.recognition}</span>}
+    </p>
   )
 }

@@ -9,19 +9,29 @@ import { usePresence } from './shared/usePresence'
 /**
  * Hand-placed depth layers for the lateral dolly: near, mid and far planes
  * alternate so the parallax is legible. Slot 0 is the hero — where the dolly
- * comes to rest (shots.ts, t ≈ 4.9) — so the first field test gets the
- * final, clearest frame. Extra field tests reuse the pattern.
+ * comes to rest (shots.ts, t ≈ 5.86); slot 2 is framed mid-dolly (t ≈ 5.5).
+ * Extra field tests reuse the pattern further along.
  */
 const SLOTS: { pos: V3; height: number; rotY: number }[] = [
   { pos: [14.5, 1.0, -213], height: 4.4, rotY: -0.06 },
-  { pos: [-3, 1.2, -207], height: 4.2, rotY: 0.18 },
-  { pos: [4, 0.1, -216], height: 3.4, rotY: 0.05 },
+  { pos: [-7, 1.2, -209], height: 4.2, rotY: 0.22 },
+  { pos: [4, 0.3, -216], height: 3.8, rotY: 0.05 },
   { pos: [6.5, 3.6, -209], height: 2.4, rotY: -0.1 },
   { pos: [22, 2.0, -209], height: 4, rotY: -0.2 },
 ]
 
-/** Field tests first, then a documentary moment of Bogdan at the bench. */
-const PLANES = [...fieldTests.map((t) => ({ id: t.id, media: t.teaser })), { id: moments.bench.id, media: moments.bench.media }]
+/**
+ * Which plane each story gets — choreography, so it lives here, not in data.
+ * The skydive gets the hero plane where the dolly rests; the Paris ride the
+ * plane centred mid-dolly. Anything new falls into the next free slot.
+ */
+const SLOT_BY_ID: Record<string, number> = { skydive: 0, 'wall-lamp': 1, 'moto-paris': 2, 'hackathon-floor': 3, bench: 4 }
+
+const PLANES = (() => {
+  const items = [...fieldTests.map((t) => ({ id: t.id, media: t.teaser })), { id: moments.bench.id, media: moments.bench.media }]
+  let next = SLOTS.length
+  return items.map((item) => ({ ...item, slot: SLOT_BY_ID[item.id] ?? next++ }))
+})()
 
 /** Scene 5 — field tests: layered media in open space, warmer and less abstract. */
 export function FieldScene() {
@@ -36,9 +46,9 @@ export function FieldScene() {
   return (
     <group>
       <lineSegments ref={horizon} geometry={geometry} material={material} />
-      {PLANES.map((plane, i) => {
-        const slot = SLOTS[i % SLOTS.length]!
-        const lap = Math.floor(i / SLOTS.length)
+      {PLANES.map((plane) => {
+        const slot = SLOTS[plane.slot % SLOTS.length]!
+        const lap = Math.floor(plane.slot / SLOTS.length)
         const pos: V3 = [slot.pos[0] + lap * 26, slot.pos[1], slot.pos[2]]
         return (
           <MediaPlane

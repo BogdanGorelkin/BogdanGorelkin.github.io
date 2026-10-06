@@ -34,6 +34,7 @@ export function MedTechScene() {
       scope: circleGeometry(0.55, 'xy', 32),
       scopeHandle: boxEdges(0.25, 1.2, 0.25),
       tablet: boxEdges(2.4, 0.1, 1.6),
+      oximeter: boxEdges(0.7, 0.45, 0.55),
       // Each device is wired to the patient and to the tablet that carries the session.
       links: segments(
         MEDTECH.devices.flatMap(({ pos }) => [...pos, MEDTECH.head[0], MEDTECH.head[1] - 3, MEDTECH.head[2], ...pos, ...MEDTECH.hub]),
@@ -75,7 +76,7 @@ export function MedTechScene() {
     fade(mats.floor, 0.25 * p)
   })
 
-  const [ecg, us, spiro, derm] = MEDTECH.devices.map((d) => d.pos) as [V3, V3, V3, V3]
+  const [ecg, us, spiro, derm, spo2] = MEDTECH.devices.map((d) => d.pos) as [V3, V3, V3, V3, V3]
   const doctor = getProject(copy.medtech.projectId).teaser
 
   return (
@@ -91,6 +92,7 @@ export function MedTechScene() {
         <lineLoop geometry={geos.scope} material={mats.device} />
         <lineSegments geometry={geos.scopeHandle} material={mats.device} position={[0, -0.9, 0]} />
       </group>
+      <lineSegments geometry={geos.oximeter} material={mats.device} position={spo2} rotation-y={-0.3} />
       <lineSegments geometry={geos.tablet} material={mats.device} position={MEDTECH.hub} />
       <line>
         <primitive object={remoteLine} attach="geometry" />

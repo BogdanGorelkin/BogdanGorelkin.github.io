@@ -49,7 +49,7 @@ pnpm typecheck   # type-check only
 src/
   data/          ← edit content here
     profile.ts     identity, summary, photo, grouped capabilities, education, languages, links, CV path
-    projects.ts    stories (teaser media + deep-dive URLs + publicSafe/featured), field tests, documentary moments
+    projects.ts    LINKS (public deep dives), stories (teaser, deepDives, storyRole, weight, publicSafe), field tests, moments
     experience.ts  career stations: Research → MedTech → HABS → Next, plus earlier research roles (Index only)
     copy.ts        narrative lines for each chapter (headlines, captions)
     types.ts       content types (Project, MediaAsset, CareerStation, …)
@@ -145,7 +145,8 @@ Nothing beyond those two sources and the brief was invented. These items need a 
 - **Email:** the CV uses `b.k.gorelkin@gmail.com` and the old site used `b.gorelkin@yandex.com`. The site uses the CV address.
 - **The CV PDF includes a phone number.** It was already public on the old site. Decide whether that's still OK.
 - **`TODO: PUBLIC-SAFE CONTENT REVIEW`:** HABS wording in `projects.ts` (`habs-multi-device`) and `experience.ts` (`neurotech`) is deliberately generic. It has no device names, customers, data or architecture. Confirm it before publishing.
-- **Deep dives:** YouTube and LinkedIn URLs that are still `undefined` (marked `TODO` in `src/data`) are hidden in the UI. ASSETS.md lists every slot.
+- **Deep dives:** each story has typed `deepDives` with its own call to action ("Watch the full film", "Read how we scaled experiments"…). The five public LinkedIn and YouTube sources are in `LINKS` (`projects.ts`). They were summarised, not quoted.
+- **Pattern strips:** chapters show a small Human / Hardware / Software strip (`copy.ts` → `triad`). Research honestly reads "Human — not yet", and the pattern payoff omits that node.
 - **Company name:** the brief said "Oxisphere", but both CVs say **AuxaSphere**, so the site uses AuxaSphere. Confirm.
 - **The "250 Hz" annotation was removed** because no public, device-specific source confirmed it.
 - **Production domain:** the old site used `gorelkin.vip`. The canonical and absolute OG URLs are left as a TODO in `index.html`.

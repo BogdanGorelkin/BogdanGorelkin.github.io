@@ -43,6 +43,7 @@ export const MEDTECH = {
     { id: 'ultrasound', pos: [-5.2, 3.6, 3.2] as V3 },
     { id: 'spirometry', pos: [4.8, 2.4, -3.4] as V3 },
     { id: 'dermatoscope', pos: [-4.6, 6.2, -2.2] as V3 },
+    { id: 'spo2', pos: [-0.4, 2.2, 6.6] as V3 },
   ],
   hub: [2.8, 1.4, 5.2] as V3,
   doctor: [-24, 5.5, -8] as V3,

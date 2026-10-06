@@ -44,76 +44,108 @@ These were migrated from the previous site (`BogdanGorelkin.github.io`).
 
 The site works like a trailer:
 
-- **Cinematic assets** are short local files played inside the film. They're set through `teaser` (or `media` on moments) in `src/data/projects.ts`, and live in `public/videos/` and `public/images/`.
-- **Deep-dive links** carry the long version on LinkedIn or YouTube. They're set through `linkedinUrl`, `youtubeUrl`, `externalUrl` and `deepDiveLabel` on the same entries.
-- **A link left `undefined` (marked `TODO`) doesn't render.** Fill in the URL and it appears in the film and in the Index.
-- **Embeds:** none. LinkedIn and YouTube are plain external links only.
+- **Cinematic assets** are short local files played inside the film. They're set through `teaser` on projects and field tests, or `media` on moments, all in `src/data/projects.ts`, and live in `public/videos/` and `public/images/`.
+- **Deep dives** carry the long version on YouTube or LinkedIn. They're set through `deepDives: [{ label, href, platform }]` on the same entries. The first link is the story's call to action in the film; every link is listed in the Index.
+- **Embeds:** none. Links open in a new tab with an accessible label ("… — opens LinkedIn in a new tab").
 
-## REAL ASSETS STILL NEEDED
+## KNOWN EXTERNAL LINKS
 
-Listed in order of impact on the story.
+All are public-safe sources and wired in through `LINKS` in `src/data/projects.ts`.
 
-### 1. Microsoft Hackathon (chapter "Software leaves the screen")
-
-| What | Spec | Goes to |
+| Story | Call to action in the film | URL |
 |---|---|---|
-| Cinematic teaser | Horizontal 16:9, 1280×720–1920×1080, **5–15 s** muted loop. Should show the chain in one take: the EEG headset on a person, the game reacting, then the LEDs or controller responding. No UI chrome. WebM + MP4, under 6 MB, with a poster JPG. | `public/videos/hackathon-cph-teaser.{webm,mp4}`, `public/images/hackathon-cph-poster.jpg` → `projects.ts` → `eeg-hackathon-cph.teaser` |
-| Original film | **The 2-minute video** itself. You host it, unlisted on YouTube. | `eeg-hackathon-cph.youtubeUrl` (the link label is "Watch the 2-minute film") |
-| LinkedIn post | URL, optional | `eeg-hackathon-cph.linkedinUrl` |
-| Documentary still | Bogdan building or presenting at the hackathon, 4:5 portrait | `public/images/moments/bogdan-hackathon.webp` → `moments.hackathon.media` (shown on the room's side wall) |
+| Microsoft Hackathon (Copenhagen 2026, Crowd Award) | **Watch the full film ↗** | https://youtu.be/H-j7i20jWfI?si=lNFsgy2RSUR4Qwey |
+| HABS Player | **Read how we scaled experiments ↗** | https://www.linkedin.com/feed/update/urn:li:activity:7466058297108811777/ |
+| Paris ride (EEG on a motorcycle) | **Watch the Paris field test ↗** | https://www.linkedin.com/feed/update/urn:li:activity:7401523361895464960/ |
+| Skydive (EEG in freefall) | **See the skydive experiment ↗** | https://www.linkedin.com/feed/update/urn:li:activity:7371069399224569856/ |
+| TemmaCare / MedTech | **See the medical device work ↗** | https://www.linkedin.com/feed/update/urn:li:activity:7135241238428966912/ |
+| Research / programmable matter | Watch the simulation ↗ · Read the code ↗ | https://youtu.be/x4lbToZrboo · https://github.com/BogdanGorelkin/Boosted-MRTP (both from the old site) |
+| Networked wall lamp | Watch the build ↗ | https://youtu.be/EpEfgixWeLc (old site) |
 
-### 2. HABS Player (chapter "Build once. Run many experiments.")
+## REAL LOCAL ASSETS STILL NEEDED
 
-| What | Spec | Goes to |
-|---|---|---|
-| UI or workflow teaser | 16:9 screen recording, **5–12 s**, cropped to the product UI (no OS chrome), or one clean screenshot. It plays on the big screen itself, replacing the procedural grid. | `public/videos/habs-player-teaser.*` → `projects.ts` → `habs-player.teaser` |
-| LinkedIn deep dive | URL | `habs-player.linkedinUrl` |
-| Clearance | Public-safe review of the name and description (`publicSafe: 'review'`) | — |
+Listed in order of impact. "Still" means a photo; "video" means a muted local loop.
 
-### 3. Skydive with a headband (Field tests)
+### 1. Microsoft Hackathon: the first climax
 
-| What | Spec | Goes to |
-|---|---|---|
-| Cinematic teaser | Portrait 4:5, a **5–10 s** clip (or a strong photo). The headband or app should be visible in freefall. | `public/videos/field-skydive.*` or `public/images/field/skydive.webp` → `fieldTests` → `skydive.teaser` |
-| Original footage | Kept by you, for the LinkedIn post | — |
-| LinkedIn post | URL | `skydive.linkedinUrl` |
-| Caption | One line: what was tested | `skydive.caption` |
+- **Teaser loop** (video)
+  - **Format:** horizontal 16:9, 1280×720–1920×1080, **5–15 s**, muted.
+  - **Content:** the chain in one take — a person wearing the EEG headset, the game world shifting, then the LEDs or controller responding. No UI chrome.
+  - **Used:** on the room's back wall after the camera breaks through the screen.
+  - **Files:** `public/videos/hackathon-cph-teaser.{webm,mp4}` → `eeg-hackathon-cph.teaser`.
+- **Poster** (still)
+  - **Format:** a 16:9 frame from the loop.
+  - **Used:** shown while the video loads.
+  - **File:** `public/images/hackathon-cph-poster.jpg`.
+- **Documentary still** (still)
+  - **Format:** 4:5 portrait.
+  - **Content:** Bogdan building or presenting at the hackathon.
+  - **Used:** on the room's side wall.
+  - **File:** `public/images/moments/bogdan-hackathon.webp` → `moments.hackathon`.
+- **Full film:** already linked (YouTube above).
 
-### 4. Moto EEG — Paris (Field tests)
+### 2. HABS Player: scale
 
-| What | Spec | Goes to |
-|---|---|---|
-| Photo or clip | Landscape 3:2, photo or **5–10 s** clip, with the EEG headset visible on the rider | `public/images/field/moto-paris.webp` → `fieldTests` → `moto-paris.teaser` |
-| LinkedIn post | URL | `moto-paris.linkedinUrl` |
+- **UI teaser** (video, or one still)
+  - **Format:** 16:9, **5–12 s**.
+  - **Content:** the product UI only — protocol design, then a run, then monitoring. No OS chrome.
+  - **Used:** plays on the big screen itself, replacing the procedural experiment grid.
+  - **Files:** `public/videos/habs-player-teaser.*` → `habs-player.teaser`.
+- **Clearance:** confirm on-screen content is public (no participant data).
 
-### 5. TemmaCare / MedTech (chapter "Remote care")
+### 3. Skydive: EEG in freefall
 
-| What | Spec | Goes to |
-|---|---|---|
-| Device photos | The diagnostic peripherals: ECG, ultrasound probe, spirometer, dermatoscope. 1:1 or 4:5, plain background | `public/images/medtech/*` (one can replace the "Remote doctor" plane) |
-| UI screenshot | Doctor's view during a remote examination, 16:10, **public material only** | `projects.ts` → `temmacare.teaser` (shown as the remote-doctor screen) |
+- **Teaser** (video or still)
+  - **Format:** portrait 4:5, **5–10 s**.
+  - **Content:** Bogdan in freefall with the headset visible.
+  - **Used:** the hero plane where the Field dolly comes to rest — the film's main "Bogdan in person" moment.
+  - **File:** `public/videos/field-skydive.*` or `public/images/field/skydive.webp` → `fieldTests` → `skydive.teaser`.
+- **Optional extra:** a documentary still on the ground with the headset (4:5).
 
-### 6. Research / programmable matter (chapter "Before products…")
+### 4. Paris ride: EEG on a motorcycle
 
-| What | Spec | Goes to |
-|---|---|---|
-| Photos or video | Real modules, simulation recordings (VisibleSim), lab shots. 16:9, 5–15 s | `public/videos/research-*.mp4`. The scene is procedural today; ask to add a plane |
-| Links | Publication, presentation, or other repositories if public. Boosted-MRTP code and the simulation video are already linked. | `experience.ts` → `research.externalUrl` (or `codeUrl` / `youtubeUrl`) |
+- **Teaser** (video or still)
+  - **Format:** landscape 3:2, **5–10 s**.
+  - **Content:** the rider with the headset in traffic. A phone or app view in frame is a plus.
+  - **Used:** the plane the camera settles on mid-dolly.
+  - **File:** `public/images/field/moto-paris.webp` (or `public/videos/field-moto-paris.*`) → `moto-paris.teaser`.
 
-### 7. Bogdan: documentary photos
+### 5. TemmaCare / MedTech
+
+- **Doctor-view UI** (still)
+  - **Format:** 16:10.
+  - **Content:** a public screenshot, e.g. the live oximetry graphs.
+  - **Used:** replaces the "Remote doctor" screen in the MedTech scene.
+  - **Goes to:** `temmacare.teaser`.
+- **Device photos** (stills)
+  - **Format:** 1:1 or 4:5, plain background.
+  - **Content:** ECG, ultrasound probe, spirometer, dermatoscope, pulse oximeter.
+  - **Used:** reserved for the Index / a future plane.
+  - **Files:** `public/images/medtech/*`.
+
+### 6. Research / programmable matter
+
+- **Footage** (video or still)
+  - **Format:** 16:9, **5–15 s**.
+  - **Content:** real modules, VisibleSim recordings, lab shots.
+  - **Used:** the scene is procedural today; a plane can be added beside the modules.
+  - **Files:** `public/videos/research-*.mp4`.
+- **Links:** a publication or presentation, if public → `experience.ts` → `research.deepDives`.
+
+### 7. Bogdan: documentary material
 
 Evidence of real work, not portraits. Each one should be 4:5 or 3:2, 1600–2000 px, WebP or AVIF.
 
-- **With hardware / at the bench.** One exists: `public/images/profile/bogdan-bench.webp`, used in the Field scene and the Index. A newer one would be welcome.
-- **At the Microsoft Hackathon** → `moments.hackathon` (placeholder in the room today).
-- **With a headband** → `moments.headband` (slot ready, not placed in the film yet).
-- **In a lab or workshop.**
-- **During a field test** (skydive, moto).
+- **Hardware / bench:** one exists (`public/images/profile/bogdan-bench.webp`, used in the Field scene and the Index). A newer one is welcome.
+- **Hackathon:** see 1.
+- **Headband test:** → `moments.headband`. The slot is ready but not placed in the film yet.
+- **Lab or workshop.**
+- **Field testing:** skydive and Paris ride, covered above.
 
 ### Also open
 
 - **HABS systems teaser** (`habs-systems.teaser`): several devices in use, 16:9. Needs public-safe clearance.
-- **Social / OG image:** `public/og-image.jpg` is a frame of the opening. Re-render it after any copy change to the intro.
+- **Social / OG image:** `public/og-image.jpg` is a frame of the opening. Re-render it if the intro copy changes.
 
 ## Encoding guidance
 

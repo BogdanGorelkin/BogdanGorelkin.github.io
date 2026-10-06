@@ -1,5 +1,6 @@
 import { Chapter } from '../components/Chapter'
 import { Headline } from '../components/Headline'
+import { TriadStrip } from '../components/TriadStrip'
 import { copy } from '../data/copy'
 import { getStation } from '../data/experience'
 import { fadeIn, fadeOut, linesIn } from '../lib/motion'
@@ -17,6 +18,7 @@ export function NeuralChapter() {
         linesIn(tl, q('.headline .line__inner'), 0.1, 0.14)
         fadeIn(tl, q('.station-meta, .body'), 0.26, 0.08, 0.03)
         fadeIn(tl, q('.annotation-list li'), 0.44, 0.08, 0.02)
+        fadeIn(tl, q('.triad > div'), 0.5, 0.08, 0.03)
         fadeOut(tl, q('.neural__copy'), 0.86, 0.08)
       }}
     >
@@ -27,6 +29,7 @@ export function NeuralChapter() {
           {habs.company} · {habs.period}
         </p>
         <p className="body">{c.body}</p>
+        <TriadStrip triad={c.triad} />
         {/* Visible on small screens; on desktop the same facts float in 3D and this list is for screen readers. */}
         <ul className="mono annotation-list">
           {c.annotations.map((a) => (

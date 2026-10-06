@@ -23,15 +23,26 @@ export type MediaAsset =
   /** Procedural stand-in rendered at runtime until real media exists. */
   | { kind: 'placeholder'; label: string; alt: string; aspect: AspectRatio }
 
-/** External "long version" of a story. */
-export type DeepDive = {
-  linkedinUrl?: string
-  youtubeUrl?: string
-  externalUrl?: string
-  codeUrl?: string
-  /** Label for the YouTube / external link, e.g. "Watch the 2-minute film". */
-  deepDiveLabel?: string
+/** One external "long version" link, with its own contextual CTA label. */
+export type DeepDiveLink = {
+  /** CTA text, e.g. "Watch the full film". Written for this story — never generic. */
+  label: string
+  href: string
+  /** Where it opens; used for the accessible label ("opens YouTube in a new tab"). */
+  platform: 'YouTube' | 'LinkedIn' | 'GitHub' | 'Website'
 }
+
+/** External deep dives; the first is the primary CTA shown in the film. */
+export type DeepDive = { deepDives?: DeepDiveLink[] }
+
+/** How prominent a story is in the recruiter Index. */
+export type StoryWeight = 'lead' | 'support' | 'continuity'
+
+/**
+ * Human / hardware / software, in the words of one chapter — the recurring
+ * pattern, made concrete. `null` = honestly absent ("not yet").
+ */
+export type Triad = { human: string | null; hardware: string; software: string }
 
 /** 'review' = wording kept generic until confirmed safe to publish (current employer, clients…). */
 export type PublicSafety = 'public' | 'review'
@@ -53,18 +64,24 @@ export type Project = DeepDive & {
   /** Short local loop / still used inside the film (5–15 s). */
   teaser?: MediaAsset
   publicSafe: PublicSafety
-  /** Listed under "Selected work" in the Index. */
-  featured: boolean
+  /** The question this story answers for a visitor (documentation; not rendered). */
+  storyRole: string
+  weight: StoryWeight
 }
 
 export type FieldTest = DeepDive & {
   id: string
   title: string
   caption?: string
+  /** Small metadata shown with the field test, e.g. ['EEG', 'GPS', 'Speed']. */
+  signals?: string[]
   period?: string
   location?: string
   teaser: MediaAsset
   publicSafe: PublicSafety
+  storyRole?: string
+  /** Featured field tests get their own beat in the film and an Index entry. */
+  featured?: boolean
 }
 
 /** Documentary moments of Bogdan at work — evidence, not portraits. */
@@ -89,7 +106,7 @@ export type CareerStation = DeepDive & {
 }
 
 /** Earlier roles kept for the Index only. */
-export type EarlierRole = { role: string; company: string; period: string; location: string; summary: string; codeUrl?: string }
+export type EarlierRole = DeepDive & { role: string; company: string; period: string; location: string; summary: string }
 
 export type ContactLinks = {
   email?: string

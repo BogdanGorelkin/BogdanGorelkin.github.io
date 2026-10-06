@@ -76,6 +76,53 @@
   color: var(--ink-3) !important;
 }
 
+.index__col--full {
+  grid-column: 1 / -1;
+}
+
+/* Selected work, sized by weight: current work leads, the rest supports. */
+.index__work {
+  display: grid;
+  gap: 2rem;
+}
+.index__work > li {
+  display: grid;
+  gap: 0.45rem;
+  align-content: start;
+}
+.index__work .mono {
+  color: var(--ink-3);
+}
+.index__work--lead {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem var(--gutter);
+  padding-bottom: 2.5rem;
+}
+.index__work--lead h4 {
+  font-size: var(--fs-lead);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.index__work-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem var(--gutter);
+}
+.index__work--compact {
+  gap: 1.4rem;
+}
+.index__work--compact h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.index__work--compact p:not(.mono) {
+  font-size: 0.95em;
+}
+.index__group {
+  color: var(--ink-3);
+  margin-bottom: 1rem;
+}
+
 .index__list {
   display: grid;
   gap: 2rem;
@@ -156,6 +203,10 @@
   .index__col,
   .index__col--lead {
     grid-column: 1 / -1;
+  }
+  .index__work--lead,
+  .index__work-row {
+    grid-template-columns: 1fr;
   }
   .index__col--profile {
     grid-column: 1 / span 6;

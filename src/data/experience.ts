@@ -1,3 +1,4 @@
+import { LINKS } from './projects'
 import type { CareerStation, EarlierRole } from './types'
 
 /**
@@ -16,9 +17,10 @@ export const career: CareerStation[] = [
     location: 'Lille · Montbéliard',
     summary: 'Self-reconfigurable modular robots: rules for each module as finite-state machines, and a stronger time-synchronisation protocol between them.',
     highlights: [],
-    codeUrl: 'https://github.com/BogdanGorelkin/Boosted-MRTP',
-    youtubeUrl: 'https://youtu.be/x4lbToZrboo',
-    deepDiveLabel: 'Watch the simulation',
+    deepDives: [
+      { label: 'Watch the simulation', href: 'https://youtu.be/x4lbToZrboo', platform: 'YouTube' },
+      { label: 'Read the code', href: 'https://github.com/BogdanGorelkin/Boosted-MRTP', platform: 'GitHub' },
+    ],
   },
   {
     id: 'medtech',
@@ -29,9 +31,16 @@ export const career: CareerStation[] = [
     period: '2022 — 2025',
     location: 'Paris',
     summary: 'A patient at home, diagnostic devices beside them, a doctor on the other end — the software connected all three.',
-    highlights: ['Medical-device data: visualisation, encryption, storage, delivery', 'UX & UI for a multi-role system', 'Microservices, reusable strictly typed packages', 'Mentoring and code review'],
-    externalUrl: 'https://temma.care/',
-    deepDiveLabel: 'temma.care',
+    highlights: [
+      'Medical-device data: visualisation, encryption, storage, delivery',
+      'Live oximetry graphs on canvas; JavaFX → React + TypeScript',
+      'UX & UI for a multi-role system',
+      'Microservices, reusable strictly typed packages; mentoring and code review',
+    ],
+    deepDives: [
+      { label: 'See the medical device work', href: LINKS.medtechPost, platform: 'LinkedIn' },
+      { label: 'temma.care', href: 'https://temma.care/', platform: 'Website' },
+    ],
   },
   {
     // TODO: PUBLIC-SAFE CONTENT REVIEW — generic on purpose; confirm wording.
@@ -43,7 +52,13 @@ export const career: CareerStation[] = [
     period: '2025 — now',
     location: 'Paris',
     summary: 'Software for biometric signal acquisition, processing workflows and protocol execution — from PoC to production.',
-    highlights: ['Device integration over BLE, several devices at once', 'React / React Native, backend services, infrastructure', 'Realtime data pipelines and experiment tooling (HABS Player)', 'CI/CD pipelines that reduce release friction'],
+    highlights: [
+      'Device integration over BLE, several devices at once',
+      'React / React Native, backend services, infrastructure',
+      'HABS Player: experiments moved from local scripts to a platform with visual protocols and remote monitoring',
+      'Field tests: EEG on a Paris motorcycle ride, EEG in a skydive',
+    ],
+    deepDives: [{ label: 'Read how we scaled experiments', href: LINKS.habsPlayerPost, platform: 'LinkedIn' }],
     current: true,
   },
   {
@@ -65,7 +80,7 @@ export const earlierRoles: EarlierRole[] = [
     period: '2020',
     location: 'Nantes',
     summary: 'Embedded security: RSA on an STM32 microcontroller, analysed through side channels.',
-    codeUrl: 'https://github.com/BogdanGorelkin/RSA-SCA',
+    deepDives: [{ label: 'Read the code', href: 'https://github.com/BogdanGorelkin/RSA-SCA', platform: 'GitHub' }],
   },
   {
     role: 'Research student',
@@ -73,6 +88,6 @@ export const earlierRoles: EarlierRole[] = [
     period: '2018 — 2019',
     location: 'Tomsk',
     summary: 'NB-IoT channel modelling (3GPP) for low-data telemetry devices.',
-    codeUrl: 'https://github.com/BogdanGorelkin/NB-IoT-Downlink-Physical-Layer-Design',
+    deepDives: [{ label: 'Read the code', href: 'https://github.com/BogdanGorelkin/NB-IoT-Downlink-Physical-Layer-Design', platform: 'GitHub' }],
   },
 ]

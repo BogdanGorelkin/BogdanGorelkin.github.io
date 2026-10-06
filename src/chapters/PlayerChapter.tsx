@@ -7,7 +7,8 @@ import { fadeIn, fadeOut, linesIn } from '../lib/motion'
 
 /**
  * 3 — Scale (HABS Player). The screen behind becomes a grid of experiments
- * running on one system: not features, a foundation others build on.
+ * running on one system. The point isn't the feature list — it's that the
+ * team stopped rebuilding experiments and started running them.
  */
 export function PlayerChapter() {
   const c = copy.player
@@ -26,11 +27,21 @@ export function PlayerChapter() {
       <div className="player__copy block block--bottom-left">
         <p className="mono chapter-index">{c.index}</p>
         <Headline id="player-title" lines={c.headline} className="headline--l" />
+        <p className="lede">{c.lede}</p>
+        <dl className="mono before-after">
+          <div>
+            <dt>Before</dt>
+            <dd>{c.before}</dd>
+          </div>
+          <div>
+            <dt>After</dt>
+            <dd>{c.after}</dd>
+          </div>
+        </dl>
         <p className="mono case-tag">
           {caseLabel(project)} — {project.title}
         </p>
-        <p className="body">{project.subtitle}.</p>
-        <DeepDiveLinks item={project} />
+        <DeepDiveLinks item={project} primaryOnly prominent />
       </div>
     </Chapter>
   )

@@ -1,6 +1,7 @@
 import { Chapter } from '../components/Chapter'
 import { DeepDiveLinks } from '../components/DeepDiveLinks'
 import { Headline } from '../components/Headline'
+import { TriadStrip } from '../components/TriadStrip'
 import { copy } from '../data/copy'
 import { getStation } from '../data/experience'
 import { fadeIn, fadeOut, linesIn } from '../lib/motion'
@@ -16,7 +17,7 @@ export function MedTechChapter() {
       timeline={(tl, q) => {
         fadeIn(tl, q('.chapter-index'), 0.06)
         linesIn(tl, q('.headline .line__inner'), 0.1, 0.18)
-        fadeIn(tl, q('.station-meta, .body, .annotation-list li, .deep-dive'), 0.3, 0.08, 0.02)
+        fadeIn(tl, q('.station-meta, .body, .annotation-list li, .triad > div, .deep-dive'), 0.3, 0.08, 0.02)
         fadeOut(tl, q('.medtech__copy'), 0.88, 0.07)
       }}
     >
@@ -35,7 +36,8 @@ export function MedTechChapter() {
             </li>
           ))}
         </ul>
-        <DeepDiveLinks item={station} />
+        <TriadStrip triad={c.triad} />
+        <DeepDiveLinks item={station} primaryOnly prominent />
       </div>
     </Chapter>
   )

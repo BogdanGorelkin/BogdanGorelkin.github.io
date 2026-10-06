@@ -1,5 +1,6 @@
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
+import { copy } from '../data/copy'
 import { career } from '../data/experience'
 import { stage } from '../experience/director'
 import { createPointsMaterial, withPhase } from './shared/materials'
@@ -20,7 +21,11 @@ const THREADS: V3[][] = PATTERN.y.map((y) => [
 export function PatternScene() {
   const nodesRef = useRef<THREE.Points>(null)
   const nodes = useMemo(() => {
-    const pos = career.flatMap((s) => PATTERN.y.flatMap((y) => [CAREER.x[s.id], y, CAREER.z]))
+    // A node wherever a thread meets a station — except where that part of the
+    // pattern honestly wasn't there yet (research had no human in the loop).
+    const pos = career.flatMap((s) =>
+      PATTERN.y.flatMap((y, i) => (s.id === 'research' && i === 0 && copy.research.triad.human === null ? [] : [CAREER.x[s.id], y, CAREER.z])),
+    )
     const g = new THREE.BufferGeometry()
     g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3))
     return withPhase(g, Math.random)
