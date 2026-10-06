@@ -64,7 +64,7 @@ For narrative, content, copy or media work, use the **`portfolio-director`** age
    - Scroll to a story time with `section.top + localT × section.offsetHeight` (sections are `[data-chapter]`).
    - Wait about 2 s, then screenshot at 1440×900 and 390×844, and with `reducedMotion: 'reduce'`.
    - Check the console for errors.
-4. **Don't deploy or push** unless explicitly asked. Branches: `dev` (work), `prod`.
+4. **Don't deploy or push** unless explicitly asked. Remote: `BogdanGorelkin/BogdanGorelkin.github.io`; pushing to `cv-journey` deploys to GitHub Pages (`.github/workflows/deploy-pages.yml`), so treat that push as a deploy.
 
 @docs/STORY_AND_ART_DIRECTION.md
 @docs/DECISIONS.md

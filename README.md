@@ -134,8 +134,12 @@ Lenis (smooth wheel) ─► ScrollTrigger ─► scrollStore.story.time   ("stor
 
 `pnpm build` outputs a static site to `dist/`.
 
-A Nixpacks-compatible setup exists:
+**GitHub Pages** (https://bogdangorelkin.github.io/, repo `BogdanGorelkin/BogdanGorelkin.github.io`):
+- [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml) runs on every push to `cv-journey` (and manually via *Run workflow*): pnpm (version from `packageManager`), Node from `.nvmrc`, `pnpm install --frozen-lockfile`, `pnpm build`, then uploads `dist/` and deploys it with the official Pages actions.
+- One-time setting: **Settings → Pages → Build and deployment → Source = GitHub Actions**. "Deploy from a branch" would serve the raw source, which can't load.
+- It's a user site, so Vite's `base` is `/`. There's no pathname routing (only `#hash` links), so no 404/SPA fallback is needed.
+- `dist/` is never committed.
+
+A Nixpacks-compatible setup also exists:
 - Node 22 is pinned in `engines`, `.nvmrc` and `nixpacks.toml`.
 - `pnpm start` serves `dist/` on `$PORT`.
-
-Production is planned to move from the old GitHub Pages site to a VPS. Nothing here deploys automatically.
