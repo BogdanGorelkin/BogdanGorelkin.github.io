@@ -23,7 +23,7 @@ These were migrated from the previous site (`BogdanGorelkin.github.io`).
 |---|---|---|
 | `public/cv/bogdan-gorelkin-cv-en.pdf` | `documents/CV/CV_Bogdan_Gorelkin_EN.pdf` (June 2026) | Nav "CV", contact chapter, Index, noscript. **It contains a phone number.** |
 | `public/images/profile/bogdan-bench.webp` (720×960) | `images/about.jpg`, resized | Index → Profile, and `moments.bench` in the Field scene |
-| `public/images/field/esp8266-lamp-prototype.webp` (1920×1080) | `images/projects/esp8266-led.png`, video letterbox cropped | Field scene hero plane: `fieldTests[0].teaser` |
+| `public/images/field/esp8266-lamp-prototype.webp` (1920×1080) | `images/projects/esp8266-led.png`, video letterbox cropped | Field scene plane (`wall-lamp.teaser`) and the Field "Also" line |
 | `public/og-image.jpg` (1200×630) | Rendered from the site's opening frame | `og:image` / `twitter:image` |
 | `public/favicon.svg` | New | Favicon |
 
@@ -50,7 +50,7 @@ The site works like a trailer:
 
 ## KNOWN EXTERNAL LINKS
 
-All are public-safe sources and wired in through `LINKS` in `src/data/projects.ts`.
+All are public-safe sources and wired in through `LINKS` in `src/data/projects.ts`. What each one proves, and how to use it, is in [docs/CONTENT_SOURCES.md](docs/CONTENT_SOURCES.md).
 
 | Story | Call to action in the film | URL |
 |---|---|---|

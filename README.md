@@ -7,19 +7,7 @@ It is built as one continuous, scroll-driven film rather than a stack of section
 > **The technology changed. The pattern didn't.**
 > Software that has to work with people and physical devices — human, hardware, software.
 
-| # | Chapter | Beat |
-|---|---|---|
-| 0 | Signal | *Human. Hardware. Software. I like the space between them.* A live trace on a dark screen turns out to have depth. |
-| 1 | Today | HABS: systems around connected human signals (head, headband, annotations). |
-| 2 | System | From sensor to experience: fly through devices → BLE → mobile → backend → realtime → experience. |
-| 3 | Scale | HABS Player: the same screen becomes a grid of experiments. *Build once. Run many experiments.* |
-| 4 | Hackathon | Microsoft Hackathon, Copenhagen 2026, Crowd Award: push *through* the screen into a reacting room. |
-| 5 | Field | *If I build it, I want to know how it behaves outside the lab.* Real media planes. |
-| 6 | Rewind | Pull back: *But this didn't start with EEG.* Today's journey is one station; travel backwards. |
-| 7 | MedTech | Remote care: patient, diagnostic devices, a remote doctor (TemmaCare). |
-| 8 | Research | Programmable matter: modules reconfigure while a sync pulse spreads (Inria & Femto-ST). |
-| 9 | Pattern | Three threads (human, hardware, software) run through every station. |
-| 10 | Contact | The opening line again, calm: *What should we build next?* |
+Eleven chapters run from identity through today's work at HABS, a Microsoft hackathon and field tests. Then a rewind — *"But this didn't start with EEG"* — goes back through remote medicine and programmable-matter research, and ends on the pattern that connects them. The chapter-by-chapter spine and the art direction are in [docs/STORY_AND_ART_DIRECTION.md](docs/STORY_AND_ART_DIRECTION.md).
 
 Recruiters don't have to sit through the film. The persistent nav (**Work / Experience / CV / Contact**) jumps straight to readable content, and a plain-HTML **Index** ("The short version") after the film lists everything.
 
@@ -68,13 +56,13 @@ src/
     world.ts       world layout constants shared by scenes and shots
     shared/        SignalLine (EEG ribbon shader), MediaPlane, StreamParticles, materials, geometry
   chapters/      ← DOM layer: one component per chapter + the plain Index section
-  components/    Nav, Chapter, Headline, LinkSlot, ContactLinks
+  components/    Nav, Chapter, Headline, LinkSlot, ContactLinks, DeepDiveLinks, TriadStrip
   lib/           gsap setup, scrubbed-timeline helpers, spline, math
   styles/        tokens, base, chapters, index section
 public/          images/ videos/ models/ textures/ cv/   (see ASSETS.md)
 ```
 
-Optional fields that are left empty in `src/data` render as an explicit **"To be added"**; nothing is invented. A contact link or CV with no URL is shown as disabled text, never as a dead link.
+Nothing is invented. Missing data stays `undefined` (with a `TODO`) in `src/data`: deep dives without a URL simply don't render, and a contact link or CV without a URL shows as disabled text, never as a dead link.
 
 ## How the cinematic scroll works
 
@@ -129,28 +117,25 @@ Lenis (smooth wheel) ─► ScrollTrigger ─► scrollStore.story.time   ("stor
 - **No WebGL:** the site runs DOM-only.
 - **Semantics and keyboard:** semantic landmarks, a skip link to the Index, and keyboard focus that moves with nav jumps. The canvas is `aria-hidden`.
 
-## Content notes
+## Project docs
 
-Content comes from two sources:
-
-- **`CV_Bogdan_Gorelkin_EN.pdf` (June 2026)** is authoritative for roles and dates.
-- **The previous site** supplied project links, the education detail and photos.
-
-Nothing beyond those two sources and the brief was invented. These items need a decision:
-
-- **AuxaSphere / TemmaCare start date:**
-  - The English CV says Jun 2022.
-  - The old site and the French CV say Jan 2022.
-  - The site shows years only (`2022 — 2025`), which is true either way.
-- **Email:** the CV uses `b.k.gorelkin@gmail.com` and the old site used `b.gorelkin@yandex.com`. The site uses the CV address.
-- **The CV PDF includes a phone number.** It was already public on the old site. Decide whether that's still OK.
-- **`TODO: PUBLIC-SAFE CONTENT REVIEW`:** HABS wording in `projects.ts` (`habs-multi-device`) and `experience.ts` (`neurotech`) is deliberately generic. It has no device names, customers, data or architecture. Confirm it before publishing.
-- **Deep dives:** each story has typed `deepDives` with its own call to action ("Watch the full film", "Read how we scaled experiments"…). The five public LinkedIn and YouTube sources are in `LINKS` (`projects.ts`). They were summarised, not quoted.
-- **Pattern strips:** chapters show a small Human / Hardware / Software strip (`copy.ts` → `triad`). Research honestly reads "Human — not yet", and the pattern payoff omits that node.
-- **Company name:** the brief said "Oxisphere", but both CVs say **AuxaSphere**, so the site uses AuxaSphere. Confirm.
-- **The "250 Hz" annotation was removed** because no public, device-specific source confirmed it.
-- **Production domain:** the old site used `gorelkin.vip`. The canonical and absolute OG URLs are left as a TODO in `index.html`.
+| File | Responsible for |
+|---|---|
+| [CLAUDE.md](CLAUDE.md) | Rules and context for every Claude Code session |
+| [docs/PORTFOLIO_CONTEXT.md](docs/PORTFOLIO_CONTEXT.md) | Facts about Bogdan and his work — the single source of truth |
+| [docs/STORY_AND_ART_DIRECTION.md](docs/STORY_AND_ART_DIRECTION.md) | Story spine as implemented, copy style, visual direction |
+| [docs/CONTENT_SOURCES.md](docs/CONTENT_SOURCES.md) | Public LinkedIn / YouTube sources, what each proves, CTA labels |
+| [docs/PORTFOLIO_BACKLOG.md](docs/PORTFOLIO_BACKLOG.md) | Open polish, copy, media, verification and technical work |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | Decisions not to relitigate |
+| [ASSETS.md](ASSETS.md) | Local media slots, specs and encoding |
+| [.claude/agents/portfolio-director.md](.claude/agents/portfolio-director.md) | Specialist agent for narrative, content, copy and art direction |
 
 ## Deployment
 
-Not configured yet. `pnpm build` outputs a static site to `dist/`.
+`pnpm build` outputs a static site to `dist/`.
+
+A Nixpacks-compatible setup exists:
+- Node 22 is pinned in `engines`, `.nvmrc` and `nixpacks.toml`.
+- `pnpm start` serves `dist/` on `$PORT`.
+
+Production is planned to move from the old GitHub Pages site to a VPS. Nothing here deploys automatically.
