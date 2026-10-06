@@ -69,8 +69,25 @@
   margin-bottom: clamp(3rem, 8vh, 5.5rem);
 }
 .index__block > h3,
+.index__rail h3,
 .index__facts h3 {
   color: var(--ink-3);
+}
+/* Nav jumps (#projects, #cv) land with the heading clear of the fixed bar. */
+.index__block {
+  scroll-margin-top: calc(var(--nav-h) + 1.5rem);
+}
+.index__block:focus {
+  outline: none;
+}
+.index__rail {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+}
+.index__cv {
+  justify-self: start;
+  color: var(--ink);
 }
 
 /* Project rows: one scannable line per public example. */

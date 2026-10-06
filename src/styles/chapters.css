@@ -118,12 +118,20 @@
 
 /* ── 0 Signal ──────────────────────────────────────────────────────────── */
 
+/* Name, then the positioning right under it (one identity block); place/date at the far edge. */
 .intro__id {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.5rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 0.9rem 2rem;
+}
+.intro__id > .intro__name,
+.intro__id > .intro__role {
+  grid-column: 1;
+}
+.intro__id > .intro__meta {
+  grid-column: 2;
+  grid-row: 2;
 }
 .is-cinematic .intro__id {
   position: absolute;
@@ -140,35 +148,48 @@
   line-height: 1;
   text-transform: uppercase;
 }
-.intro__role,
 .intro__meta {
   color: var(--ink-2);
 }
+/* Readable sans, sentence case: positioning, not keywords. Second to the statement, by far. */
 .intro__role {
   display: grid;
+  gap: 0.15em;
+  font-size: clamp(1rem, 1.3vw, 1.3rem);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.005em;
+  color: var(--ink);
 }
 .intro__domains {
-  color: var(--ink-3);
+  font-weight: 400;
+  color: var(--ink-2);
 }
 
 .scroll-cue {
-  color: var(--ink-3);
+  color: var(--ink-2);
 }
+.scroll-cue__line {
+  display: none;
+}
+/* Bottom centre: a label and a hairline that draws downward a few times, then rests. */
 .is-cinematic .scroll-cue {
   position: absolute;
-  right: var(--gutter);
-  top: 50%;
+  left: 50%;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  translate: -50% 0;
   display: grid;
   justify-items: center;
   gap: 10px;
+  white-space: nowrap;
 }
-.is-cinematic .scroll-cue::after {
-  content: '';
+.is-cinematic .scroll-cue__line {
+  display: block;
   width: 1px;
-  height: 36px;
-  background: var(--ink-3);
+  height: 34px;
+  background: linear-gradient(var(--ink-2), transparent);
   transform-origin: top;
-  animation: cue 2.4s var(--ease-out) infinite;
+  animation: cue 2.6s var(--ease-out) 3.6s 4 both;
 }
 .is-cinematic .intro__id > *,
 .is-cinematic .scroll-cue {
@@ -185,7 +206,7 @@
   animation-delay: 1.25s;
 }
 .is-cinematic .scroll-cue {
-  animation-delay: 3.2s;
+  animation: cue-in 1.4s var(--ease-out) 2.6s both;
 }
 
 /* "Human. Hardware. Software." — and, set against it, the quieter line. */
@@ -199,7 +220,7 @@
 .is-cinematic .statement-tail {
   position: absolute;
   right: var(--gutter);
-  bottom: calc(var(--gutter) * 1.5 + 7rem);
+  bottom: calc(var(--gutter) * 1.5 + 9.75rem);
   text-align: right;
   opacity: 0;
   translate: 0 0.6em;
@@ -215,7 +236,7 @@
 /* The opening statement reveals on a timer / first scroll via `translate`,
    leaving `transform` free for the scrubbed exit. */
 .is-cinematic .chapter--signal .statement {
-  bottom: calc(var(--gutter) * 1.5 + 7rem);
+  bottom: calc(var(--gutter) * 1.5 + 9.75rem);
 }
 .is-cinematic #intro-statement .line__inner {
   translate: 0 112%;
@@ -237,18 +258,29 @@
     translate: 0 12px;
   }
 }
+/* The cue keeps its own centring translate; it only fades in. */
+@keyframes cue-in {
+  from {
+    opacity: 0;
+  }
+}
+/* Draw down, dim, return — and after the last pass it rests fully drawn. */
 @keyframes cue {
   0% {
     transform: scaleY(0);
     opacity: 1;
   }
-  60% {
+  50% {
     transform: scaleY(1);
     opacity: 1;
   }
+  75% {
+    transform: scaleY(1);
+    opacity: 0.3;
+  }
   100% {
     transform: scaleY(1);
-    opacity: 0;
+    opacity: 1;
   }
 }
 
@@ -692,19 +724,39 @@
   .is-cinematic .chapter--field .field-beats {
     width: auto;
   }
-  /* The identity row wraps to three lines on phones; lift the statement above it. */
+  /* Phones: name, positioning, place stack; the scroll cue gets its own row below them. */
   .intro__name {
     font-size: 8.2vw;
     width: 100%;
   }
+  .intro__id {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  .intro__id > .intro__meta {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .intro__role {
+    font-size: 1rem;
+  }
+  .is-cinematic .intro__id {
+    bottom: calc(var(--gutter) * 1.5 + 4.6rem + env(safe-area-inset-bottom, 0px));
+  }
+  .is-cinematic .scroll-cue {
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+  .is-cinematic .scroll-cue__line {
+    height: 26px;
+  }
   .is-cinematic .chapter--signal .statement {
-    bottom: calc(var(--gutter) * 1.5 + 13.5rem);
+    bottom: calc(var(--gutter) * 1.5 + 19.5rem + env(safe-area-inset-bottom, 0px));
   }
   .is-cinematic .statement-tail {
     left: var(--gutter);
     right: auto;
     text-align: left;
-    bottom: calc(var(--gutter) * 1.5 + 10rem);
+    bottom: calc(var(--gutter) * 1.5 + 16rem + env(safe-area-inset-bottom, 0px));
   }
   .is-cinematic .triad {
     grid-template-columns: 1fr;

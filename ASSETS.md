@@ -21,7 +21,7 @@ These were migrated from the previous site (`BogdanGorelkin.github.io`).
 
 | File | Source | Used in |
 |---|---|---|
-| `public/cv/bogdan-gorelkin-cv-en.pdf` | `documents/CV/CV_Bogdan_Gorelkin_EN.pdf` (June 2026) | Nav "CV", contact chapter, Work & Experience, noscript. **It contains a phone number.** |
+| `public/cv/bogdan-gorelkin-cv-en.pdf` | `documents/CV/CV_Bogdan_Gorelkin_EN.pdf` (June 2026) | Contact chapter, Work & Experience (header + Experience), noscript. The nav "CV" goes to the Experience list, not the PDF. **It contains a phone number.** |
 | `public/images/profile/bogdan-bench.webp` (720×960) | `images/about.jpg`, resized | Work & Experience → small documentary image beside the header |
 | `public/images/field/esp8266-lamp-prototype.webp` (1920×1080) | `images/projects/esp8266-led.png`, video letterbox cropped | Field "Also" line data (not a 3D plane — the Field scene is reduced to the two experiments) |
 | `public/og-image.jpg` (1200×630) | Rendered from the site's opening frame | `og:image` / `twitter:image` |

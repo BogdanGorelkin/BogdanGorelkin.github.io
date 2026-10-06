@@ -82,7 +82,8 @@ The story clock runs from 0 to 11. Each row is one `<section>` in `src/chapters/
 ## Recruiter layer
 
 The film and recruiter clarity must coexist:
-- **Persistent quiet nav:** BG · Work · Experience · CV · Contact. Nav items fast-travel (0.8 s; instant under reduced motion) to the readable moment of a chapter.
+- **Persistent quiet nav:** BG · Recent projects · CV · Contact. *Recent projects* → Featured projects (`#projects`); *CV* → the Experience list (`#cv`), where the explicit **Download CV** link lives — the nav never downloads the PDF; *Contact* fast-travels (0.8 s; instant under reduced motion) to the Contact chapter's readable moment. Element jumps honour `scroll-margin-top`, so headings land below the fixed bar.
+- **First screen:** the name, then the positioning right under it (*Full-stack / Product Engineer* · *Software · Hardware · Real-time systems*, readable sans, well below the statement), and a bottom-centre **Scroll to explore** cue with a hairline that draws a few times, then rests; it fades on the first scroll.
 - **Work & Experience** after the film holds the featured projects, earlier projects and the career in plain HTML.
 - **Reduced motion and no-WebGL** both degrade to readable static layouts.
 - **Never put critical text only in WebGL.**

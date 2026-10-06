@@ -30,7 +30,8 @@ export function scrollToChapter(id: ChapterId, immediate = false) {
 }
 
 /**
- * Handles in-page links (`#work`, `#experience`, `#contact`, `#index`, `#top`).
+ * Handles in-page links: chapter hashes (`#work`, `#experience`, `#contact`) and
+ * element ids (`#index`, `#projects`, `#cv`, `#top`).
  * Chapter hashes land on the chapter's readable moment, not its first pixel.
  * Returns false for hashes it doesn't know, so the browser can handle them.
  */
@@ -40,7 +41,8 @@ export function navigateToHash(hash: string, immediate = false): boolean {
   const el = id ? document.getElementById(id) : null
   if (id === '' || id === 'top') scrollToY(0, immediate)
   else if (chapter) scrollToChapter(chapter.id, immediate)
-  else if (el) scrollToY(el.getBoundingClientRect().top + window.scrollY, immediate)
+  // Element targets honour their CSS scroll-margin-top, so headings land below the fixed nav.
+  else if (el) scrollToY(el.getBoundingClientRect().top + window.scrollY - (parseFloat(getComputedStyle(el).scrollMarginTop) || 0), immediate)
   else return false
   // Move keyboard focus with the jump, without letting the browser scroll.
   el?.focus({ preventScroll: true })

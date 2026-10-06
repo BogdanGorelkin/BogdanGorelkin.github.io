@@ -1,14 +1,16 @@
 import { CHAPTERS } from '../experience/chapters'
 import { profile } from '../data/profile'
 import { useActiveChapter, useOffstage } from '../hooks/useStory'
-import { LinkSlot } from './LinkSlot'
-
 const pad = (n: number) => String(n).padStart(2, '0')
 
+/**
+ * Three destinations, all in-page. "CV" means "show me the career" — it
+ * lands on Experience, where the explicit Download CV link lives; the nav
+ * never downloads the PDF itself.
+ */
 const ITEMS = [
-  { href: '#work', label: 'Work', chapter: 'screen' },
-  { href: '#experience', label: 'Experience', chapter: 'timeline' },
-  { cv: true },
+  { href: '#projects', label: 'Recent projects', chapter: undefined },
+  { href: '#cv', label: 'CV', chapter: undefined },
   { href: '#contact', label: 'Contact', chapter: 'contact' },
 ] as const
 
@@ -32,19 +34,13 @@ export function Nav() {
       </p>
       <nav aria-label="Primary">
         <ul className="mono nav__links">
-          {ITEMS.map((item) =>
-            'cv' in item ? (
-              <li key="cv">
-                <LinkSlot label="CV" href={profile.links.cv} download className="nav__cv" />
-              </li>
-            ) : (
-              <li key={item.href}>
-                <a href={item.href} aria-current={!offstage && current?.id === item.chapter ? 'location' : undefined}>
-                  {item.label}
-                </a>
-              </li>
-            ),
-          )}
+          {ITEMS.map((item) => (
+            <li key={item.href}>
+              <a href={item.href} aria-current={!offstage && item.chapter && current?.id === item.chapter ? 'location' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>

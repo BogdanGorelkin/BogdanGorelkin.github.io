@@ -40,7 +40,8 @@ export function SignalChapter() {
         <h1 id="intro-name" className="intro__name">
           {profile.name}
         </h1>
-        <p className="mono intro__role">
+        {/* Positioning, connected to the name: readable, but quieter than the statement. */}
+        <p className="intro__role">
           {profile.role}
           <span className="intro__domains">{copy.signal.domains}</span>
         </p>
@@ -50,8 +51,10 @@ export function SignalChapter() {
       <p id="intro-tail" className="statement-tail">
         {profile.statementTail}
       </p>
+      {/* Bottom centre, on the film's axis: the one instruction the first screen gives. */}
       <p className="mono scroll-cue" aria-hidden="true">
         <span>{copy.signal.scrollCue}</span>
+        <span className="scroll-cue__line" />
       </p>
     </Chapter>
   )

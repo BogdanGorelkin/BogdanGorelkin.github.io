@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ContactLinks } from '../components/ContactLinks'
+import { LinkSlot } from '../components/LinkSlot'
 import { DeepDiveAnchor } from '../components/DeepDiveLinks'
 import { career, earlierRoles } from '../data/experience'
 import { earlierProjects, featuredProjects, type ExploreEntry } from '../data/explore'
@@ -32,7 +33,7 @@ export function IndexSection() {
         )}
       </header>
 
-      <section className="index__block" aria-labelledby="projects-title">
+      <section id="projects" className="index__block" aria-labelledby="projects-title" tabIndex={-1}>
         <h3 id="projects-title" className="mono">
           Featured projects
         </h3>
@@ -46,10 +47,14 @@ export function IndexSection() {
         </div>
       </section>
 
-      <section className="index__block" aria-labelledby="experience-title">
-        <h3 id="experience-title" className="mono">
-          Experience
-        </h3>
+      {/* The nav's "CV" lands here: the career, with the PDF one click away. */}
+      <section id="cv" className="index__block" aria-labelledby="experience-title" tabIndex={-1}>
+        <div className="index__rail">
+          <h3 id="experience-title" className="mono">
+            Experience
+          </h3>
+          <LinkSlot label="Download CV" href={profile.links.cv} download className="mono index__cv" />
+        </div>
         <ol className="roles">
           {career
             .filter((s) => s.id !== 'next')

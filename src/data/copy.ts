@@ -10,10 +10,10 @@ import type { Triad } from './types'
 
 export const copy = {
   signal: {
-    /** Second line of the opening identity row, under the role. */
-    domains: 'Software · hardware · realtime systems',
+    /** Second line of the opening identity, under the role. */
+    domains: 'Software · Hardware · Real-time systems',
     meta: 'Paris / 2026',
-    scrollCue: 'Scroll',
+    scrollCue: 'Scroll to explore',
   },
   neural: {
     index: 'Today — HABS',

@@ -9,7 +9,7 @@ It is built as one continuous, scroll-driven film rather than a stack of section
 
 Eleven chapters run from identity through today's work at HABS, a Microsoft hackathon and field tests. Then a rewind — *"But this didn't start with EEG"* — goes back through remote medicine and programmable-matter research, and ends on the pattern that connects them. The chapter-by-chapter spine and the art direction are in [docs/STORY_AND_ART_DIRECTION.md](docs/STORY_AND_ART_DIRECTION.md).
 
-Recruiters don't have to sit through the film. The persistent nav (**Work / Experience / CV / Contact**) jumps straight to readable content, and a plain-HTML **Work & Experience** section (`#index`) after the film gives featured projects, earlier projects and the career.
+Recruiters don't have to sit through the film. The persistent nav (**Recent projects / CV / Contact**) jumps straight to readable content — CV opens the Experience list, where the PDF download lives — and a plain-HTML **Work & Experience** section (`#index`) after the film gives featured projects, earlier projects and the career.
 
 The content is real, taken from Bogdan's CV (June 2026) and his previous site. Where real footage doesn't exist yet, procedural placeholders stand in (see [ASSETS.md](ASSETS.md)).
 
