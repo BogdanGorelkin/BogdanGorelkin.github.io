@@ -1,0 +1,131 @@
+/* /book — the booking page. Calmer than the film: no canvas, no scroll choreography. */
+
+body {
+  color: var(--ink);
+}
+
+.book-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-h);
+  padding: 0 var(--gutter);
+  background: var(--bg);
+  box-shadow: 0 1px 0 var(--line);
+}
+.book-nav__mark {
+  font-weight: 600;
+  font-stretch: 125%;
+  letter-spacing: 0.12em;
+  font-size: 13px;
+  text-decoration: none;
+}
+.book-nav__back {
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.book-nav__back:hover,
+.book-nav__back:focus-visible {
+  color: var(--ink);
+}
+
+/* Copy in a narrow rail; the calendar gets the room. */
+.book {
+  display: grid;
+  grid-template-columns: minmax(16rem, 1fr) 3fr;
+  gap: 2rem var(--gutter);
+  padding: clamp(2.5rem, 7vh, 5rem) var(--gutter) var(--gutter);
+  min-height: calc(100svh - var(--nav-h));
+}
+
+.book__intro {
+  display: grid;
+  align-content: start;
+  gap: 1.6rem;
+  position: sticky;
+  top: calc(var(--nav-h) + clamp(2.5rem, 7vh, 5rem));
+}
+.book__title {
+  font-size: var(--fs-headline-l);
+  font-weight: 600;
+  font-stretch: var(--stretch-display);
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+.book__lede {
+  display: grid;
+  font-size: var(--fs-lead);
+  line-height: 1.3;
+}
+.book__lede span:first-child {
+  font-weight: 500;
+}
+.book__lede span + span {
+  color: var(--ink-2);
+}
+.book__who {
+  display: grid;
+  gap: 0.1rem;
+  color: var(--ink-3);
+}
+
+.book__done {
+  display: grid;
+  gap: 0.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+}
+.book__done-title {
+  font-size: var(--fs-lead);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-stretch: var(--stretch-display);
+}
+
+.book__alt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.6rem;
+  color: var(--ink-2);
+}
+
+/* The embed sets its own height as the calendar renders. */
+.book__calendar {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  min-width: 0;
+  min-height: 34rem;
+}
+.book__fallback {
+  color: var(--ink-3);
+}
+.book__fallback.is-primary {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+@media (max-width: 1000px) {
+  .book {
+    grid-template-columns: 1fr;
+    padding-top: 2rem;
+  }
+  .book__intro {
+    position: static;
+    gap: 1.1rem;
+  }
+}
+@media (max-width: 760px) {
+  .book {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .book__intro,
+  .book__fallback {
+    padding: 0 var(--gutter);
+  }
+}

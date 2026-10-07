@@ -75,3 +75,9 @@ https://www.linkedin.com/feed/update/urn:li:activity:7135241238428966912/
 | https://github.com/BogdanGorelkin/RSA-SCA | Embedded security: RSA on an STM32, side-channel analysis | Earlier projects ("Read the RSA side-channel code") |
 | https://github.com/BogdanGorelkin/NB-IoT-Downlink-Physical-Layer-Design | NB-IoT channel modelling | **Not shown** — not important enough for the story |
 | https://temma.care/ | The product exists | Kept in data; not shown |
+
+## Booking (Cal.com)
+
+- **Event:** https://cal.com/b-gorelkin/30min (30 minutes), embedded on this site's own `/book/` page with the official `@calcom/embed-react` inline embed. Config lives in `src/data/booking.ts`.
+- **Entry points:** **Book a call ↗** in the Contact chapter, and **Book a call** first in the Work & Experience links. Not in the top nav.
+- **Fallback:** the page always links to the Cal.com event; the link becomes the main action if the embed reports `linkFailed` or isn't ready within 10 s.

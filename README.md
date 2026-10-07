@@ -139,6 +139,7 @@ Lenis (smooth wheel) ─► ScrollTrigger ─► scrollStore.story.time   ("stor
 - One-time setting: **Settings → Pages → Build and deployment → Source = GitHub Actions**. "Deploy from a branch" would serve the raw source, which can't load.
 - It's a user site, so Vite's `base` is `/`. There's no pathname routing (only `#hash` links), so no 404/SPA fallback is needed.
 - `dist/` is never committed.
+- Two pages are built: `/` (the film) and `/book/` (booking, `book/index.html` → `src/book/`). GitHub Pages and nginx serve `/book` by redirecting to `/book/`; `vite dev` / `vite preview` do the same via a small plugin in `vite.config.ts`. No SPA fallback is needed.
 
 A Nixpacks-compatible setup also exists:
 - Node 22 is pinned in `engines`, `.nvmrc` and `nixpacks.toml`.

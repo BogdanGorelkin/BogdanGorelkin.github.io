@@ -54,6 +54,7 @@ For narrative, content, copy or media work, use the **`portfolio-director`** age
   - semantic HTML for all critical text (DOM labels pinned to 3D, never text only in WebGL)
   - the recruiter fast path (nav BG · Recent projects · CV · Contact — CV goes to Experience, never straight to the PDF — plus the plain-HTML "Work & Experience" section, `#index`)
   - the mobile tier, `prefers-reduced-motion` static layout, and the no-WebGL fallback
+  - `/book/`: a separate static page (`book/index.html` → `src/book/`) with the official Cal.com embed; config in `src/data/booking.ts`. Cal.com must never load on the film
 
 ## Working style
 

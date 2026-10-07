@@ -697,6 +697,32 @@
 .contact__foot {
   color: var(--ink-3);
 }
+/* The ending's one strong action: the film's bordered CTA, a step larger. The
+   other ways to reach me sit below it, quieter. */
+.contact__book {
+  justify-self: start;
+  display: inline-flex;
+  gap: 0.6em;
+  padding: 0.85rem 1.3rem;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+  text-decoration: none;
+  border: 1px solid rgb(236 235 230 / 0.55);
+  transition:
+    border-color 0.3s,
+    background-color 0.3s;
+}
+.contact__book:hover,
+.contact__book:focus-visible {
+  border-color: var(--ink);
+  background: rgb(236 235 230 / 0.07);
+}
+.contact__links .contact-links {
+  font-size: var(--fs-body);
+  font-weight: 400;
+  color: var(--ink-2);
+}
 
 /* ── Small screens: stack blocks, keep composition ─────────────────────── */
 

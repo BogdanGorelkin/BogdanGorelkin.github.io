@@ -25,7 +25,7 @@ export function IndexSection() {
             <p className="mono">
               {profile.name} — {profile.role} — {profile.location}
             </p>
-            <ContactLinks className="contact-links--inline" />
+            <ContactLinks className="contact-links--inline" withBooking />
           </div>
         </div>
         {profile.photo && (

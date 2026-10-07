@@ -1,10 +1,17 @@
+import { booking } from '../data/booking'
 import { profile } from '../data/profile'
 import { LinkSlot } from './LinkSlot'
 
-export function ContactLinks({ className = '' }: { className?: string }) {
+/** Email · LinkedIn · GitHub · Download CV — optionally led by "Book a call" (the /book page). */
+export function ContactLinks({ className = '', withBooking = false }: { className?: string; withBooking?: boolean }) {
   const { email, linkedin, github, cv } = profile.links
   return (
     <ul className={`contact-links ${className}`}>
+      {withBooking && (
+        <li>
+          <LinkSlot label="Book a call" href={booking.page} />
+        </li>
+      )}
       <li>
         <LinkSlot label="Email" href={email ? `mailto:${email}` : undefined} />
       </li>

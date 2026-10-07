@@ -85,5 +85,16 @@ export const copy = {
   contact: {
     index: 'Next',
     headline: ['What should', 'we build next?'],
+    /** The ending's one strong action: opens the /book page. */
+    bookCta: 'Book a call',
+  },
+  /** The standalone booking page (/book): calm, not part of the film. */
+  book: {
+    headline: "Let's talk.",
+    lede: ['30 minutes.', 'Pick a time that works for you.'],
+    back: 'Back to the journey',
+    booked: 'Meeting booked.',
+    afterBooking: 'Explore my work',
+    fallback: 'Calendar not loading? Book on Cal.com',
   },
 } as const

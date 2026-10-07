@@ -1,6 +1,7 @@
 import { Chapter } from '../components/Chapter'
 import { ContactLinks } from '../components/ContactLinks'
 import { Headline } from '../components/Headline'
+import { booking } from '../data/booking'
 import { copy } from '../data/copy'
 import { profile } from '../data/profile'
 import { gsap, useGSAP } from '../lib/gsap'
@@ -33,12 +34,17 @@ export function ContactChapter() {
       timeline={(tl, q) => {
         fadeIn(tl, q('.chapter-index'), 0.08)
         linesIn(tl, q('.statement .line__inner'), 0.12, 0.18)
-        fadeIn(tl, q('.contact-links li, .contact__foot'), 0.3, 0.08, 0.02)
+        fadeIn(tl, q('.contact__book'), 0.26)
+        fadeIn(tl, q('.contact-links li, .contact__foot'), 0.32, 0.08, 0.02)
       }}
     >
       <p className="mono chapter-index block block--top-left">{c.index}</p>
       <Headline id="contact-title" lines={c.headline} className="statement display display--left contact__title" />
       <div className="contact__links block block--bottom-left">
+        {/* The ending's one strong action; the other ways to reach me stay quieter below it. */}
+        <a className="mono contact__book" href={booking.page}>
+          {c.bookCta} <span aria-hidden="true">↗</span>
+        </a>
         <ContactLinks />
         <p className="mono contact__foot">
           {profile.name} — {profile.location} — <a href="#index">Work &amp; experience ↓</a>
